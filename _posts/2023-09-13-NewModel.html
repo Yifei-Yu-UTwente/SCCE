@@ -65,16 +65,19 @@ To further mimic the real building asset, we adopt the concept of <b>Shearing La
   <li> External Layer (III): Site, Structure, and Skin. </li>
 </ul>
 
-<img class="img-fluid" src="https://raw.githubusercontent.com/Yifei-Yu-UTwente/SCCE/master/img/posts/Post6_RelationshipModel.png">
-<span class="caption text-muted">Fig.1. The relationship between the model and the reality </span>
-
 <p>
 The building layers are categorised in such a way that deconstruction and construction contractors need to plan their work in the opposite order (i.e. deconstruction: I, II, III, while construction: III, II, I) (<b>Fig. 2</b>). According to this setup, the temporal friction of matchmaking becomes explicit since what is available first from a deconstruction site could be the last item that is required by another construction manager. Furthermore, by designing the building in such a way, we are able to connect internal workflow dynamics with external material exchanges.
 </p>   
 
+<img class="img-fluid" src="https://raw.githubusercontent.com/Yifei-Yu-UTwente/SCCE/master/img/posts/Post6_ShearingLayer.jpg">
+<span class="caption text-muted">Fig.2. The shearing layer of the agent </span>
+
 <p>
 When we fit the buildings into a broader CE context, we obtain a comprehensive overview of the main agents and their interactions (<b>Fig. 3</b>). In this model, we focus on direct reuse and indirect reuse via circular hubs. Buildings have the power to decide whether to join a matchmaking event. Once they decide to join, we designed an automatic programme that matches a pair of supply-demand based on (1) quantity, (2) distance, (3) cost, and (4) available time. If all four criteria are satisfied within a threshold, these pair of deconstruction and construction agents are matched successfully. Detailed matchmaking mechanisms will be explained in the evaluation session. 
-</p>   
+</p>
+
+<img class="img-fluid" src="https://raw.githubusercontent.com/Yifei-Yu-UTwente/SCCE/master/img/posts/Post6_Context.jpg">
+<span class="caption text-muted">Fig.3. Circular built environment interactions </span>
 
 <h2 class="section-heading">3. Model Demonstration</h2>
 
@@ -82,9 +85,18 @@ When we fit the buildings into a broader CE context, we obtain a comprehensive o
 We apply the model to an urban mining context in the city of Enschede. We model three major agents: (1) existing buildings (to-be-deconstructed), (2) new buildings (to-be-constructed), and (3) circularity hubs. The existing buildings are programmed based on the database from Kadaster. We randomly picked 2,000 residential buildings with different ages in the area of Enschede. Regarding the new buildings, we learn from the city plan proposed by the Gemeente Enschede and map several major residential developments in the city. The layout of the new buildings can be found in <b>Fig. 4</b>. We apply GIS technology to identify the location of all the buildings (<b>Fig. 5</b>).
 </p>   
 
+<img class="img-fluid" src="https://raw.githubusercontent.com/Yifei-Yu-UTwente/SCCE/master/img/posts/Post4_UrbanPlan.png">
+<span class="caption text-muted">Fig.4. The location of new buildings </span>
+
+<img class="img-fluid" src="https://raw.githubusercontent.com/Yifei-Yu-UTwente/SCCE/master/img/posts/Post6_Layout.png">
+<span class="caption text-muted">Fig.5. Building locations based on Kadaster database </span>
+
 <p>
 A few screenshots of the model are shown in <b>Fig. 6</b>. Squares and circles represent different buildings. Their colours will change based on different actions. Eventually, the red means failed matchmaking while the green means successful matchmaking. In Fig. 6 (a), you can find the model interface. In Fig. 6 (b), we capture the simulation status at different points of time. The model can simulate 50 years from 2023 with a time unit of Month. 
 </p>
+
+<img class="img-fluid" src="https://raw.githubusercontent.com/Yifei-Yu-UTwente/SCCE/master/img/posts/Post6_Model.jpg">
+<span class="caption text-muted">Fig.6. Model demonstration </span>
 
 <p>
 Importantly, we add a new element of Circularity Hubs in the model. It is a temporary warehouse where secondary materials can be stored. First, it helps to create more time buffer and resolve supply-demand time tension. Second, it helps to enlarge the transportation distance between two or more sites. It could be one of the promising future solutions in the field. The model can show us the effect of allocating the hubs at different locations.
@@ -98,7 +110,7 @@ However, there are a lot of uncertainties about it as well. For example, we are 
 To access and interact with the model by yourself, you can use this <b><a href="https://cloud.anylogic.com/model/e05c5efb-2e79-4852-be6b-860dc96e0253?mode=SETTINGS">Link</a></b>
 </p>
 
-<iframe width="1000" height="650" allow="fullscreen" src="https://cloud.anylogic.com/assets/embed?modelId=e05c5efb-2e79-4852-be6b-860dc96e0253"></iframe>
+<iframe width="800" height="650" allow="fullscreen" src="https://cloud.anylogic.com/assets/embed?modelId=e05c5efb-2e79-4852-be6b-860dc96e0253"></iframe>
 
 <h2 class="section-heading">4. Invitation to Evaluate the Model</h2>
 

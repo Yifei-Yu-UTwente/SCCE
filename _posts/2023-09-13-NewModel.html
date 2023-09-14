@@ -11,7 +11,7 @@ Hello, everyone! We are excited to announce another major update of the PhD prog
 
 <ul>
   <li> A recap of what we did; </li>
-  <li> Brief explanation of the model; </li>
+  <li> Brief model explanation; </li>
   <li> Model demonstration; </li>
   <li> Invitation to evaluate the model; </li>
 </ul>
@@ -45,3 +45,81 @@ Instead of considering too many restrictions at the beginning, we decided to ima
 <img class="img-fluid" src="https://raw.githubusercontent.com/Yifei-Yu-UTwente/SCCE/master/img/posts/Post6_RelationshipModel.png">
 <span class="caption text-muted">Fig.1. The relationship between the model and the reality </span>
 
+<h2 class="section-heading">2. Brief Model Explanation</h2>
+
+<p>
+The model is developed in an agent-based way. <b>Agent</b> means an entity that aims to achieve a goal. To reach this goal, it carries out certain activities and interacts with other agents. Living together in a common environment, these agents communicate and react with each other. Then, a greater phenomenon emerges. A natural example is the cloud. We do not design or define the shape of a cloud, but rather, we focus on each water drop within the cloud. If we can design hundreds and thousands of waterdrops based on consistent physical conditions and positions, the shape of the cloud will automatically appear.
+</p>
+
+<p>
+Similarly, we view each building as an agent who aims to go through its entire life cycle. These buildings have their own locations, ages, mass (weight of materials), and preferences for CE collaborations. As time goes by, buildings get older and older. When they reach an age limitation, we program them to be deconstructed with a certain probability. For example, when a building reaches 75 years old, there is a 90% probability it will be deconstructed. We introduce deconstruction as a probabilistic action because the motivation to deconstruct is complex in reality.
+</p>   
+
+<p>
+To further mimic the real building asset, we adopt the concept of <b>Shearing Layers</b>. According to this concept, any building can be characterised by different material layers spanning different life periods. In our model, we simply divide a building into three layers: 
+</p>   
+
+<ul>
+  <li> Internal Layer (I): Stuff; </li>
+  <li> Middle Layer (II): Service, and Space Plan; </li>
+  <li> External Layer (III): Site, Structure, and Skin. </li>
+</ul>
+
+<img class="img-fluid" src="https://raw.githubusercontent.com/Yifei-Yu-UTwente/SCCE/master/img/posts/Post6_RelationshipModel.png">
+<span class="caption text-muted">Fig.1. The relationship between the model and the reality </span>
+
+<p>
+The building layers are categorised in such a way that deconstruction and construction contractors need to plan their work in the opposite order (i.e. deconstruction: I, II, III, while construction: III, II, I) (<b>Fig. 2</b>). According to this setup, the temporal friction of matchmaking becomes explicit since what is available first from a deconstruction site could be the last item that is required by another construction manager. Furthermore, by designing the building in such a way, we are able to connect internal workflow dynamics with external material exchanges.
+</p>   
+
+<p>
+When we fit the buildings into a broader CE context, we obtain a comprehensive overview of the main agents and their interactions (<b>Fig. 3</b>). In this model, we focus on direct reuse and indirect reuse via circular hubs. Buildings have the power to decide whether to join a matchmaking event. Once they decide to join, we designed an automatic programme that matches a pair of supply-demand based on (1) quantity, (2) distance, (3) cost, and (4) available time. If all four criteria are satisfied within a threshold, these pair of deconstruction and construction agents are matched successfully. Detailed matchmaking mechanisms will be explained in the evaluation session. 
+</p>   
+
+<h2 class="section-heading">3. Model Demonstration</h2>
+
+<p>
+We apply the model to an urban mining context in the city of Enschede. We model three major agents: (1) existing buildings (to-be-deconstructed), (2) new buildings (to-be-constructed), and (3) circularity hubs. The existing buildings are programmed based on the database from Kadaster. We randomly picked 2,000 residential buildings with different ages in the area of Enschede. Regarding the new buildings, we learn from the city plan proposed by the Gemeente Enschede and map several major residential developments in the city. The layout of the new buildings can be found in <b>Fig. 4</b>. We apply GIS technology to identify the location of all the buildings (<b>Fig. 5</b>).
+</p>   
+
+<p>
+A few screenshots of the model are shown in <b>Fig. 6</b>. Squares and circles represent different buildings. Their colours will change based on different actions. Eventually, the red means failed matchmaking while the green means successful matchmaking. In Fig. 6 (a), you can find the model interface. In Fig. 6 (b), we capture the simulation status at different points of time. The model can simulate 50 years from 2023 with a time unit of Month. 
+</p>
+
+<p>
+Importantly, we add a new element of Circularity Hubs in the model. It is a temporary warehouse where secondary materials can be stored. First, it helps to create more time buffer and resolve supply-demand time tension. Second, it helps to enlarge the transportation distance between two or more sites. It could be one of the promising future solutions in the field. The model can show us the effect of allocating the hubs at different locations.
+</p>
+
+<p>
+However, there are a lot of uncertainties about it as well. For example, we are not sure about the investment and operation costs of such a hub. Also, it is very tricky to determine its location due to the market dynamics. We only consider it as a potential solution and add it to the model in a very simple manner for now.
+</p>
+
+<p>
+To access and interact with the model by yourself, you can use this <b><a href="https://cloud.anylogic.com/model/e05c5efb-2e79-4852-be6b-860dc96e0253?mode=SETTINGS">Link</a></b>
+</p>
+
+<iframe width="1000" height="650" allow="fullscreen" src="https://cloud.anylogic.com/assets/embed?modelId=e05c5efb-2e79-4852-be6b-860dc96e0253"></iframe>
+
+<h2 class="section-heading">4. Invitation to Evaluate the Model</h2>
+
+<p>
+I hope you have a basic understanding of the model here. In case you are interested and would love to know more about it, I am glad to welcome and talk to you in Twente. This time, we can evaluate the model based on a flexible schedule without gathering everyone in one meeting. We can meet with your friends or colleagues anytime that suits you. During a one-hour meeting, we will talk more about the model, and most importantly, I look forward to hearing your opinions. 
+</p>
+
+<p>
+I believe that this model has the potential to direct us to a circular future. However, it is nothing if I only present it in a paper without your experiences and insights. Thank you for reading this piece of update. Please feel free to ask me questions.
+</p>
+
+<h2 class="section-heading">Ending</h2>
+
+<p>
+Beyond the work, I also update you on my current situation. We are approaching the end of PhD programme, and time flies. I aim to finish my PhD by <b>October 2024</b>. Then, I will continue to work as a PostDoc or Assistant Professor at the University of Twente because we received the good news of future funding recently. I am glad that I will continue to work on what I am passionate about.
+</p>
+
+<p>
+Last but not least, we are also launching an academic-industry community called <b>Circular Economy Platform Twente</b>. Starting in 2024, we aim to act as a regional platform that provides room for collaboration among regional stakeholders, including municipalities, companies, and NGOs. The platform will serve as an umbrella association, bringing together diverse stakeholders from academia, industry, and (local) government to build a community that shares a common vision and creates societal, environmental, and economic impact in the Twente region. A similar event that you may know is MoveEast. More information can be found <b><a href="https://www.utwente.nl/en/news/2023/7/1062751/circular-economy-platform-twente-cep-twente-receives-ut-climate-centre-funds?code=471a268f">Here</a></b>
+</p>
+
+<p>
+We will connect you soon.
+</p>

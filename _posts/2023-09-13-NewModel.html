@@ -6,7 +6,7 @@ background: '/img/posts/Post6_Homepage.jpg'
 ---
 
 <p>
-Hello, everyone! We are excited to announce another major update of the PhD programme: Smart Circular Construction Ecosystems. Now, we developed a matchmaking simulation model as a potential function of the Circularity Information Platform. In this update, you will read: 
+Hello, everyone! We are excited to announce another major update with you: a new model has been developed. We developed a matchmaking simulation model as a potential function of the Circularity Information Platform. The key objective is to analyse how to match the supply-demand of secondary materials between old and new buildings. In this update, you will read: 
 </p>
 
 <ul>
@@ -19,7 +19,7 @@ Hello, everyone! We are excited to announce another major update of the PhD prog
 <h2 class="section-heading">1.A Recap of What We Did</h2>
 
 <p>
-To support the Circular Economy (CE) transition in the built environment, we provide digital technology solutions. One important solution is to develop an integrated information platform where different stakeholders can work together across the whole life cycle of an asset. 
+To support the Circular Economy (CE) transition in the built environment, we provide digital technology solutions. One solution is to develop an integrated information platform where different stakeholders can work together across the whole life cycle of an asset. 
 </p>
 
 <p>
@@ -35,24 +35,28 @@ After a long debate and brainstorming, we realised that we were going nowhere. H
 </p>
 
 <p><b>
-“What if we take an opposite direction? Let’s start from scratch and move towards the reality!”
+“What if we take an opposite direction? Let’s start from a simple scratch and move towards a difficult reality!”
 </b></p>
 
 <p>
-Instead of considering too many restrictions at the beginning, we decided to imagine a wonderland without any restrictions. Then, step by step, we add realistic features to this wonderland and discover its value all the way back to reality. This is what we did, simply create a simulation model that mimics the real situation from a particular point of view. Using this model as an experimental ground, we test different strategies and interventions hypothetically, just like a chess game (<b>Fig. 1</b>).
+Instead of considering too many restrictions at the beginning, we decided to imagine a wonderland without any restrictions. Then, step by step, we add realistic features to this wonderland and discover its value all the way towards reality. This is what we did, simply create a simulation model that mimics the real situation from a particular point of view. Using this model as an experimental ground, we test different strategies and interventions hypothetically, just like a chess game (<b>Fig. 1</b>).
 </p>  
 
 <img class="img-fluid" src="https://raw.githubusercontent.com/Yifei-Yu-UTwente/SCCE/master/img/posts/Post6_RelationshipModel.png">
 <span class="caption text-muted">Fig.1. The relationship between the model and the reality </span>
 
+<p>
+Nobody uses the platform? No problem! We can simulate thousands of virtual users who are happy to use the platform. No time to track the entire lifespan of a building? No problem! We can go through 100 years in one blink! We made a lot of assumptions in order to observe possible matchmaking dynamics. Then, we rethink what these virtual observations could inform us about reality. In our model, we mainly focus on three realistic factors: (1) time, (2) space, and (3) behaviour. Each simulated building has its own schedule (time) at a unique location (space) and can decide whether to make circular collaborations (behaviour). Please continue to read the next section to grasp a basic understanding of how we modelled. 
+</p>
+
 <h2 class="section-heading">2. Brief Model Explanation</h2>
 
 <p>
-The model is developed in an agent-based way. <b>Agent</b> means an entity that aims to achieve a goal. To reach this goal, it carries out certain activities and interacts with other agents. Living together in a common environment, these agents communicate and react with each other. Then, a greater phenomenon emerges. A natural example is the cloud. We do not design or define the shape of a cloud, but rather, we focus on each water drop within the cloud. If we can design hundreds and thousands of waterdrops based on consistent physical conditions and positions, the shape of the cloud will automatically appear.
+The model was developed in an agent-based way. <b>Agent</b> means an entity that aims to achieve a goal. To reach this goal, it carries out certain activities and interacts with other agents. Living together in a common environment, these agents communicate and interact with each other. Then, a greater phenomenon could emerge. A natural example is the shape of a cloud. We do not design or define the shape of a cloud, but rather, we focus on each water drop within the cloud. If we can design hundreds and thousands of waterdrops based on consistent physical conditions and positions, the shape of the cloud will automatically appear without designing.
 </p>
 
 <p>
-Similarly, we view each building as an agent who aims to go through its entire life cycle. These buildings have their own locations, ages, mass (weight of materials), and preferences for CE collaborations. As time goes by, buildings get older and older. When they reach an age limitation, we program them to be deconstructed with a certain probability. For example, when a building reaches 75 years old, there is a 90% probability it will be deconstructed. We introduce deconstruction as a probabilistic action because the motivation to deconstruct is complex in reality.
+Similarly, we view each building as an agent who aims to go through its entire life cycle. These buildings have their own locations, ages, mass (weight of materials), and preferences for CE collaborations. As time goes by, buildings get older and older. When they reach an age limitation, we program them to be deconstructed with a certain probability. For example, when a building reaches 75 years old, there is a 90% probability it will be deconstructed to supply secondary materials. Meanwhile, we programmed new buildings as demand agents that may need secondary materials during the construction phase. If a pair of supply-demand agents join the matchmaking programme at the right time, the platform system will automatically evaluate the deal based on predefined criteria. When various agents interact in such a way, circular material ecosystems emerge beyond the boundary of individual projects. Furthermore, we investigate under which circumstances a successful matchmaking would occur. Note that we introduce deconstruction as a probabilistic action because the motivation to deconstruct is complex in reality.
 </p>   
 
 <p>
@@ -66,14 +70,14 @@ To further mimic the real building asset, we adopt the concept of <b>Shearing La
 </ul>
 
 <p>
-The building layers are categorised in such a way that deconstruction and construction contractors need to plan their work in the opposite order (i.e. deconstruction: I, II, III, while construction: III, II, I) (<b>Fig. 2</b>). According to this setup, the temporal friction of matchmaking becomes explicit since what is available first from a deconstruction site could be the last item that is required by another construction manager. Furthermore, by designing the building in such a way, we are able to connect internal workflow dynamics with external material exchanges.
+The building layers are categorised in such a way that deconstruction and construction contractors need to plan their work in the opposite order (i.e. deconstruction: I, II, III, while construction: III, II, I) (<b>Fig. 2</b>). According to this setup, the temporal friction of matchmaking becomes clear. What is available first from a deconstruction site could be the last item that another construction manager requires. Furthermore, by designing the building in such a way, we are able to connect internal workflow dynamics with external material exchanges at different levels of detail.
 </p>   
 
 <img class="img-fluid" src="https://raw.githubusercontent.com/Yifei-Yu-UTwente/SCCE/master/img/posts/Post6_ShearingLayer.jpg">
 <span class="caption text-muted">Fig.2. The shearing layer of the agent </span>
 
 <p>
-When we fit the buildings into a broader CE context, we obtain a comprehensive overview of the main agents and their interactions (<b>Fig. 3</b>). In this model, we focus on direct reuse and indirect reuse via circular hubs. Buildings have the power to decide whether to join a matchmaking event. Once they decide to join, we designed an automatic programme that matches a pair of supply-demand based on (1) quantity, (2) distance, (3) cost, and (4) available time. If all four criteria are satisfied within a threshold, these pair of deconstruction and construction agents are matched successfully. Detailed matchmaking mechanisms will be explained in the evaluation session. 
+When we fit the buildings into a broader CE context, we obtain a comprehensive overview of the main agents and their interactions (<b>Fig. 3</b>). In this model, we focus on direct reuse and indirect reuse via circular hubs. Buildings have the power to decide whether to join a matchmaking event. Once they decide to join, we designed an automatic programme to match a pair of supply-demand agents based on <b>(1) quantity, (2) distance, (3) cost, and (4) available time.</b> If all four criteria are satisfied within a threshold, these pair of deconstruction and construction agents are matched successfully. Detailed matchmaking mechanisms will be explained in the evaluation session if you join us. 
 </p>
 
 <img class="img-fluid" src="https://raw.githubusercontent.com/Yifei-Yu-UTwente/SCCE/master/img/posts/Post6_Context.jpg">
@@ -99,15 +103,18 @@ A few screenshots of the model are shown in <b>Fig. 6</b>. Squares and circles r
 <span class="caption text-muted">Fig.6. Model demonstration </span>
 
 <p>
-Importantly, we add a new element of Circularity Hubs in the model. It is a temporary warehouse where secondary materials can be stored. First, it helps to create more time buffer and resolve supply-demand time tension. Second, it helps to enlarge the transportation distance between two or more sites. It could be one of the promising future solutions in the field. The model can show us the effect of allocating the hubs at different locations.
+Importantly, we add a new element of Circularity Hubs in the model (<b>Fig. 7</b>). It is a temporary warehouse where secondary materials can be stored. First, it helps to create more time buffer and resolve supply-demand time tension. Second, it helps to enlarge the transportation distance between two or more sites. It could be one of the promising future solutions in the field. The model can show us the effect of allocating the hubs at different locations.
+</p>
+
+<img class="img-fluid" src="https://raw.githubusercontent.com/Yifei-Yu-UTwente/SCCE/master/img/posts/Post6_Hub.png">
+<span class="caption text-muted">Fig.7. The concept of a circularity hub</span>
+
+<p>
+However, there are a lot of uncertainties about it. For example, we are not sure about the investment and operation costs of such a hub. Also, it is very tricky to determine its location due to the market dynamics. We only consider it as a potential solution and add it to the model in a very simple manner for now.
 </p>
 
 <p>
-However, there are a lot of uncertainties about it as well. For example, we are not sure about the investment and operation costs of such a hub. Also, it is very tricky to determine its location due to the market dynamics. We only consider it as a potential solution and add it to the model in a very simple manner for now.
-</p>
-
-<p>
-To access and interact with the model by yourself, you can use this <b><a href="https://cloud.anylogic.com/model/e05c5efb-2e79-4852-be6b-860dc96e0253?mode=SETTINGS">Link</a></b>
+To access and interact with the model by yourself, you can use this <b><a href="https://cloud.anylogic.com/model/e05c5efb-2e79-4852-be6b-860dc96e0253?mode=SETTINGS">Link</a></b>. You can also directly play and observe it here as follows:
 </p>
 
 <iframe width="650" height="400" allow="fullscreen" src="https://cloud.anylogic.com/assets/embed?modelId=e05c5efb-2e79-4852-be6b-860dc96e0253"></iframe>
@@ -115,7 +122,7 @@ To access and interact with the model by yourself, you can use this <b><a href="
 <h2 class="section-heading">4. Invitation to Evaluate the Model</h2>
 
 <p>
-I hope you have a basic understanding of the model here. In case you are interested and would love to know more about it, I am glad to welcome and talk to you in Twente. This time, we can evaluate the model based on a flexible schedule without gathering everyone in one meeting. We can meet with your friends or colleagues anytime that suits you. During a one-hour meeting, we will talk more about the model, and most importantly, I look forward to hearing your opinions. 
+I hope you have a basic understanding of the model here. In case you are interested and would love to know more about it, I am glad to welcome and talk to you in Twente. This time, we can evaluate the model based on a flexible schedule without gathering everyone in one meeting. We can meet with you and your friends or colleagues anytime that suits you. During a one-hour meeting, we will talk more about the model, and most importantly, I look forward to hearing your opinions. 
 </p>
 
 <p>
@@ -133,5 +140,5 @@ Last but not least, we are also launching an academic-industry community called 
 </p>
 
 <p>
-We will connect you soon.
+We will connect with you soon.
 </p>

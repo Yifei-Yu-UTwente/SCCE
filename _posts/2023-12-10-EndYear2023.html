@@ -23,7 +23,7 @@ In this update, you will read the major topics as follows:
 <h2 class="section-heading">1.Circular Matchmaking Model</h2>
 
 <p>
-The model is developed and submitted for publication. We are now waiting for the reviewer’s comments. The methodology is adapted from general agent-based model development processes proposed by Salgado & Gilbert (2013) (Fig. 1). 
+The model is developed and submitted for publication. We are now waiting for the reviewer’s comments. The methodology is adapted from general agent-based model development processes proposed by <b><a href="https://doi.org/10.1007/978-94-6209-404-8_12">Salgado & Gilbert (2013)</a></b> (Fig. 1). 
 </p>
 
 <img class="img-fluid" src="https://raw.githubusercontent.com/Yifei-Yu-UTwente/SCCE/master/img/posts/Post7_Method.pdf">
@@ -46,7 +46,7 @@ A summary of each point is given one by one in this update.
 <h2 class="subsection-heading">1.1. Agent architecture</h2>
 
 <p>
-To capture the internal complexity of building projects, we draw on the seminal work of Brand (1994) that depicted buildings as a collection of shearing layers each with its life cycle. Adapted from the original setup of shearing layers, we propose three overarching layers to design agent architecture as follows (the upper diagram in Fig. 2):
+To capture the internal complexity of building projects, we draw on the seminal work of <b><a href="https://ocw.tudelft.nl/course-lectures/3-1-3-building-layers/">Brand (1994)</a></b> that depicted buildings as a collection of shearing layers each with its life cycle. Adapted from the original setup of shearing layers, we propose three overarching layers to design agent architecture as follows (the upper diagram in Fig. 2):
 </p>
 
 <img class="img-fluid" src="https://raw.githubusercontent.com/Yifei-Yu-UTwente/SCCE/master/img/posts/Post7_Method.pdf">
@@ -59,12 +59,12 @@ To capture the internal complexity of building projects, we draw on the seminal 
 </ul>
 
 <p>
-This is a simplified version of Shearing Layers that captures the workflow complexity of a building project. The key reason for constructing building layers in such a way is that the main contractors of deconstruction and construction projects shall plan their workflows in opposite order (i.e., deconstruction: I, II, III, and construction: III, II, I). Accordingly, what is available first from a deconstruction site could be the last item that is required by another construction firm. For example, deconstruction contractors first remove furniture out of old buildings while construction contractors need to first build foundations for new buildings. This setup makes temporal supply-demand mismatch among heterogeneous projects explicit in the model.
+This is a simplified version of Shearing Layers that captures the workflow complexity of a building project. The key reason for constructing building layers in such a way is that the main contractors of deconstruction and construction projects shall plan their workflows in opposite order (i.e., deconstruction: I, II, III, and construction: III, II, I). Accordingly, what is available first from a deconstruction site could be the last item that is required by another construction firm. For example, deconstruction contractors first remove furniture out of old buildings while construction contractors need to first build foundations for new buildings.
 </p>
 
-<p><b>
-“Quote”
-</b></p>
+<p><b><i>
+“This setup makes temporal supply-demand mismatch among different projects explicit in the model.”
+</i></b></p>
 
 <h2 class="subsection-heading">1.2. Matchmaking Logic</h2>
 
@@ -86,12 +86,16 @@ Project agents receive results from the matchmaking programme and update their v
 <h2 class="subsection-heading">1.3. Urban Development Case</h2>
 
 <p>
-The construction demand baseline consists of five major real-estate projects above adding up to 1914 residential units. These projects are: (1) De Kop, (2) Janninkkwartier, (3) Cromhoff, (4) Eschmarkerveld, and (5) Het Leuriks. Meanwhile, 2000 existing residential buildings in Enschede are randomly selected based on the BAG database serving as a deconstruction supply baseline. Unlike deconstruction projects scattered in the city, construction projects are planned within specific locations. Adding to the opposite internal workflows defined at an individual agent level, this spatial setup creates special supply-demand flows at an urban level. Deconstruction projects tend to spread reusable components in a divergent manner while construction projects would receive different components in a convergent manner. 
+The construction demand baseline consists of five major real-estate projects above adding up to 1914 residential units. These projects are: (1) De Kop, (2) Janninkkwartier, (3) Cromhoff, (4) Eschmarkerveld, and (5) Het Leuriks. Meanwhile, 2000 existing residential buildings in Enschede are randomly selected based on the BAG database serving as a deconstruction supply baseline. Unlike deconstruction projects scattered in the city, construction projects are planned within specific locations. Adding to the opposite internal workflows defined at an individual agent level, this spatial setup creates special supply-demand flows at an urban level.
 </p>
 
+<p><b><i>
+“Deconstruction projects tend to spread reusable components in a divergent manner while construction projects would receive different components in a convergent manner.”
+</i></b></p>
+
 <p>
-Adding to the urban development case, we introduce Circularity Hubs as a matchmaking moderator. These hubs are potential warehouses that could offer temporary storage, repair, cleaning, and sorting services. Stakeholders can also use them as buffering stations to collect materials until a sufficient quantity is available for economical deals. Please refer to the previous blog for a hub conceptual diagram (link). In this research, we created five potential hubs around the ring road of Enschede and tested their effects on matchmaking status. This setup helps to compare hub effects on diverse urban areas in different directions. They provide (1) longer sojourn/waiting time and (2) larger transportation ranges for matchmaking.  
-</p>  
+Adding to the urban development case, we introduce Circularity Hubs as a matchmaking moderator. These hubs are potential warehouses that could offer temporary storage, repair, cleaning, and sorting services. Stakeholders can also use them as buffering stations to collect materials until a sufficient quantity is available for economical deals. Please refer to the previous blog for a hub conceptual diagram (<b><a href="https://yifei-yu-utwente.github.io/SCCE/2023/09/14/NewModel.html">Link</a></b>). In this research, we created five potential hubs around the ring road of Enschede and tested their effects on matchmaking status. This setup helps to compare hub effects on diverse urban areas in different directions. They provide (1) longer sojourn/waiting time and (2) larger transportation ranges for matchmaking.  
+</p>
 
 <p>
 The simulation shows how supply-demand (mis)matches evolves over space and time. To access and interact with the model by yourself, you can use this <b><a href="https://cloud.anylogic.com/model/e05c5efb-2e79-4852-be6b-860dc96e0253?mode=SETTINGS">Link</a></b>. You can also directly play and observe it here as follows (click "full-screen" button to have better viewing experience):
@@ -99,7 +103,7 @@ The simulation shows how supply-demand (mis)matches evolves over space and time.
 
 <iframe width="700" height="400" allow="fullscreen" src="https://cloud.anylogic.com/assets/embed?modelId=e05c5efb-2e79-4852-be6b-860dc96e0253"></iframe>
 
-<h2 class="section-heading">2. Practical Insights: Interpret Outcomes in Reality</h2>
+<h2 class="section-heading">2. Practical Insights</h2>
 
 <p>
 According to the case, construction agents need to accomplish their projects within the next 5 years approximately. There is a great construction demand in a relatively short time. However, the supply provided by deconstruction agents emerges stochastically at a slower pace. Since the supply is not temporally dependent on the demand, the supply from existing buildings can hardly meet the demand of construction projects based on the current scenario setup. Therefore, most project agents remain unmatched or matched incompletely at the end of the simulation.
@@ -114,7 +118,14 @@ The simulation results conceptually proved that circularity hubs contribute to s
 </p>   
 
 <p>
-Therefore, under this simulation scenario, results quantitatively suggest that a higher number of hubs does not necessarily contribute to a higher successful matchmaking rate. Instead, strategic hub allocation considering the spatial distribution of heterogeneous project agents is the key to effective matchmaking. However, these are conceptual results only considering limited aspects of matchmaking. In practice, longer waiting time also indicates higher transaction investments, which would interrupt a matchmaking event. The practical hub operation remains a future research topic.
+Therefore, under this simulation scenario, results quantitatively suggest that: 
+
+<p><b><i>
+"A higher number of hubs does not necessarily contribute to a higher successful matchmaking rate. Instead, strategic hub allocation considering the spatial distribution of heterogeneous project agents is the key to effective matchmaking."
+</i></p></b>
+
+<p>  
+However, these are conceptual results only considering limited aspects of matchmaking. In practice, longer waiting time also indicates higher transaction investments, which would interrupt a matchmaking event. The practical hub operation remains a future research topic.
 </p>   
 
 <h2 class="section-heading">3. Preliminary Model Evaluation With Students</h2>
@@ -144,9 +155,13 @@ However, students also observed that there is a certain distance between the mod
 <h2 class="section-heading">4. Final Phase of PhD</h2>
 
 <p>
-Starting in January 2024, I will start to wrap up all the research components and structure the final thesis into a book. Rooted in the field of circular built environment, this book (1) discovers new relationships between digital technologies and circular economy, (2) delivers new design evidence for Circularity Information Platform at different levels, and (3) concludes a new scientific definition of circular construction ecosystems. Overall, we use the Circularity Information Platform to manage circular construction buildings as collective communities in a broader spatial-temporal scope involving more diverse stakeholders. This book provides new knowledge to manage circular buildings at scale.
-</p>  
+Starting in January 2024, I will start to wrap up all the research components and structure the final thesis into a book. Rooted in the field of circular built environment, this book (1) discovers new relationships between digital technologies and circular economy, (2) delivers new design evidence for Circularity Information Platform at different levels, and (3) concludes a new scientific definition of circular construction ecosystems. Overall, we use the Circularity Information Platform to manage circular construction buildings as collective communities in a broader spatial-temporal scope involving more diverse stakeholders. 
+<p>
+
+<p><b><i>
+This book provides new knowledge to manage circular buildings at scale.
+</i></p></b>
 
 <p>
-We will keep in touch with you for potential evaluation and expert opinions in the upcoming year. Meanwhile, do not hesitate to contact us if you have any questions or want to talk about future research opportunities!
-</p>  
+We aim for a researcher/lecturer position at the UTwente after my graduation. We will be sure to keep in touch with you for potential evaluation and expert opinions in the upcoming year. Meanwhile, please do not hesitate to contact us if you have any questions or want to talk about future research opportunities!
+</p>

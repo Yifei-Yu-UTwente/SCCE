@@ -30,7 +30,7 @@ The model is developed and submitted for publication. We are now waiting for the
 <span class="caption text-muted">Fig.1. Methodological research processes with main steps of (1) taking relevant literature as logical inputs for framework conception, (2) developing and demonstrating the model based on case-specific data inputs, and (3) observing and evaluating target outcomes for future model development and evolvement. (BAG -- Basisregistratie Adressen en Gebouwen; ODD -- Overview, Design concepts, Details; OpenStreetMap is used to position projects in the urban context and provide transportation distances among projects via AnyLogic) </span>
 
 <p>
-The research article contains:
+The research article contains key points as follows:
 </p>
 
 <ul>
@@ -39,132 +39,114 @@ The research article contains:
   <li> Potential urban development scenarios in Enschede. </li>
 </ul>
 
+<p>
+A summary of each point is given one by one in this update.
+</p>  
+
 <h2 class="subsection-heading">1.1. Agent architecture</h2>
 
 <p>
-However, it is not as easy as selling or buying a product from a second-hand market. We are talking about building materials and components, and they have their own characteristics in a unique construction culture background. Starting from the complicated reality, we are blocked by many limitations and questions: How to ensure material quality? How to convince users to use the platform? How to tackle regulation barriers? What happens to the logistics? How much cost will be made? How to check if what you see is what you get? …
+To capture the internal complexity of building projects, we draw on the seminal work of Brand (1994) that depicted buildings as a collection of shearing layers each with its life cycle. Adapted from the original setup of shearing layers, we propose three overarching layers to design agent architecture as follows (the upper diagram in Fig. 2):
 </p>
 
-<p>
-After a long debate and brainstorming, we realised that we were going nowhere. Haunted by these wicked challenges, we need to find a way out. 
-</p>
-
-<p><b>
-“What if we take an opposite direction? Let’s start from a simple scratch and move towards a difficult reality!”
-</b></p>
-
-<p>
-Instead of considering too many restrictions at the beginning, we decided to imagine a wonderland without any restrictions. Then, step by step, we add realistic features to this wonderland and discover its value all the way towards reality. This is what we did, simply create a simulation model that mimics the real situation from a particular point of view. Using this model as an experimental ground, we test different strategies and interventions hypothetically, just like a chess game (<b>Fig. 1</b>).
-</p>  
-
-<img class="img-fluid" src="https://raw.githubusercontent.com/Yifei-Yu-UTwente/SCCE/master/img/posts/Post6_RelationshipModel.png">
-<span class="caption text-muted">Fig.1. The relationship between the model and the reality </span>
-
-<p>
-Nobody uses the platform? No problem! We can simulate thousands of virtual users who are happy to use the platform. No time to track the entire lifespan of a building? No problem! We can go through 100 years in one blink! We made a lot of assumptions in order to observe possible matchmaking dynamics. Then, we rethink what these virtual observations could inform us about reality. In our model, we mainly focus on three realistic factors: <b>(1) time, (2) space, and (3) behaviour</b>. Each simulated building has its own schedule (time) at a unique location (space) and can decide whether to make circular collaborations (behaviour). Please continue to read the next section to grasp a basic understanding of how we modelled. 
-</p>
-
-<h2 class="section-heading">2. Brief Model Explanation</h2>
-
-<p>
-The model was developed in an agent-based way. <b>Agent</b> means an entity that aims to achieve a goal. To reach this goal, it carries out certain activities and interacts with other agents. Living together in a common environment, these agents communicate and interact with each other. Then, a greater phenomenon could emerge. A natural example is the shape of a cloud. We do not design or define the shape of a cloud, but rather, we focus on each water drop within the cloud. If we can design hundreds and thousands of waterdrops based on consistent physical conditions and positions, the shape of the cloud will automatically appear without designing (<b>Fig. 2</b>).
-</p>
-
-<img class="img-fluid" src="https://raw.githubusercontent.com/Yifei-Yu-UTwente/SCCE/master/img/posts/Post6_Cloud.jpg">
-<span class="caption text-muted">Fig.2. A cloud floating in the air </span>
-
-<p>
-Similarly, we view each building as an agent who aims to go through its entire life cycle. These buildings have their own locations, ages, mass (weight of materials), and preferences for CE collaborations. As time goes by, buildings become older and older. When they reach an age limitation, we program them to be deconstructed with a certain probability. For example, when a building reaches 75 years old, there is a 90% probability it will be deconstructed to supply secondary materials. Note that we introduce deconstruction as a probabilistic action because the motivation to deconstruct is complex in reality.
-</p>
-  
-<p>
-Meanwhile, we programmed new buildings as demand agents that may need secondary materials during the construction phase. If a pair of supply-demand agents join the matchmaking programme at the right time, the platform system will automatically evaluate the deal based on predefined criteria and inform agents of the matchmaking result. When various agents interact in such a way, circular materials start to flow in an ecosystem beyond the boundary of individual projects. That is the phenomenon that we want to observe. Furthermore, we investigate under which circumstances a successful matchmaking would occur.
-</p>   
-
-<p>
-To further mimic the real building asset, we adopt the concept of <b>Shearing Layers</b>. According to this concept, any building can be characterised by different material layers spanning different life periods. In our model, we simply divide a building into three layers: 
-</p>   
+<img class="img-fluid" src="https://raw.githubusercontent.com/Yifei-Yu-UTwente/SCCE/master/img/posts/Post7_Method.pdf">
+<span class="caption text-muted">Fig.2. Agent architecture based on shearing layers </span>
 
 <ul>
-  <li> Internal Layer (I): Stuff; </li>
-  <li> Middle Layer (II): Service, and Space Plan; </li>
-  <li> External Layer (III): Site, Structure, and Skin. </li>
+  <li> Internal Layer (I): Stuff (e.g., furniture); </li>
+  <li> Middle Layer (II): Services and Space plan (e.g., floors and doors); </li>
+  <li> External Layer (III): Site, Structure, and Skin (e.g., external walls and load-bearing elements). </li>
 </ul>
 
 <p>
-The building layers are categorised in such a way that deconstruction and construction contractors need to plan their work in the opposite order (i.e. deconstruction: I, II, III, while construction: III, II, I) (<b>Fig. 3</b>). According to this setup, the temporal friction of matchmaking becomes clear. What is available first from a deconstruction site could be the last item that another construction manager requires. Besides, by designing the building in such a way, we are able to connect internal workflow dynamics with external material exchanges at different levels of detail.
-</p>   
-
-<img class="img-fluid" src="https://raw.githubusercontent.com/Yifei-Yu-UTwente/SCCE/master/img/posts/Post6_ShearingLayer.jpg">
-<span class="caption text-muted">Fig.3. The shearing layer of the agent </span>
-
-<p>
-When we fit the buildings into a broader CE context, we obtain a comprehensive overview of the main agents and their interactions (<b>Fig. 4</b>). In this model, we focus on direct reuse and indirect reuse via circular hubs. Buildings have the power to decide whether to join a matchmaking event. Once they decide to join, a programme will match a pair of supply-demand agents based on <b>(1) quantity, (2) distance, (3) cost, and (4) available time.</b> If all four criteria are satisfied within a threshold, these pair of deconstruction and construction agents are matched successfully. Detailed matchmaking mechanisms will be explained in the evaluation session if you join us. 
+This is a simplified version of Shearing Layers that captures the workflow complexity of a building project. The key reason for constructing building layers in such a way is that the main contractors of deconstruction and construction projects shall plan their workflows in opposite order (i.e., deconstruction: I, II, III, and construction: III, II, I). Accordingly, what is available first from a deconstruction site could be the last item that is required by another construction firm. For example, deconstruction contractors first remove furniture out of old buildings while construction contractors need to first build foundations for new buildings. This setup makes temporal supply-demand mismatch among heterogeneous projects explicit in the model.
 </p>
 
-<img class="img-fluid" src="https://raw.githubusercontent.com/Yifei-Yu-UTwente/SCCE/master/img/posts/Post6_Context.jpg">
-<span class="caption text-muted">Fig.4. Circular built environment interactions </span>
+<p><b>
+“Quote”
+</b></p>
 
-<h2 class="section-heading">3. Model Demonstration</h2>
-
-<p>
-We apply the model to a potential urban mining context in the city of Enschede. We model three major agents: (1) existing buildings (to-be-deconstructed), (2) new buildings (to-be-constructed), and (3) circularity hubs. The existing buildings are programmed based on the database from Kadaster. We randomly picked 2,000 residential buildings with different ages in the area of Enschede. Regarding the new buildings, we learn from the city plan proposed by the <b>Gemeente Enschede</b> and map several major residential developments in the city. The layout of the new buildings can be found in <b>Fig. 5</b>. We apply GIS technology to identify the location of all the buildings (<b>Fig. 6</b>).
-</p>   
-
-<img class="img-fluid" src="https://raw.githubusercontent.com/Yifei-Yu-UTwente/SCCE/master/img/posts/Post4_UrbanPlan.png">
-<span class="caption text-muted">Fig.5. The location of new buildings </span>
-
-<img class="img-fluid" src="https://raw.githubusercontent.com/Yifei-Yu-UTwente/SCCE/master/img/posts/Post6_Layout.png">
-<span class="caption text-muted">Fig.6. Building locations based on Kadaster database </span>
+<h2 class="subsection-heading">1.2. Matchmaking Logic</h2>
 
 <p>
-A few screenshots of the model are shown in <b>Fig. 7</b>. Squares and circles represent different buildings. Their colours will change based on different actions. Eventually, the red means failed matchmaking while the green means successful matchmaking. In Fig. 7(a), you can find the model interface. In Fig. 7(b), we capture the simulation status at different points of time. The model can simulate 50 years from 2023 with a time unit of Month. 
-</p>
+The matchmaking logic is adapted from the prior work of dynamic matching with stochastic arrivals under limited sojourn/waiting time. We consider not only (1) when a building is ready to be deconstructed after reaching the End-of-Life phase, but also (2) how long this offer of reusable/recyclable waste stays available (waiting time) on the market. This is a classical operation research concept applied to practical marching problems like carpooling and medical operations (e.g., organ matching priority). This timing setup helps to capture more realistic matchmaking dynamics through different levels of detail.
+</p>  
 
-<img class="img-fluid" src="https://raw.githubusercontent.com/Yifei-Yu-UTwente/SCCE/master/img/posts/Post6_Model.jpg">
-<span class="caption text-muted">Fig.7. Model demonstration </span>
-
-<p>
-Importantly, we add a new element of Circularity Hubs in the model (<b>Fig. 8</b>). It is a temporary warehouse where secondary materials can be stored. First, it helps to create more time buffer and resolve supply-demand time tension. Second, it helps to enlarge the transportation distance between two or more sites. Also, it might also help to improve the material quality through a series of treatments. It could be one of the promising future solutions in the field. The model can show us the effect of how hubs contribute to successful matchmaking at different locations.
-</p>
-
-<img class="img-fluid" src="https://raw.githubusercontent.com/Yifei-Yu-UTwente/SCCE/master/img/posts/Post6_Hub.png">
-<span class="caption text-muted">Fig.8. The concept of a circularity hub</span>
+<img class="img-fluid" src="https://raw.githubusercontent.com/Yifei-Yu-UTwente/SCCE/master/img/posts/">
+<span class="caption text-muted">Fig.3. Matchmaking logic: (A) -- Matchmaking logic comparison where hubs provide extra waiting time and allow larger transportation distances; (B) -- Opposite matchmaking order at three shearing layers; (C) -- Visualisation of project agents at GIS points in the modelling context </span>
 
 <p>
-However, there are a lot of uncertainties about it. For example, we are not sure about the investment and operation costs of such a hub. Also, it is very tricky to determine its location due to the market dynamics. We only consider it as a potential solution and add it to the model in a very simple manner for now.
+Once the simulation runs, project agents continuously update their ages. When the age exceeds the predefined age threshold (75 years in this case), agents make stochastic decisions and participate in the matchmaking program. The matchmaking programme matches a pair of agents whose supply-demand requirements are similar within regarding costs, quantity, and transportation distance. Notably, these supply-demand offers would only be available for a limited time (sojourn time). If there is no suitable match within the sojourn time, agents must leave the programme and continue to seek partners at the next layer.
 </p>
 
 <p>
-To access and interact with the model by yourself, you can use this <b><a href="https://cloud.anylogic.com/model/e05c5efb-2e79-4852-be6b-860dc96e0253?mode=SETTINGS">Link</a></b>. You can also directly play and observe it here as follows (click "full-screen" button to have better viewing experience):
+Project agents receive results from the matchmaking programme and update their visual characteristics (i.e., colour and transparency) accordingly. The final ending colours are green and grey indicating successful and failed matchmaking, respectively. Project agents continue to matchmake at the next layer until (1) all shearing layers are successfully matched or (2) a maximum rejoining frequency is reached. The variables of project agents, matchmaking status plots, and the model interface are updated simultaneously.
+</p>
+
+<h2 class="subsection-heading">1.3. Urban Development Case</h2>
+
+<p>
+The construction demand baseline consists of five major real-estate projects above adding up to 1914 residential units. These projects are: (1) De Kop, (2) Janninkkwartier, (3) Cromhoff, (4) Eschmarkerveld, and (5) Het Leuriks. Meanwhile, 2000 existing residential buildings in Enschede are randomly selected based on the BAG database serving as a deconstruction supply baseline. Unlike deconstruction projects scattered in the city, construction projects are planned within specific locations. Adding to the opposite internal workflows defined at an individual agent level, this spatial setup creates special supply-demand flows at an urban level. Deconstruction projects tend to spread reusable components in a divergent manner while construction projects would receive different components in a convergent manner. 
+</p>
+
+<p>
+Adding to the urban development case, we introduce Circularity Hubs as a matchmaking moderator. These hubs are potential warehouses that could offer temporary storage, repair, cleaning, and sorting services. Stakeholders can also use them as buffering stations to collect materials until a sufficient quantity is available for economical deals. Please refer to the previous blog for a hub conceptual diagram (link). In this research, we created five potential hubs around the ring road of Enschede and tested their effects on matchmaking status. This setup helps to compare hub effects on diverse urban areas in different directions. They provide (1) longer sojourn/waiting time and (2) larger transportation ranges for matchmaking.  
+</p>  
+
+<p>
+The simulation shows how supply-demand (mis)matches evolves over space and time. To access and interact with the model by yourself, you can use this <b><a href="https://cloud.anylogic.com/model/e05c5efb-2e79-4852-be6b-860dc96e0253?mode=SETTINGS">Link</a></b>. You can also directly play and observe it here as follows (click "full-screen" button to have better viewing experience):
 </p>
 
 <iframe width="700" height="400" allow="fullscreen" src="https://cloud.anylogic.com/assets/embed?modelId=e05c5efb-2e79-4852-be6b-860dc96e0253"></iframe>
 
-<h2 class="section-heading">4. Invitation to Evaluate the Model</h2>
+<h2 class="section-heading">2. Practical Insights: Interpret Outcomes in Reality</h2>
 
 <p>
-I hope you have a basic understanding of the model after reading until here. In case you are interested and would love to know more about it, I am glad to welcome and talk to you in Twente. This time, we can evaluate the model based on a flexible schedule without gathering everyone in one meeting. We can meet with you and your friends or colleagues anytime that suits you. During a 90-minute meeting, we will talk more about the model, and most importantly, I look forward to hearing your opinions. 
+According to the case, construction agents need to accomplish their projects within the next 5 years approximately. There is a great construction demand in a relatively short time. However, the supply provided by deconstruction agents emerges stochastically at a slower pace. Since the supply is not temporally dependent on the demand, the supply from existing buildings can hardly meet the demand of construction projects based on the current scenario setup. Therefore, most project agents remain unmatched or matched incompletely at the end of the simulation.
 </p>
+  
+<p>
+The dynamics of IS matchmaking can be observed by comparing the changes of the agent's colour in snapshots. Existing buildings are scattered around the city while new buildings await to be built at limited target sites. This shows an operational conflict that deconstruction supply could originate from all over the place but construction demand usually occurs within a narrow spatial range. Moreover, the quantity mismatch complicates this situation. The supply from an individual building can hardly be comparable, in the sense of quantity, with the demand of an integrated project including clusters of buildings.
+</p>   
 
 <p>
-I believe that this model has the potential to direct us to a circular future. However, it is nothing if I only present it in a paper without your experiences and insights. 
-</p>
+The simulation results conceptually proved that circularity hubs contribute to successful matchmaking. Larger transportation ranges link projects that cannot interact with each other without hubs. Longer sojourn time creates more opportunities to wait for a suitable partner. Meanwhile, a competitive hub market appears when multiple hubs operate simultaneously. Hubs compete with each other and the most advantageous hub would dominate the market.
+</p>   
 
 <p>
-Thank you for reading this update. Please feel free to ask me questions.
-</p>
+Therefore, under this simulation scenario, results quantitatively suggest that a higher number of hubs does not necessarily contribute to a higher successful matchmaking rate. Instead, strategic hub allocation considering the spatial distribution of heterogeneous project agents is the key to effective matchmaking. However, these are conceptual results only considering limited aspects of matchmaking. In practice, longer waiting time also indicates higher transaction investments, which would interrupt a matchmaking event. The practical hub operation remains a future research topic.
+</p>   
 
-<h2 class="section-heading">Ending</h2>
-
-<p>
-Beyond the work, I also update you on my current situation. Time flies and we are approaching the end of PhD programme. I aim to finish my PhD by <b>October 2024</b>. Then, I will continue to work as a PostDoc or Assistant Professor at the University of Twente because we received the good news of future funding recently. I am glad that I will continue to work on what I am passionate about.
-</p>
+<h2 class="section-heading">3. Preliminary Model Evaluation With Students</h2>
 
 <p>
-Lastly, we are also launching an academic-industry community called <b>Circular Economy Platform Twente</b>. Starting in 2024, we aim to act as a regional platform that provides room for collaboration among regional stakeholders, including municipalities, companies, and NGOs. The platform will serve as an umbrella association, bringing together diverse stakeholders from academia, industry, and (local) government to build a community that shares a common CE vision and creates societal, environmental, and economic impact in the Twente region. A similar event that you may know is MoveEast. More information can be found <b><a href="https://www.utwente.nl/en/news/2023/7/1062751/circular-economy-platform-twente-cep-twente-receives-ut-climate-centre-funds?code=471a268f">Here</a></b>
+Our model is NOT designed to accurately support practical decisions based on robust real-time data. Instead, we develop this model to create a new perspective to study a possible phenomenon that can hardly be observed in reality. Therefore, we evaluate the model and aim to understand how it could help circular economy learning. The evaluation is carried out in the form of a workshop with a group of Master students on campus:
 </p>
 
+<ul>
+  <li> Design background introduction and explanation; </li>
+  <li> Students-model interaction and observation; </li>
+  <li> Discussion and fill in the evaluation form. </li>
+</ul>
+
 <p>
-We will be in touch with you about this event soon.
-</p>
+You can check the evaluation form via this <b><a href="https://forms.gle/Nr1CykrbQCcLppLH7">Link</a></b>.
+</p>  
+
+<p>
+Generally, students agree that this is an interesting model that helps to understand the complexity of the circular built environment. The model links the internal complex workflows of each project with external material-exchange flows through different levels of detail. It provides a bird's view of circular matchmaking dynamics over vast space and time dimensions. 
+</p>  
+
+<p>
+However, students also observed that there is a certain distance between the model and the reality. For example, agent behaviours are linear and simple in the model whereas the motivations for demolition and circular collaborations can be complex in reality. Quality is simplified as a numerical factor in the model, however, it could be a focal factor for successful matchmaking. Despite the model's limitations, we concluded that it can serve as an educational tool for students to study broad circular economy landscapes in the built environment beyond the boundary of an individual building project.
+</p>  
+
+<h2 class="section-heading">4. Final Phase of PhD</h2>
+
+<p>
+Starting in January 2024, I will start to wrap up all the research components and structure the final thesis into a book. Rooted in the field of circular built environment, this book (1) discovers new relationships between digital technologies and circular economy, (2) delivers new design evidence for Circularity Information Platform at different levels, and (3) concludes a new scientific definition of circular construction ecosystems. Overall, we use the Circularity Information Platform to manage circular construction buildings as collective communities in a broader spatial-temporal scope involving more diverse stakeholders. This book provides new knowledge to manage circular buildings at scale.
+</p>  
+
+<p>
+We will keep in touch with you for potential evaluation and expert opinions in the upcoming year. Meanwhile, do not hesitate to contact us if you have any questions or want to talk about future research opportunities!
+</p>  

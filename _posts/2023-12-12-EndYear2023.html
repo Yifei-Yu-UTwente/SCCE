@@ -23,14 +23,7 @@ In this update, you will read the major topics as follows:
 <h2 class="section-heading">1.Circular Matchmaking Model</h2>
 
 <p>
-The model is developed and submitted for publication. We are now waiting for the reviewer’s comments. The research methodology is adapted from general agent-based model development processes proposed by <b><a href="https://doi.org/10.1007/978-94-6209-404-8_12">Salgado & Gilbert (2013)</a></b> (Fig. 1). 
-</p>
-
-<img class="img-fluid" src="https://raw.githubusercontent.com/Yifei-Yu-UTwente/SCCE/master/img/posts/Post7_Method.png">
-<span class="caption text-muted">Fig.1. Methodological research processes with main steps of (1) taking relevant literature as logical inputs for framework conception, (2) developing and demonstrating the model based on case-specific data inputs, and (3) observing and evaluating target outcomes for future model development and evolvement. (BAG -- Basisregistratie Adressen en Gebouwen; ODD -- Overview, Design concepts, Details; OpenStreetMap is used to position projects in the urban context and provide transportation distances among projects via AnyLogic) </span>
-
-<p>
-The research article contains key points as follows:
+The model is developed and submitted for publication. We are now waiting for the reviewer’s comments. The research article contains key points as follows:
 </p>
 
 <ul>
@@ -49,7 +42,7 @@ A summary of each point is given one by one in this update. We will share a fina
 To capture the internal complexity of building projects, we draw on the seminal work of <b><a href="https://ocw.tudelft.nl/course-lectures/3-1-3-building-layers/">Brand (1994)</a></b> that depicted buildings as a collection of shearing layers each with its life cycle. Adapted from the original setup of shearing layers, we propose three overarching layers to design agent architecture as follows (the upper diagram in Fig. 2):
 </p>
 
-<img class="img-fluid" src="https://raw.githubusercontent.com/Yifei-Yu-UTwente/SCCE/master/img/posts/Post7_Architecture.jpg">
+<img class="img-fluid" src="https://raw.githubusercontent.com/Yifei-Yu-UTwente/SCCE/master/img/posts/Post7_Architecture.png">
 <span class="caption text-muted">Fig.2. Agent architecture based on shearing layers: S and D stand for Supply and Demand agents, respectively. The total numbers of supply and demand agents are n and m, respectively. Suppose there are k types of matchmaking criteria, the matrix entails the total matchmaking space. For example, S<sub>1,1</sub> means the first criteria of the first supply agent. </span>
 
 <ul>
@@ -72,7 +65,7 @@ This is a simplified version of Shearing Layers that captures the workflow compl
 The matchmaking logic is adapted from the prior work of dynamic matching with stochastic arrivals under limited sojourn/waiting time (Fig. 3). We consider not only (1) when a building is ready to be deconstructed after reaching the End-of-Life phase, but also (2) how long this offer of reusable/recyclable waste stays available (waiting time) on the market. This is a classical operation research concept applied to practical marching problems like carpooling and medical operations (e.g., organ matching priority) (<b><a href="https://doi.org/10.1086/704761">Akbarpour et al. 2019</a></b>; <b><a href="https://pubsonline.informs.org/doi/abs/10.1287/opre.2022.2293">Aouad & Saritac 2022</a></b>). This timing setup helps to capture more realistic matchmaking dynamics through different levels of detail.
 </p>  
 
-<img class="img-fluid" src="https://raw.githubusercontent.com/Yifei-Yu-UTwente/SCCE/master/img/posts/Post7_Interaction.jpg">
+<img class="img-fluid" src="https://raw.githubusercontent.com/Yifei-Yu-UTwente/SCCE/master/img/posts/Post7_Logic.png">
 <span class="caption text-muted">Fig.3. Matchmaking logic: (A) -- Matchmaking logic comparison where hubs provide extra waiting time and allow larger transportation distances; (B) -- Opposite matchmaking order at three shearing layers; (C) -- Visualisation of project agents at GIS points in the modelling context </span>
 
 <p>

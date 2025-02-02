@@ -5,6 +5,265 @@ date: 2025-01-25 00:00:00 -1000
 background: '/img/posts/Post8_Background.jpg'
 ---
 
-<p>
-Hello, dear participants! First, I would like to extend my sincere thanks to all of you. Thank you so much for attending the validation sessions and offering your feedback.
-</p>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Industrial Symbiosis Matchmaking</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background-color: #f4f4f4;
+        }
+        .container {
+            max-width: 1200px;
+            margin: auto;
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+        h1, h2 {
+            text-align: center;
+        }
+        .block {
+            background-color: #e3e3e3; /* Darker grey background */
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+        }
+        .resource-selection, .criteria, .matchmaking-map {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+        button {
+            margin-top: 10px;
+            padding: 10px;
+            background: #007bff;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        .delete-btn {
+            margin-left: 10px;
+            padding: 5px;
+            background: #ff4d4d;
+            color: white;
+            border: none;
+            border-radius: 3px;
+            cursor: pointer;
+        }
+        canvas {
+            margin-top: 20px;
+            width: 100%;
+            max-height: 400px;
+        }
+        .resource-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 10px;
+        }
+        .resource-item input {
+            width: 50px;
+            padding: 5px;
+            border: 1px solid #ccc;
+            border-radius: 3px;
+        }
+        .criteria-score {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+        .resource-list {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>IS Matchmaking Tool</h1>
+        
+
+        <!-- Resource Block -->
+        <div class="block">
+            <div class="resource-selection">
+                <h2>Resources</h2>
+                <select id="preset-resources">
+                    <option value="">Select a preset resource</option>
+                    <option value="Waste Heat">Waste Heat</option>
+                    <option value="Scrap Metal">Scrap Metal</option>
+                    <option value="Chemical Byproduct">Chemical Byproduct</option>
+                    <option value="Industrial Water">Industrial Water</option>
+                </select>
+                <input type="text" id="new-resource" placeholder="Or add a new resource">
+                <button onclick="addResource()">Add Resource</button>
+                <div class="resource-list" id="resource-list"></div>
+            </div>
+        </div>
+
+        <!-- Criteria Block -->
+        <div class="block">
+            <div class="criteria" id="criteria-list">
+                <h2>Criteria</h2>
+            </div>
+            <input type="text" id="new-criterion" placeholder="Add new criterion">
+            <button onclick="addCriterion()">Add Criterion</button>
+        </div>
+
+        <!-- Matchmaking Map Block -->
+        <div class="block">
+            <div class="matchmaking-map">
+                <h2>Matchmaking Map</h2>
+                <button onclick="updateMap()">Update Map</button>
+                <canvas id="matchmakingChart"></canvas>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let criteria = ["Distance", "Availability", "Market Demand", "Price", "Technical Cleanness"];
+        let resources = [];
+
+        // Render criteria list
+        function renderCriteria() {
+            const criteriaList = document.getElementById("criteria-list");
+            criteriaList.innerHTML = '<h2>Criteria</h2>';
+            criteria.forEach((criterion, index) => {
+                const div = document.createElement("div");
+                div.innerHTML = `<label>${criterion}: <input type="number" id="criterion-${index}" min="0" max="10" value="5"></label>
+                                <button class="delete-btn" onclick="removeCriterion(${index})">Delete</button>`;
+                criteriaList.appendChild(div);
+            });
+        }
+
+        // Add a new criterion
+        function addCriterion() {
+            const newCriterion = document.getElementById("new-criterion").value.trim();
+            if (newCriterion) {
+                criteria.push(newCriterion);
+                document.getElementById("new-criterion").value = "";
+                renderCriteria();
+                updateResourcesWithNewCriterion();
+            }
+        }
+
+        // Remove a criterion
+        function removeCriterion(index) {
+            criteria.splice(index, 1);
+            renderCriteria();
+            updateResourcesAfterCriterionRemoval(index);
+        }
+
+        // Add a new resource
+        function addResource() {
+            let resourceName = document.getElementById("preset-resources").value || document.getElementById("new-resource").value.trim();
+            if (!resourceName) return;
+
+            const list = document.getElementById("resource-list");
+            const item = document.createElement("div");
+            item.className = "resource-item";
+
+            // Add resource name
+            const nameSpan = document.createElement("span");
+            nameSpan.textContent = resourceName;
+            item.appendChild(nameSpan);
+
+            // Add input fields for each criterion
+            const scores = [];
+            criteria.forEach((criterion, index) => {
+                const scoreDiv = document.createElement("div");
+                scoreDiv.className = "criteria-score";
+                const criterionValue = document.getElementById(`criterion-${index}`).value;
+                scoreDiv.innerHTML = `<span>${criterion}:</span> <input type="number" min="0" max="10" value="${criterionValue}">`;
+                item.appendChild(scoreDiv);
+                scores.push(parseInt(criterionValue, 10));
+            });
+
+            // Add delete button
+            const deleteBtn = document.createElement("button");
+            deleteBtn.textContent = "Delete";
+            deleteBtn.className = "delete-btn";
+            deleteBtn.onclick = function () {
+                list.removeChild(item);
+                resources = resources.filter(r => r.name !== resourceName);
+            };
+            item.appendChild(deleteBtn);
+
+            list.appendChild(item);
+
+            // Add resource to the data array
+            resources.push({ name: resourceName, scores });
+            document.getElementById("new-resource").value = "";
+        }
+
+        // Update resources when a new criterion is added
+        function updateResourcesWithNewCriterion() {
+            const newCriterionValue = document.getElementById(`criterion-${criteria.length - 1}`).value;
+            resources.forEach(resource => {
+                resource.scores.push(parseInt(newCriterionValue, 10));
+            });
+        }
+
+        // Update resources when a criterion is removed
+        function updateResourcesAfterCriterionRemoval(index) {
+            resources.forEach(resource => {
+                resource.scores.splice(index, 1);
+            });
+        }
+
+        // Update the matchmaking map
+        function updateMap() {
+            const ctx = document.getElementById("matchmakingChart").getContext("2d");
+            if (window.chartInstance) {
+                window.chartInstance.destroy();
+            }
+
+            // Collect scores from input fields
+            const resourceItems = document.querySelectorAll("#resource-list .resource-item");
+            resources = [];
+            resourceItems.forEach((item, index) => {
+                const resourceName = item.querySelector("span").textContent;
+                const inputs = item.querySelectorAll("input");
+                const scores = Array.from(inputs).map(input => parseInt(input.value, 10));
+                resources.push({ name: resourceName, scores });
+            });
+
+            window.chartInstance = new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: criteria,
+                    datasets: resources.map((res, index) => ({
+                        label: res.name,
+                        data: res.scores,
+                        borderColor: `hsl(${index * 60}, 70%, 50%)`,
+                        fill: false,
+                        tension: 0.1
+                    }))
+                },
+                options: {
+                    responsive: true,
+                    indexAxis: 'y',
+                    scales: {
+                        x: {
+                            beginAtZero: true,
+                            max: 10
+                        }
+                    }
+                }
+            });
+        }
+
+        // Initial render
+        renderCriteria();
+    </script>
+</body>
+</html>

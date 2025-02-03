@@ -129,12 +129,14 @@ date: 2025-02-01 00:00:00 -1000
             background-size: var(--background-size, 0%) 100%;
             background-repeat: no-repeat;
             border-radius: 5px;
+            height: 8px; /* Ensure consistent height */
         }
         .slider::-moz-range-track {
             background: linear-gradient(to right, #007bff, #007bff);
             background-size: var(--background-size, 0%) 100%;
             background-repeat: no-repeat;
             border-radius: 5px;
+            height: 8px; /* Ensure consistent height */
         }
         .scale-boundary {
             display: flex;
@@ -162,6 +164,9 @@ date: 2025-02-01 00:00:00 -1000
         .criteria-slider-container input[type="range"] {
             flex: 1;
             max-width: 80%; /* Longer sliders */
+        }
+        .criteria-slider-container .delete-btn {
+            margin-left: auto; /* Align delete button to the right */
         }
         .title {
             text-align: center;
@@ -195,6 +200,9 @@ date: 2025-02-01 00:00:00 -1000
             }
             .criteria-slider-container input[type="range"] {
                 max-width: 100%;
+            }
+            .criteria-slider-container .delete-btn {
+                margin-left: 0; /* Reset margin for smaller screens */
             }
         }
     </style>

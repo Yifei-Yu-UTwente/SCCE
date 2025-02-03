@@ -31,72 +31,419 @@ date: 2025-02-01 00:00:00 -1000
             color: #333;
         }
         .block {
-            background-color: #e0e0e0;
+            background-color: #e0e0e0; /* Light grey background */
             padding: 20px;
             border-radius: 8px;
             margin-bottom: 20px;
+        }
+        .resource-selection, .criteria, .matchmaking-map {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+        button {
+            margin-top: 10px;
+            padding: 10px;
+            background: #555; /* Dark grey */
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        .delete-btn {
+            margin-left: 10px;
+            padding: 5px;
+            background: #777; /* Medium grey */
+            color: white;
+            border: none;
+            border-radius: 3px;
+            cursor: pointer;
+        }
+        canvas {
+            margin-top: 20px;
+            width: 100%;
+            max-height: 400px;
+            background-color: #f0f0f0; /* Light grey */
+            border-radius: 5px;
+        }
+        .resource-item {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            margin-bottom: 10px;
+            padding: 10px;
+            background-color: #d0d0d0; /* Medium grey */
+            border-radius: 5px;
+        }
+        .resource-item span {
+            font-weight: bold; /* Bold font for resource name */
+        }
+        .criteria-score {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .resource-list {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            max-height: 300px;
+            overflow-y: auto;
+            padding: 10px;
+            background-color: #d0d0d0; /* Medium grey */
+            border-radius: 5px;
+        }
+        .slider-container {
+            display: flex;
+            align-items: center;
+            gap: 10px;
         }
         .slider {
             flex: 1;
             -webkit-appearance: none;
             appearance: none;
             height: 8px;
-            background: linear-gradient(to right, #007bff 0%, #007bff 50%, #ddd 50%, #ddd 100%);
+            background: #ddd;
             outline: none;
             border-radius: 5px;
-            transition: background 0.3s;
+            position: relative;
         }
         .slider::-webkit-slider-thumb {
             -webkit-appearance: none;
             appearance: none;
             width: 20px;
             height: 20px;
-            background: #007bff;
+            background: #007bff; /* Blue */
             cursor: pointer;
             border-radius: 50%;
         }
         .slider::-moz-range-thumb {
             width: 20px;
             height: 20px;
-            background: #007bff;
+            background: #007bff; /* Blue */
             cursor: pointer;
             border-radius: 50%;
+        }
+        .slider::-webkit-slider-runnable-track {
+            background: linear-gradient(to right, #007bff, #007bff);
+            background-size: var(--background-size, 0%) 100%;
+            background-repeat: no-repeat;
+            border-radius: 5px;
+        }
+        .slider::-moz-range-track {
+            background: linear-gradient(to right, #007bff, #007bff);
+            background-size: var(--background-size, 0%) 100%;
+            background-repeat: no-repeat;
+            border-radius: 5px;
+        }
+        .scale-boundary {
+            display: flex;
+            gap: 10px;
+            margin-top: 10px;
+        }
+        .scale-boundary input {
+            width: 60px;
+            padding: 5px;
+            border: 1px solid #ccc;
+            border-radius: 3px;
+            background-color: #f0f0f0; /* Light grey */
+        }
+        .score-value {
+            width: 30px;
+            text-align: center;
+            color: #333; /* Dark grey */
+        }
+        .criteria-slider-container {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            width: 100%;
+        }
+        .criteria-slider-container input[type="range"] {
+            flex: 1;
+            max-width: 80%; /* Longer sliders */
+        }
+        .title {
+            text-align: center;
+            margin-bottom: 10px;
+        }
+        .subtitle {
+            text-align: center;
+            font-style: italic;
+            color: #555;
+            margin-bottom: 20px;
+        }
+
+        /* Responsive Design for Phone View */
+        @media (max-width: 600px) {
+            .container {
+                padding: 10px;
+            }
+            .block {
+                padding: 15px;
+            }
+            .slider-container {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            .slider {
+                width: 100%;
+            }
+            .criteria-slider-container {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            .criteria-slider-container input[type="range"] {
+                max-width: 100%;
+            }
         }
     </style>
 </head>
 <body>
     <div class="container">
-        <h1>QuickMatch</h1>
+        <h1 class="title">QuickMatch</h1>
+        <p class="subtitle">Version 0, February 2025, Yifei Yu</p>
+
+        <!-- Resource Block -->
         <div class="block">
-            <h2>Resources</h2>
-            <input type="text" id="new-resource" placeholder="Add a new resource">
-            <button onclick="addResource()">Add Resource</button>
-            <div id="resource-list"></div>
+            <div class="resource-selection">
+                <h2>Resources</h2>
+                <select id="preset-resources">
+                    <option value="">Select a preset resource</option>
+                    <option value="Waste Heat">Waste Heat</option>
+                    <option value="Scrap Metal">Scrap Metal</option>
+                    <option value="Chemical Byproduct">Chemical Byproduct</option>
+                    <option value="Industrial Water">Industrial Water</option>
+                </select>
+                <input type="text" id="new-resource" placeholder="Or add a new resource">
+                <button onclick="addResource()">Add Resource</button>
+                <div class="resource-list" id="resource-list"></div>
+            </div>
+        </div>
+
+        <!-- Criteria Block -->
+        <div class="block">
+            <div class="criteria" id="criteria-list">
+                <h2>Criteria</h2>
+                <div class="scale-boundary">
+                    <label>Min: <input type="number" id="min-scale" value="0"></label>
+                    <label>Max: <input type="number" id="max-scale" value="10"></label>
+                </div>
+            </div>
+            <input type="text" id="new-criterion" placeholder="Add new criterion">
+            <button onclick="addCriterion()">Add Criterion</button>
+        </div>
+
+        <!-- Matchmaking Map Block -->
+        <div class="block">
+            <div class="matchmaking-map">
+                <h2>Matchmaking Map</h2>
+                <button onclick="updateMap()">Update Map</button>
+                <canvas id="matchmakingChart"></canvas>
+            </div>
         </div>
     </div>
+
     <script>
+        let criteria = ["Distance", "Availability", "Market Demand", "Price", "Technical Cleanness"];
+        let resources = [];
+        let minScale = 0;
+        let maxScale = 10;
+
+        // Render criteria list
+        function renderCriteria() {
+            const criteriaList = document.getElementById("criteria-list");
+            criteriaList.innerHTML = '<h2>Criteria</h2>';
+            criteriaList.innerHTML += `
+                <div class="scale-boundary">
+                    <label>Min: <input type="number" id="min-scale" value="${minScale}"></label>
+                    <label>Max: <input type="number" id="max-scale" value="${maxScale}"></label>
+                </div>
+            `;
+            criteria.forEach((criterion, index) => {
+                const div = document.createElement("div");
+                div.className = "criteria-slider-container";
+                div.innerHTML = `
+                    <label>${criterion}:</label>
+                    <input type="range" id="criterion-${index}" min="${minScale}" max="${maxScale}" value="${(minScale + maxScale) / 2}">
+                    <span class="score-value">${(minScale + maxScale) / 2}</span>
+                    <button class="delete-btn" onclick="removeCriterion(${index})">Delete</button>
+                `;
+                // Update score value when slider changes
+                const slider = div.querySelector("input[type='range']");
+                const scoreValue = div.querySelector(".score-value");
+                slider.oninput = function () {
+                    scoreValue.textContent = this.value;
+                    updateSliderFill(this);
+                };
+                updateSliderFill(slider); // Initialize slider fill
+                criteriaList.appendChild(div);
+            });
+
+            // Update scale boundaries dynamically
+            document.getElementById("min-scale").oninput = function () {
+                minScale = parseInt(this.value, 10);
+                updateSliders();
+            };
+            document.getElementById("max-scale").oninput = function () {
+                maxScale = parseInt(this.value, 10);
+                updateSliders();
+            };
+        }
+
+        // Update slider fill
+        function updateSliderFill(slider) {
+            const value = ((slider.value - slider.min) / (slider.max - slider.min)) * 100;
+            slider.style.setProperty("--background-size", `${value}%`);
+        }
+
+        // Update sliders when scale boundaries change
+        function updateSliders() {
+            criteria.forEach((criterion, index) => {
+                const slider = document.getElementById(`criterion-${index}`);
+                slider.min = minScale;
+                slider.max = maxScale;
+                updateSliderFill(slider);
+            });
+        }
+
+        // Add a new criterion
+        function addCriterion() {
+            const newCriterion = document.getElementById("new-criterion").value.trim();
+            if (newCriterion) {
+                criteria.push(newCriterion);
+                document.getElementById("new-criterion").value = "";
+                renderCriteria();
+                updateResourcesWithNewCriterion();
+            }
+        }
+
+        // Remove a criterion
+        function removeCriterion(index) {
+            criteria.splice(index, 1);
+            renderCriteria();
+            updateResourcesAfterCriterionRemoval(index);
+        }
+
+        // Add a new resource
         function addResource() {
-            const name = document.getElementById("new-resource").value.trim();
-            if (!name) return;
-            
+            let resourceName = document.getElementById("preset-resources").value || document.getElementById("new-resource").value.trim();
+            if (!resourceName) return;
+
             const list = document.getElementById("resource-list");
             const item = document.createElement("div");
-            item.innerHTML = `
-                <span>${name}</span>
-                <input type="range" class="slider" min="0" max="10" value="5" oninput="updateSlider(this)">
-                <span class="score-value">5</span>
-                <button onclick="this.parentElement.remove()">Delete</button>
-            `;
+            item.className = "resource-item";
+
+            // Add resource name
+            const nameSpan = document.createElement("span");
+            nameSpan.textContent = resourceName;
+            item.appendChild(nameSpan);
+
+            // Add sliders for each criterion
+            const scores = [];
+            criteria.forEach((criterion, index) => {
+                const sliderContainer = document.createElement("div");
+                sliderContainer.className = "slider-container";
+                const criterionValue = document.getElementById(`criterion-${index}`).value;
+                sliderContainer.innerHTML = `
+                    <label>${criterion}:</label>
+                    <input type="range" class="slider" min="${minScale}" max="${maxScale}" value="${criterionValue}">
+                    <span class="score-value">${criterionValue}</span>
+                `;
+                // Update score value when slider changes
+                const slider = sliderContainer.querySelector(".slider");
+                const scoreValue = sliderContainer.querySelector(".score-value");
+                slider.oninput = function () {
+                    scoreValue.textContent = this.value;
+                    updateSliderFill(this);
+                };
+                updateSliderFill(slider); // Initialize slider fill
+                item.appendChild(sliderContainer);
+                scores.push(parseInt(criterionValue, 10));
+            });
+
+            // Add delete button
+            const deleteBtn = document.createElement("button");
+            deleteBtn.textContent = "Delete";
+            deleteBtn.className = "delete-btn";
+            deleteBtn.onclick = function () {
+                list.removeChild(item);
+                resources = resources.filter(r => r.name !== resourceName);
+            };
+            item.appendChild(deleteBtn);
+
             list.appendChild(item);
+
+            // Add resource to the data array
+            resources.push({ name: resourceName, scores });
             document.getElementById("new-resource").value = "";
         }
 
-        function updateSlider(slider) {
-            const value = slider.value;
-            slider.style.background = `linear-gradient(to right, #007bff 0%, #007bff ${value * 10}%, #ddd ${value * 10}%, #ddd 100%)`;
-            slider.nextElementSibling.textContent = value;
+        // Update resources when a new criterion is added
+        function updateResourcesWithNewCriterion() {
+            const newCriterionValue = document.getElementById(`criterion-${criteria.length - 1}`).value;
+            resources.forEach(resource => {
+                resource.scores.push(parseInt(newCriterionValue, 10));
+            });
         }
+
+        // Update resources when a criterion is removed
+        function updateResourcesAfterCriterionRemoval(index) {
+            resources.forEach(resource => {
+                resource.scores.splice(index, 1);
+            });
+        }
+
+        // Update the matchmaking map
+        function updateMap() {
+            const ctx = document.getElementById("matchmakingChart").getContext("2d");
+            if (window.chartInstance) {
+                window.chartInstance.destroy();
+            }
+
+            // Collect scores from sliders
+            const resourceItems = document.querySelectorAll("#resource-list .resource-item");
+            resources = [];
+            resourceItems.forEach((item, index) => {
+                const resourceName = item.querySelector("span").textContent;
+                const sliders = item.querySelectorAll(".slider");
+                const scores = Array.from(sliders).map(slider => parseInt(slider.value, 10));
+                resources.push({ name: resourceName, scores });
+            });
+
+            // Vibrant colour palette for the chart
+            const colours = [
+                "#FF6384", "#36A2EB", "#FFCE56", "#4BC0C0", "#9966FF",
+                "#FF9F40", "#C9CBCF", "#FFCD56", "#4D5360", "#F7464A"
+            ];
+
+            window.chartInstance = new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: criteria,
+                    datasets: resources.map((res, index) => ({
+                        label: res.name,
+                        data: res.scores,
+                        borderColor: colours[index % colours.length], /* Vibrant colours */
+                        fill: false,
+                        tension: 0.1
+                    }))
+                },
+                options: {
+                    responsive: true,
+                    indexAxis: 'y',
+                    scales: {
+                        x: {
+                            beginAtZero: true,
+                            max: maxScale
+                        }
+                    }
+                }
+            });
+        }
+
+        // Initial render
+        renderCriteria();
     </script>
 </body>
 </html>
-

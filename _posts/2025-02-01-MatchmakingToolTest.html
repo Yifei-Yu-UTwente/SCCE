@@ -345,13 +345,13 @@ date: 2025-02-01 00:00:00 -1000
 
         // Preload resources with random scores
         function preloadResources() {
-            const presetResources = ["Waste Heat", "Scrap Metal", "Chemical Byproduct", "Industrial Water"];
-            presetResources.forEach(resource => {
-                const scores = criteria.map(() => Math.floor(Math.random() * (maxScale - minScale + 1)) + minScale);
-                resources.push({ name: resource, scores });
+           const presetResources = ["Waste Heat", "Scrap Metal", "Chemical Byproduct", "Industrial Water"];
+            presetResources.forEach(name => {
+                const scores = criteria.map(() => 
+                    Math.floor(Math.random() * (maxScale - minScale + 1)) + minScale
+                );
+                addResource(name, scores);
             });
-            renderResourceList();
-            updateMap(); // Update the map with preloaded resources
         }
 
         // Render criteria list

@@ -430,10 +430,25 @@ date: 2025-02-01 00:00:00 -1000
         }
 
         // Add a new resource
-        function addResource() {
-            let resourceName = document.getElementById("preset-resources").value || document.getElementById("new-resource").value.trim();
-            if (!resourceName) return;
-
+         function addResource(resourceNameParam, scoresParam) {
+            let resourceName, scores;
+            
+            if (resourceNameParam && scoresParam) {
+                // Use provided parameters
+                resourceName = resourceNameParam;
+                scores = scoresParam;
+            } else {
+                // Read from UI inputs
+                resourceName = document.getElementById("preset-resources").value || 
+                              document.getElementById("new-resource").value.trim();
+                if (!resourceName) return;
+                
+                scores = criteria.map((_, index) => 
+                    parseInt(document.getElementById(`criterion-${index}`).value, 10)
+                );
+            }
+            
+             // Create resource item
             const list = document.getElementById("resource-list");
             const item = document.createElement("div");
             item.className = "resource-item";

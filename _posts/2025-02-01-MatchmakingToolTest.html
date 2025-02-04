@@ -345,13 +345,13 @@ date: 2025-02-01 00:00:00 -1000
 
         // Preload resources with random scores
         function preloadResources() {
-           const presetResources = ["Waste Heat", "Scrap Metal", "Chemical Byproduct", "Industrial Water"];
-            presetResources.forEach(name => {
-                const scores = criteria.map(() => 
-                    Math.floor(Math.random() * (maxScale - minScale + 1)) + minScale
-                );
-                addResource(name, scores);
+            const presetResources = ["Waste Heat", "Scrap Metal", "Chemical Byproduct", "Industrial Water"];
+            presetResources.forEach(resource => {
+                const scores = criteria.map(() => Math.floor(Math.random() * (maxScale - minScale + 1)) + minScale);
+                resources.push({ name: resource, scores });
             });
+            renderResourceList();
+            updateMap(); // Update the map with preloaded resources
         }
 
         // Render criteria list
@@ -430,25 +430,10 @@ date: 2025-02-01 00:00:00 -1000
         }
 
         // Add a new resource
-         function addResource(resourceNameParam, scoresParam) {
-            let resourceName, scores;
-            
-            if (resourceNameParam && scoresParam) {
-                // Use provided parameters
-                resourceName = resourceNameParam;
-                scores = scoresParam;
-            } else {
-                // Read from UI inputs
-                resourceName = document.getElementById("preset-resources").value || 
-                              document.getElementById("new-resource").value.trim();
-                if (!resourceName) return;
-                
-                scores = criteria.map((_, index) => 
-                    parseInt(document.getElementById(`criterion-${index}`).value, 10)
-                );
-            }
-            
-             // Create resource item
+        function addResource() {
+            let resourceName = document.getElementById("preset-resources").value || document.getElementById("new-resource").value.trim();
+            if (!resourceName) return;
+
             const list = document.getElementById("resource-list");
             const item = document.createElement("div");
             item.className = "resource-item";
@@ -570,7 +555,7 @@ date: 2025-02-01 00:00:00 -1000
             document.getElementById("modal").style.display = "none";
         }
 
-        // Initial load
+        // Initial render
         renderCriteria();
         preloadResources();
     </script>

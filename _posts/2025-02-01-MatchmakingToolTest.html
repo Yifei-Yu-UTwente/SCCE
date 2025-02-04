@@ -555,8 +555,10 @@ date: 2025-02-01 00:00:00 -1000
             document.getElementById("modal").style.display = "none";
         }
 
-        // Initial render
+        // Initial load
         renderCriteria();
+        initializeSampleResources();
+        updateMap(); // Auto-update map on first load
     </script>
 </body>
 </html>

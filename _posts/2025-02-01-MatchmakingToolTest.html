@@ -24,7 +24,6 @@ date: 2025-02-01 00:00:00 -1000
             padding: 20px;
             border-radius: 8px;
             box-shadow: 0 0 10px rgba(0,0,0,0.1);
-            text-align: center; /* Center-align content */
         }
         h1, h2 {
             text-align: center;
@@ -41,9 +40,30 @@ date: 2025-02-01 00:00:00 -1000
             flex-direction: column;
             gap: 10px;
         }
-        button {
-            display: block; /* Make the button a block element */
-            margin: 10px auto; /* Center the button horizontally */
+       .how-it-works-btn {
+            width: 40px;
+            height: 40px;
+            background: black;
+            color: white;
+            border-radius: 50%;
+            font-size: 18px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            position: relative;
+        }
+        .how-it-works-btn:hover::after {
+            content: "How it works?";
+            position: absolute;
+            top: 50px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: black;
+            color: white;
+            padding: 5px 10px;
+            border-radius: 5px;
+            white-space: nowrap;
         }
         .delete-btn {
             margin-left: 10px;

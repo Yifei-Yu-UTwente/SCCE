@@ -349,9 +349,53 @@ date: 2025-02-01 00:00:00 -1000
             presetResources.forEach(resource => {
                 const scores = criteria.map(() => Math.floor(Math.random() * (maxScale - minScale + 1)) + minScale);
                 resources.push({ name: resource, scores });
+                addResourceToDOM(resource, scores);
             });
-            renderResourceList();
             updateMap(); // Update the map with preloaded resources
+        }
+
+        // Add a resource to the DOM
+        function addResourceToDOM(resourceName, scores) {
+            const list = document.getElementById("resource-list");
+            const item = document.createElement("div");
+            item.className = "resource-item";
+
+            // Add resource name
+            const nameSpan = document.createElement("span");
+            nameSpan.textContent = resourceName;
+            item.appendChild(nameSpan);
+
+            // Add sliders for each criterion
+            scores.forEach((score, index) => {
+                const sliderContainer = document.createElement("div");
+                sliderContainer.className = "slider-container";
+                sliderContainer.innerHTML = `
+                    <label>${criteria[index]}:</label>
+                    <input type="range" class="slider" min="${minScale}" max="${maxScale}" value="${score}">
+                    <span class="score-value">${score}</span>
+                `;
+                // Update score value when slider changes
+                const slider = sliderContainer.querySelector(".slider");
+                const scoreValue = sliderContainer.querySelector(".score-value");
+                slider.oninput = function () {
+                    scoreValue.textContent = this.value;
+                    updateSliderFill(this);
+                };
+                updateSliderFill(slider); // Initialize slider fill
+                item.appendChild(sliderContainer);
+            });
+
+            // Add delete button
+            const deleteBtn = document.createElement("button");
+            deleteBtn.textContent = "Delete";
+            deleteBtn.className = "delete-btn";
+            deleteBtn.onclick = function () {
+                list.removeChild(item);
+                resources = resources.filter(r => r.name !== resourceName);
+            };
+            item.appendChild(deleteBtn);
+
+            list.appendChild(item);
         }
 
         // Render criteria list
@@ -434,52 +478,9 @@ date: 2025-02-01 00:00:00 -1000
             let resourceName = document.getElementById("preset-resources").value || document.getElementById("new-resource").value.trim();
             if (!resourceName) return;
 
-            const list = document.getElementById("resource-list");
-            const item = document.createElement("div");
-            item.className = "resource-item";
-
-            // Add resource name
-            const nameSpan = document.createElement("span");
-            nameSpan.textContent = resourceName;
-            item.appendChild(nameSpan);
-
-            // Add sliders for each criterion
-            const scores = [];
-            criteria.forEach((criterion, index) => {
-                const sliderContainer = document.createElement("div");
-                sliderContainer.className = "slider-container";
-                const criterionValue = document.getElementById(`criterion-${index}`).value;
-                sliderContainer.innerHTML = `
-                    <label>${criterion}:</label>
-                    <input type="range" class="slider" min="${minScale}" max="${maxScale}" value="${criterionValue}">
-                    <span class="score-value">${criterionValue}</span>
-                `;
-                // Update score value when slider changes
-                const slider = sliderContainer.querySelector(".slider");
-                const scoreValue = sliderContainer.querySelector(".score-value");
-                slider.oninput = function () {
-                    scoreValue.textContent = this.value;
-                    updateSliderFill(this);
-                };
-                updateSliderFill(slider); // Initialize slider fill
-                item.appendChild(sliderContainer);
-                scores.push(parseInt(criterionValue, 10));
-            });
-
-            // Add delete button
-            const deleteBtn = document.createElement("button");
-            deleteBtn.textContent = "Delete";
-            deleteBtn.className = "delete-btn";
-            deleteBtn.onclick = function () {
-                list.removeChild(item);
-                resources = resources.filter(r => r.name !== resourceName);
-            };
-            item.appendChild(deleteBtn);
-
-            list.appendChild(item);
-
-            // Add resource to the data array
+            const scores = criteria.map(() => Math.floor(Math.random() * (maxScale - minScale + 1)) + minScale);
             resources.push({ name: resourceName, scores });
+            addResourceToDOM(resourceName, scores);
             document.getElementById("new-resource").value = "";
         }
 
@@ -557,7 +558,7 @@ date: 2025-02-01 00:00:00 -1000
 
         // Initial render
         renderCriteria();
-        preloadResources();
+        preloadResources(); // Preload resources with random scores
     </script>
 </body>
 </html>

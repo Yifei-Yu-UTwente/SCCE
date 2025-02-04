@@ -24,6 +24,7 @@ date: 2025-02-01 00:00:00 -1000
             padding: 20px;
             border-radius: 8px;
             box-shadow: 0 0 10px rgba(0,0,0,0.1);
+            position: relative; /* For positioning the "How it works?" button */
         }
         h1, h2 {
             text-align: center;
@@ -40,30 +41,14 @@ date: 2025-02-01 00:00:00 -1000
             flex-direction: column;
             gap: 10px;
         }
-       .how-it-works-btn {
-            width: 40px;
-            height: 40px;
-            background: black;
+        button {
+            margin-top: 10px;
+            padding: 10px;
+            background: #000; /* Black */
             color: white;
-            border-radius: 50%;
-            font-size: 18px;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            cursor: pointer;
-            position: relative;
-        }
-        .how-it-works-btn:hover::after {
-            content: "How it works?";
-            position: absolute;
-            top: 50px;
-            left: 50%;
-            transform: translateX(-50%);
-            background: black;
-            color: white;
-            padding: 5px 10px;
+            border: none;
             border-radius: 5px;
-            white-space: nowrap;
+            cursor: pointer;
         }
         .delete-btn {
             margin-left: 10px;
@@ -122,6 +107,9 @@ date: 2025-02-01 00:00:00 -1000
             outline: none;
             border-radius: 5px;
             position: relative;
+        }
+        .slider:hover {
+            background: #ccc; /* Darker color on hover (resource block) */
         }
         .slider::-webkit-slider-thumb {
             -webkit-appearance: none;
@@ -182,7 +170,8 @@ date: 2025-02-01 00:00:00 -1000
         }
         .criteria-slider-container input[type="range"] {
             flex: 1;
-            max-width: 80%; /* Longer sliders */
+            max-width: 100%; /* Full width */
+            cursor: pointer; /* Pointer cursor on hover */
         }
         .criteria-slider-container .delete-btn {
             margin-left: auto; /* Align delete button to the right */
@@ -198,12 +187,40 @@ date: 2025-02-01 00:00:00 -1000
             margin-bottom: 20px;
         }
 
+        /* "How it works?" Button */
+        .how-it-works-btn {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            width: 40px;
+            height: 40px;
+            background-color: #000; /* Black */
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 20px;
+            cursor: pointer;
+            border: none;
+        }
+        .how-it-works-btn:hover::after {
+            content: "How it works?";
+            position: absolute;
+            top: 50px;
+            right: 0;
+            background-color: #333;
+            color: white;
+            padding: 5px 10px;
+            border-radius: 5px;
+            font-size: 14px;
+            white-space: nowrap;
+        }
+
         /* Popup Modal */
         .modal {
             display: none;
-            position: {
-         margin-left: auto
-        };
+            position: fixed;
             top: 0;
             left: 0;
             width: 100%;
@@ -265,7 +282,7 @@ date: 2025-02-01 00:00:00 -1000
     <div class="container">
         <h1 class="title">QuickMatch</h1>
         <p class="subtitle">Version 0, February 2025, Yifei Yu</p>
-        <button onclick="openModal()">How it works?</button>
+        <button class="how-it-works-btn" onclick="openModal()">?</button>
 
         <!-- Resource Block -->
         <div class="block">
@@ -325,6 +342,17 @@ date: 2025-02-01 00:00:00 -1000
         let resources = [];
         let minScale = 0;
         let maxScale = 10;
+
+        // Preload resources with random scores
+        function preloadResources() {
+            const presetResources = ["Waste Heat", "Scrap Metal", "Chemical Byproduct", "Industrial Water"];
+            presetResources.forEach(resource => {
+                const scores = criteria.map(() => Math.floor(Math.random() * (maxScale - minScale + 1)) + minScale);
+                resources.push({ name: resource, scores });
+            });
+            renderResourceList();
+            updateMap(); // Update the map with preloaded resources
+        }
 
         // Render criteria list
         function renderCriteria() {

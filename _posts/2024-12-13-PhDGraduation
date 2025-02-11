@@ -8,3 +8,6 @@ background: 'img/posts/PhDGraduation.jpg'
 <p>
 Hi, all! I am excited to inform you that I graduated with a Cum Laude at the University of Twente. Everything went very well! You can find my thesis via: <a href="https://doi.org/10.3990/1.9789036563970">https://doi.org/10.3990/1.9789036563970</a>
 </p>
+
+<img class="img-fluid" src="https://raw.githubusercontent.com/Yifei-Yu-UTwente/SCCE/master/img/posts/PhDGraduation_1.jpg">
+<span class="caption text-muted">Figure 1: Me and my thesis book</span>

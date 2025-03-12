@@ -11,6 +11,20 @@ date: 2025-02-01 00:00:00 -1000
     <title>QuickMatch</title>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <style>
+        
+    /* Simulation Button */
+.simulation-btn {
+    margin-top: 10px;
+    padding: 10px;
+    background: #007bff; /* Blue */
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+.simulation-btn.active {
+    background: #28a745; /* Green when active */
+}
         body {
             font-family: Arial, sans-serif;
             margin: 0;
@@ -314,17 +328,18 @@ date: 2025-02-01 00:00:00 -1000
             <button onclick="addCriterion()">Add Criterion</button>
         </div>
 
-        <!-- Matchmaking Map Block -->
+    <!-- Matchmaking Map Block -->
         <div class="block">
             <div class="matchmaking-map">
                 <h2>Matchmaking Map</h2>
                 <button onclick="updateMap()">Update Map</button>
+                <button id="simulation-btn" class="simulation-btn" onclick="toggleSimulation()">Enable Simulation</button>
                 <canvas id="matchmakingChart"></canvas>
             </div>
         </div>
     </div>
 
-    <!-- Popup Modal -->
+   <!-- Popup Modal -->
     <div id="modal" class="modal">
         <div class="modal-content">
             <h2>How it works?</h2>
@@ -333,6 +348,7 @@ date: 2025-02-01 00:00:00 -1000
             <p><strong>Customize Scale:</strong> Adjust the "Min" and "Max" values to set the scale boundaries for scoring.</p>
             <p><strong>Score Resources:</strong> Use sliders to assign scores to each resource based on the criteria. The numeric score is displayed next to the slider, and the slider bar fills with blue as the score increases.</p>
             <p><strong>Update Map:</strong> Click the "Update Map" button to refresh the matchmaking map with the latest scores.</p>
+            <p><strong>Simulation:</strong> Toggle the simulation to see the potential effects of using a circularity hub (e.g., increased prices, reduced distances).</p>
             <button onclick="closeModal()">Close</button>
         </div>
     </div>
@@ -342,6 +358,7 @@ date: 2025-02-01 00:00:00 -1000
         let resources = [];
         let minScale = 0;
         let maxScale = 10;
+        let isSimulationActive = false; // Track simulation state
 
         // Preload resources with random scores
         function preloadResources() {
@@ -397,7 +414,28 @@ date: 2025-02-01 00:00:00 -1000
 
             list.appendChild(item);
         }
+        
+        // Toggle simulation
+        function toggleSimulation() {
+            isSimulationActive = !isSimulationActive;
+            const simulationBtn = document.getElementById("simulation-btn");
+            simulationBtn.textContent = isSimulationActive ? "Disable Simulation" : "Enable Simulation";
+            simulationBtn.classList.toggle("active", isSimulationActive);
+            updateMap(); // Refresh the map with updated scores
+        }
 
+        // Apply simulation effects to scores
+        function applySimulation(scores) {
+            if (!isSimulationActive) return scores; // Return original scores if simulation is off
+
+            // Simulate effects: Increase Price, Decrease Distance
+            return scores.map((score, index) => {
+                if (criteria[index] === "Price") return Math.min(score + 2, maxScale); // Increase Price
+                if (criteria[index] === "Distance") return Math.max(score - 2, minScale); // Decrease Distance
+                return score; // No change for other criteria
+            });
+        }
+        
         // Render criteria list
         function renderCriteria() {
             const criteriaList = document.getElementById("criteria-list");
@@ -499,53 +537,54 @@ date: 2025-02-01 00:00:00 -1000
             });
         }
 
-        // Update the matchmaking map
-        function updateMap() {
-            const ctx = document.getElementById("matchmakingChart").getContext("2d");
-            if (window.chartInstance) {
-                window.chartInstance.destroy();
-            }
+        // Updated updateMap function to include simulation effects
+    function updateMap() {
+    const ctx = document.getElementById("matchmakingChart").getContext("2d");
+    if (window.chartInstance) {
+        window.chartInstance.destroy();
+    }
 
-            // Collect scores from sliders
-            const resourceItems = document.querySelectorAll("#resource-list .resource-item");
-            resources = [];
-            resourceItems.forEach((item, index) => {
-                const resourceName = item.querySelector("span").textContent;
-                const sliders = item.querySelectorAll(".slider");
-                const scores = Array.from(sliders).map(slider => parseInt(slider.value, 10));
-                resources.push({ name: resourceName, scores });
-            });
+    // Collect scores from sliders
+    const resourceItems = document.querySelectorAll("#resource-list .resource-item");
+    resources = [];
+    resourceItems.forEach((item, index) => {
+        const resourceName = item.querySelector("span").textContent;
+        const sliders = item.querySelectorAll(".slider");
+        const scores = Array.from(sliders).map(slider => parseInt(slider.value, 10));
+        resources.push({ name: resourceName, scores });
+    });
 
-            // Vibrant colour palette for the chart
-            const colours = [
-                "#FF6384", "#36A2EB", "#FFCE56", "#4BC0C0", "#9966FF",
-                "#FF9F40", "#C9CBCF", "#FFCD56", "#4D5360", "#F7464A"
-            ];
+    // Vibrant colour palette for the chart
+    const colours = [
+        "#FF6384", "#36A2EB", "#FFCE56", "#4BC0C0", "#9966FF",
+        "#FF9F40", "#C9CBCF", "#FFCD56", "#4D5360", "#F7464A"
+    ];
 
-            window.chartInstance = new Chart(ctx, {
-                type: 'line',
-                data: {
-                    labels: criteria,
-                    datasets: resources.map((res, index) => ({
-                        label: res.name,
-                        data: res.scores,
-                        borderColor: colours[index % colours.length], /* Vibrant colours */
-                        fill: false,
-                        tension: 0.1
-                    }))
-                },
-                options: {
-                    responsive: true,
-                    indexAxis: 'y',
-                    scales: {
-                        x: {
-                            beginAtZero: true,
-                            max: maxScale
-                        }
-                    }
+    window.chartInstance = new Chart(ctx, {
+        type: 'line',
+        data: {
+            labels: criteria,
+            datasets: resources.map((res, index) => ({
+                label: res.name,
+                data: isSimulationActive ? applySimulation(res.scores) : res.scores,
+                borderColor: colours[index % colours.length], /* Vibrant colours */
+                borderDash: isSimulationActive ? [5, 5] : [], /* Dashed line for simulation */
+                fill: false,
+                tension: 0.1
+            }))
+        },
+        options: {
+            responsive: true,
+            indexAxis: 'y',
+            scales: {
+                x: {
+                    beginAtZero: true,
+                    max: maxScale
                 }
-            });
+            }
         }
+    });
+}
 
         // Modal functions
         function openModal() {

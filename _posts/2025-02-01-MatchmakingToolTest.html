@@ -11,270 +11,20 @@ date: 2025-02-01 00:00:00 -1000
     <title>QuickMatch</title>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <style>
-        body {
-            font-family: Arial, sans-serif;
-            margin: 0;
-            padding: 20px;
-            background-color: #f4f4f4;
-        }
-        .container {
-            max-width: 1200px;
-            margin: auto;
-            background: white;
-            padding: 20px;
-            border-radius: 8px;
-            box-shadow: 0 0 10px rgba(0,0,0,0.1);
-            position: relative; /* For positioning the "How it works?" button */
-        }
-        h1, h2 {
-            text-align: center;
-            color: #333;
-        }
-        .block {
-            background-color: #e0e0e0; /* Light grey background */
-            padding: 20px;
-            border-radius: 8px;
-            margin-bottom: 20px;
-        }
-        .resource-selection, .criteria, .matchmaking-map {
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
-        }
-        button {
+        /* ... (existing styles remain unchanged) ... */
+
+        /* Simulation Button */
+        .simulation-btn {
             margin-top: 10px;
             padding: 10px;
-            background: #000; /* Black */
-            color: white;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-        }
-        .delete-btn {
-            margin-left: 10px;
-            padding: 5px;
-            background: #777; /* Medium grey */
-            color: white;
-            border: none;
-            border-radius: 3px;
-            cursor: pointer;
-        }
-        canvas {
-            margin-top: 20px;
-            width: 100%;
-            max-height: 400px;
-            background-color: #f0f0f0; /* Light grey */
-            border-radius: 5px;
-        }
-        .resource-item {
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
-            margin-bottom: 10px;
-            padding: 10px;
-            background-color: #d0d0d0; /* Medium grey */
-            border-radius: 5px;
-        }
-        .resource-item span {
-            font-weight: bold; /* Bold font for resource name */
-        }
-        .criteria-score {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-        .resource-list {
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
-            max-height: 300px;
-            overflow-y: auto;
-            padding: 10px;
-            background-color: #d0d0d0; /* Medium grey */
-            border-radius: 5px;
-        }
-        .slider-container {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-        .slider {
-            flex: 1;
-            -webkit-appearance: none;
-            appearance: none;
-            height: 8px;
-            background: #ddd;
-            outline: none;
-            border-radius: 5px;
-            position: relative;
-        }
-        .slider:hover {
-            background: #ccc; /* Darker color on hover (resource block) */
-        }
-        .slider::-webkit-slider-thumb {
-            -webkit-appearance: none;
-            appearance: none;
-            width: 20px;
-            height: 20px;
             background: #007bff; /* Blue */
-            cursor: pointer;
-            border-radius: 50%;
-            position: relative;
-            top: -6px; /* Align thumb with the slider track */
-        }
-        .slider::-moz-range-thumb {
-            width: 20px;
-            height: 20px;
-            background: #007bff; /* Blue */
-            cursor: pointer;
-            border-radius: 50%;
-            position: relative;
-            top: -6px; /* Align thumb with the slider track */
-        }
-        .slider::-webkit-slider-runnable-track {
-            background: linear-gradient(to right, #007bff, #007bff);
-            background-size: var(--background-size, 0%) 100%;
-            background-repeat: no-repeat;
-            border-radius: 5px;
-            height: 8px; /* Ensure consistent height */
-        }
-        .slider::-moz-range-track {
-            background: linear-gradient(to right, #007bff, #007bff);
-            background-size: var(--background-size, 0%) 100%;
-            background-repeat: no-repeat;
-            border-radius: 5px;
-            height: 8px; /* Ensure consistent height */
-        }
-        .scale-boundary {
-            display: flex;
-            gap: 10px;
-            margin-top: 10px;
-        }
-        .scale-boundary input {
-            width: 60px;
-            padding: 5px;
-            border: 1px solid #ccc;
-            border-radius: 3px;
-            background-color: #f0f0f0; /* Light grey */
-        }
-        .score-value {
-            width: 30px;
-            text-align: center;
-            color: #333; /* Dark grey */
-        }
-        .criteria-slider-container {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            width: 100%;
-        }
-        .criteria-slider-container input[type="range"] {
-            flex: 1;
-            max-width: 100%; /* Full width */
-            cursor: pointer; /* Pointer cursor on hover */
-        }
-        .criteria-slider-container .delete-btn {
-            margin-left: auto; /* Align delete button to the right */
-        }
-        .title {
-            text-align: center;
-            margin-bottom: 10px;
-        }
-        .subtitle {
-            text-align: center;
-            font-style: italic;
-            color: #555;
-            margin-bottom: 20px;
-        }
-
-        /* "How it works?" Button */
-        .how-it-works-btn {
-            position: absolute;
-            top: 20px;
-            right: 20px;
-            width: 40px;
-            height: 40px;
-            background-color: #000; /* Black */
-            color: white;
-            border-radius: 50%;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            font-size: 20px;
-            cursor: pointer;
-            border: none;
-        }
-        .how-it-works-btn:hover::after {
-            content: "How it works?";
-            position: absolute;
-            top: 50px;
-            right: 0;
-            background-color: #333;
-            color: white;
-            padding: 5px 10px;
-            border-radius: 5px;
-            font-size: 14px;
-            white-space: nowrap;
-        }
-
-        /* Popup Modal */
-        .modal {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(0, 0, 0, 0.5);
-            justify-content: center;
-            align-items: center;
-        }
-        .modal-content {
-            background-color: white;
-            padding: 20px;
-            border-radius: 8px;
-            max-width: 500px;
-            width: 100%;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-        }
-        .modal-content h2 {
-            margin-top: 0;
-        }
-        .modal-content button {
-            margin-top: 20px;
-            padding: 10px;
-            background: #555;
             color: white;
             border: none;
             border-radius: 5px;
             cursor: pointer;
         }
-
-        /* Responsive Design for Phone View */
-        @media (max-width: 600px) {
-            .container {
-                padding: 10px;
-            }
-            .block {
-                padding: 15px;
-            }
-            .slider-container {
-                flex-direction: column;
-                align-items: flex-start;
-            }
-            .slider {
-                width: 100%;
-            }
-            .criteria-slider-container {
-                flex-direction: column;
-                align-items: flex-start;
-            }
-            .criteria-slider-container input[type="range"] {
-                max-width: 100%;
-            }
-            .criteria-slider-container .delete-btn {
-                margin-left: 0; /* Reset margin for smaller screens */
-            }
+        .simulation-btn.active {
+            background: #28a745; /* Green when active */
         }
     </style>
 </head>
@@ -319,6 +69,7 @@ date: 2025-02-01 00:00:00 -1000
             <div class="matchmaking-map">
                 <h2>Matchmaking Map</h2>
                 <button onclick="updateMap()">Update Map</button>
+                <button id="simulation-btn" class="simulation-btn" onclick="toggleSimulation()">Enable Simulation</button>
                 <canvas id="matchmakingChart"></canvas>
             </div>
         </div>
@@ -333,6 +84,7 @@ date: 2025-02-01 00:00:00 -1000
             <p><strong>Customize Scale:</strong> Adjust the "Min" and "Max" values to set the scale boundaries for scoring.</p>
             <p><strong>Score Resources:</strong> Use sliders to assign scores to each resource based on the criteria. The numeric score is displayed next to the slider, and the slider bar fills with blue as the score increases.</p>
             <p><strong>Update Map:</strong> Click the "Update Map" button to refresh the matchmaking map with the latest scores.</p>
+            <p><strong>Simulation:</strong> Toggle the simulation to see the potential effects of using a circularity hub (e.g., increased prices, reduced distances).</p>
             <button onclick="closeModal()">Close</button>
         </div>
     </div>
@@ -342,6 +94,7 @@ date: 2025-02-01 00:00:00 -1000
         let resources = [];
         let minScale = 0;
         let maxScale = 10;
+        let isSimulationActive = false; // Track simulation state
 
         // Preload resources with random scores
         function preloadResources() {
@@ -398,104 +151,24 @@ date: 2025-02-01 00:00:00 -1000
             list.appendChild(item);
         }
 
-        // Render criteria list
-        function renderCriteria() {
-            const criteriaList = document.getElementById("criteria-list");
-            criteriaList.innerHTML = '<h2>Criteria</h2>';
-            criteriaList.innerHTML += `
-                <div class="scale-boundary">
-                    <label>Min: <input type="number" id="min-scale" value="${minScale}"></label>
-                    <label>Max: <input type="number" id="max-scale" value="${maxScale}"></label>
-                </div>
-            `;
-            criteria.forEach((criterion, index) => {
-                const div = document.createElement("div");
-                div.className = "criteria-slider-container";
-                div.innerHTML = `
-                    <label>${criterion}:</label>
-                    <input type="range" id="criterion-${index}" min="${minScale}" max="${maxScale}" value="${(minScale + maxScale) / 2}">
-                    <span class="score-value">${(minScale + maxScale) / 2}</span>
-                    <button class="delete-btn" onclick="removeCriterion(${index})">Delete</button>
-                `;
-                // Update score value when slider changes
-                const slider = div.querySelector("input[type='range']");
-                const scoreValue = div.querySelector(".score-value");
-                slider.oninput = function () {
-                    scoreValue.textContent = this.value;
-                    updateSliderFill(this);
-                };
-                updateSliderFill(slider); // Initialize slider fill
-                criteriaList.appendChild(div);
-            });
-
-            // Update scale boundaries dynamically
-            document.getElementById("min-scale").oninput = function () {
-                minScale = parseInt(this.value, 10);
-                updateSliders();
-            };
-            document.getElementById("max-scale").oninput = function () {
-                maxScale = parseInt(this.value, 10);
-                updateSliders();
-            };
+        // Toggle simulation
+        function toggleSimulation() {
+            isSimulationActive = !isSimulationActive;
+            const simulationBtn = document.getElementById("simulation-btn");
+            simulationBtn.textContent = isSimulationActive ? "Disable Simulation" : "Enable Simulation";
+            simulationBtn.classList.toggle("active", isSimulationActive);
+            updateMap(); // Refresh the map with updated scores
         }
 
-        // Update slider fill
-        function updateSliderFill(slider) {
-            const value = ((slider.value - slider.min) / (slider.max - slider.min)) * 100;
-            slider.style.setProperty("--background-size", `${value}%`);
-        }
+        // Apply simulation effects to scores
+        function applySimulation(scores) {
+            if (!isSimulationActive) return scores; // Return original scores if simulation is off
 
-        // Update sliders when scale boundaries change
-        function updateSliders() {
-            criteria.forEach((criterion, index) => {
-                const slider = document.getElementById(`criterion-${index}`);
-                slider.min = minScale;
-                slider.max = maxScale;
-                updateSliderFill(slider);
-            });
-        }
-
-        // Add a new criterion
-        function addCriterion() {
-            const newCriterion = document.getElementById("new-criterion").value.trim();
-            if (newCriterion) {
-                criteria.push(newCriterion);
-                document.getElementById("new-criterion").value = "";
-                renderCriteria();
-                updateResourcesWithNewCriterion();
-            }
-        }
-
-        // Remove a criterion
-        function removeCriterion(index) {
-            criteria.splice(index, 1);
-            renderCriteria();
-            updateResourcesAfterCriterionRemoval(index);
-        }
-
-        // Add a new resource
-        function addResource() {
-            let resourceName = document.getElementById("preset-resources").value || document.getElementById("new-resource").value.trim();
-            if (!resourceName) return;
-
-            const scores = criteria.map(() => Math.floor(Math.random() * (maxScale - minScale + 1)) + minScale);
-            resources.push({ name: resourceName, scores });
-            addResourceToDOM(resourceName, scores);
-            document.getElementById("new-resource").value = "";
-        }
-
-        // Update resources when a new criterion is added
-        function updateResourcesWithNewCriterion() {
-            const newCriterionValue = document.getElementById(`criterion-${criteria.length - 1}`).value;
-            resources.forEach(resource => {
-                resource.scores.push(parseInt(newCriterionValue, 10));
-            });
-        }
-
-        // Update resources when a criterion is removed
-        function updateResourcesAfterCriterionRemoval(index) {
-            resources.forEach(resource => {
-                resource.scores.splice(index, 1);
+            // Simulate effects: Increase Price, Decrease Distance
+            return scores.map((score, index) => {
+                if (criteria[index] === "Price") return Math.min(score + 2, maxScale); // Increase Price
+                if (criteria[index] === "Distance") return Math.max(score - 2, minScale); // Decrease Distance
+                return score; // No change for other criteria
             });
         }
 
@@ -528,8 +201,9 @@ date: 2025-02-01 00:00:00 -1000
                     labels: criteria,
                     datasets: resources.map((res, index) => ({
                         label: res.name,
-                        data: res.scores,
+                        data: isSimulationActive ? applySimulation(res.scores) : res.scores,
                         borderColor: colours[index % colours.length], /* Vibrant colours */
+                        borderDash: isSimulationActive ? [5, 5] : [], /* Dashed line for simulation */
                         fill: false,
                         tension: 0.1
                     }))

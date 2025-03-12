@@ -465,18 +465,42 @@ input:checked + .toggle-slider:before {
     isSimulationActive = simulationToggle.checked;
     updateMap(); // Refresh the map with updated scores
 }
-        
-        // Apply simulation effects to scores
-        function applySimulation(scores) {
-            if (!isSimulationActive) return scores; // Return original scores if simulation is off
+        // Apply simulation effects to reduce mismatches among resources
+function applySimulation(resources) {
+    if (!isSimulationActive) return resources; // Return original resources if simulation is off
 
-            // Simulate effects: Increase Price, Decrease Distance
-            return scores.map((score, index) => {
-                if (criteria[index] === "Price") return Math.min(score + 2, maxScale); // Increase Price
-                if (criteria[index] === "Distance") return Math.max(score - 2, minScale); // Decrease Distance
-                return score; // No change for other criteria
-            });
-        }
+    // Calculate average scores for each criterion
+    const averageScores = criteria.map((_, criterionIndex) => {
+        const total = resources.reduce((sum, resource) => sum + resource.scores[criterionIndex], 0);
+        return total / resources.length;
+    });
+
+    // Adjust scores towards the average to reduce mismatches
+    return resources.map(resource => {
+        return {
+            ...resource,
+            scores: resource.scores.map((score, criterionIndex) => {
+                const average = averageScores[criterionIndex];
+                let adjustedScore = score;
+
+                // Simulate stronger hub effects for specific criteria
+                if (criteria[criterionIndex] === "Distance") {
+                    // Reduce distance mismatches more aggressively
+                    adjustedScore = score * 0.7 + average * 0.3; // Move closer to average
+                } else if (criteria[criterionIndex] === "Price") {
+                    // Reduce price mismatches more aggressively
+                    adjustedScore = score * 0.6 + average * 0.4; // Move closer to average
+                } else {
+                    // General adjustment for other criteria
+                    adjustedScore = score * 0.8 + average * 0.2; // Move closer to average
+                }
+
+                // Ensure the score stays within the scale boundaries
+                return Math.min(Math.max(adjustedScore, minScale), maxScale);
+            })
+        };
+    });
+}
         
         // Render criteria list
         function renderCriteria() {
@@ -579,8 +603,7 @@ input:checked + .toggle-slider:before {
             });
         }
 
-        // Updated updateMap function to include simulation effects
-    function updateMap() {
+      function updateMap() {
     const ctx = document.getElementById("matchmakingChart").getContext("2d");
     if (window.chartInstance) {
         window.chartInstance.destroy();
@@ -596,6 +619,9 @@ input:checked + .toggle-slider:before {
         resources.push({ name: resourceName, scores });
     });
 
+    // Apply simulation effects if active
+    const displayedResources = isSimulationActive ? applySimulation(resources) : resources;
+
     // Vibrant colour palette for the chart
     const colours = [
         "#FF6384", "#36A2EB", "#FFCE56", "#4BC0C0", "#9966FF",
@@ -606,9 +632,9 @@ input:checked + .toggle-slider:before {
         type: 'line',
         data: {
             labels: criteria,
-            datasets: resources.map((res, index) => ({
+            datasets: displayedResources.map((res, index) => ({
                 label: res.name,
-                data: isSimulationActive ? applySimulation(res.scores) : res.scores,
+                data: res.scores,
                 borderColor: colours[index % colours.length], /* Vibrant colours */
                 borderDash: isSimulationActive ? [5, 5] : [], /* Dashed line for simulation */
                 fill: false,
@@ -627,7 +653,6 @@ input:checked + .toggle-slider:before {
         }
     });
 }
-
         // Modal functions
         function openModal() {
             document.getElementById("modal").style.display = "flex";

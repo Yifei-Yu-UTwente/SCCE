@@ -465,6 +465,7 @@ input:checked + .toggle-slider:before {
     isSimulationActive = simulationToggle.checked;
     updateMap(); // Refresh the map with updated scores
 }
+      
         // Apply simulation effects to reduce mismatches among resources
 function applySimulation(resources) {
     if (!isSimulationActive) return resources; // Return original resources if simulation is off
@@ -603,7 +604,7 @@ function applySimulation(resources) {
             });
         }
 
-      function updateMap() {
+        function updateMap() {
     const ctx = document.getElementById("matchmakingChart").getContext("2d");
     if (window.chartInstance) {
         window.chartInstance.destroy();
@@ -620,7 +621,7 @@ function applySimulation(resources) {
     });
 
     // Apply simulation effects if active
-    const displayedResources = isSimulationActive ? applySimulation(resources) : resources;
+    const simulatedResources = isSimulationActive ? applySimulation(resources) : [];
 
     // Vibrant colour palette for the chart
     const colours = [
@@ -628,18 +629,37 @@ function applySimulation(resources) {
         "#FF9F40", "#C9CBCF", "#FFCD56", "#4D5360", "#F7464A"
     ];
 
+    // Create datasets for the chart
+    const datasets = resources.map((res, index) => ({
+        label: res.name, // Original scores
+        data: res.scores,
+        borderColor: colours[index % colours.length], /* Vibrant colours */
+        borderWidth: 2,
+        fill: false,
+        tension: 0.1
+    }));
+
+    // Add simulated scores as dashed lines if simulation is active
+    if (isSimulationActive) {
+        simulatedResources.forEach((res, index) => {
+            datasets.push({
+                label: `${res.name} (Simulated)`, // Simulated scores
+                data: res.scores,
+                borderColor: colours[index % colours.length], /* Same colour as original */
+                borderWidth: 2,
+                borderDash: [5, 5], /* Dashed line for simulation */
+                fill: false,
+                tension: 0.1
+            });
+        });
+    }
+
+    // Render the chart
     window.chartInstance = new Chart(ctx, {
         type: 'line',
         data: {
             labels: criteria,
-            datasets: displayedResources.map((res, index) => ({
-                label: res.name,
-                data: res.scores,
-                borderColor: colours[index % colours.length], /* Vibrant colours */
-                borderDash: isSimulationActive ? [5, 5] : [], /* Dashed line for simulation */
-                fill: false,
-                tension: 0.1
-            }))
+            datasets: datasets
         },
         options: {
             responsive: true,
@@ -649,10 +669,20 @@ function applySimulation(resources) {
                     beginAtZero: true,
                     max: maxScale
                 }
+            },
+            plugins: {
+                legend: {
+                    display: true,
+                    position: 'bottom',
+                    labels: {
+                        usePointStyle: true, // Use point style for better readability
+                    }
+                }
             }
         }
     });
 }
+        
         // Modal functions
         function openModal() {
             document.getElementById("modal").style.display = "flex";

@@ -11,19 +11,58 @@ date: 2025-02-01 00:00:00 -1000
     <title>QuickMatch</title>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <style>
-        
-    /* Simulation Button */
-.simulation-btn {
+        /* Toggle Switch */
+.toggle-switch {
+    position: relative;
+    display: inline-block;
+    width: 60px;
+    height: 34px;
     margin-top: 10px;
-    padding: 10px;
-    background: #007bff; /* Blue */
-    color: white;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
 }
-.simulation-btn.active {
-    background: #28a745; /* Green when active */
+
+.toggle-switch input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+.toggle-slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #ccc;
+    transition: 0.4s;
+    border-radius: 34px;
+}
+
+.toggle-slider:before {
+    position: absolute;
+    content: "";
+    height: 26px;
+    width: 26px;
+    left: 4px;
+    bottom: 4px;
+    background-color: white;
+    transition: 0.4s;
+    border-radius: 50%;
+}
+
+input:checked + .toggle-slider {
+    background-color: #28a745; /* Green when active */
+}
+
+input:checked + .toggle-slider:before {
+    transform: translateX(26px);
+}
+
+/* Label for the toggle switch */
+.toggle-label {
+    margin-left: 10px;
+    font-size: 14px;
+    color: #333;
 }
         body {
             font-family: Arial, sans-serif;
@@ -329,15 +368,20 @@ date: 2025-02-01 00:00:00 -1000
         </div>
 
     <!-- Matchmaking Map Block -->
-        <div class="block">
-            <div class="matchmaking-map">
-                <h2>Matchmaking Map</h2>
-                <button onclick="updateMap()">Update Map</button>
-                <button id="simulation-btn" class="simulation-btn" onclick="toggleSimulation()">Enable Simulation</button>
-                <canvas id="matchmakingChart"></canvas>
-            </div>
+<div class="block">
+    <div class="matchmaking-map">
+        <h2>Matchmaking Map</h2>
+        <button onclick="updateMap()">Update Map</button>
+        <div style="display: flex; align-items: center;">
+            <label class="toggle-switch">
+                <input type="checkbox" id="simulation-toggle" onclick="toggleSimulation()">
+                <span class="toggle-slider"></span>
+            </label>
+            <span class="toggle-label">Simulation</span>
         </div>
+        <canvas id="matchmakingChart"></canvas>
     </div>
+</div>
 
    <!-- Popup Modal -->
     <div id="modal" class="modal">
@@ -417,13 +461,11 @@ date: 2025-02-01 00:00:00 -1000
         
         // Toggle simulation
         function toggleSimulation() {
-            isSimulationActive = !isSimulationActive;
-            const simulationBtn = document.getElementById("simulation-btn");
-            simulationBtn.textContent = isSimulationActive ? "Disable Simulation" : "Enable Simulation";
-            simulationBtn.classList.toggle("active", isSimulationActive);
-            updateMap(); // Refresh the map with updated scores
-        }
-
+    const simulationToggle = document.getElementById("simulation-toggle");
+    isSimulationActive = simulationToggle.checked;
+    updateMap(); // Refresh the map with updated scores
+}
+        
         // Apply simulation effects to scores
         function applySimulation(scores) {
             if (!isSimulationActive) return scores; // Return original scores if simulation is off

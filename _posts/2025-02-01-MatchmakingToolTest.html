@@ -239,7 +239,17 @@ input:checked + .toggle-slider:before {
             color: #555;
             margin-bottom: 20px;
         }
-
+        /* Add Resource Button */
+        #add-resource-btn {
+    width: auto; /* Shorter width */
+    padding: 10px 20px; /* Consistent padding with Add Criterion button */
+    margin-top: 10px;
+    background: #000; /* Black */
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
         /* "How it works?" Button */
         .how-it-works-btn {
             position: absolute;
@@ -334,26 +344,31 @@ input:checked + .toggle-slider:before {
 <body>
     <div class="container">
         <h1 class="title">QuickMatch</h1>
-        <p class="subtitle">Version 0, February 2025, Yifei Yu</p>
+        <p class="subtitle">Version 1, March 2025, Yifei Yu</p>
         <button class="how-it-works-btn" onclick="openModal()">?</button>
-
-        <!-- Resource Block -->
-        <div class="block">
-            <div class="resource-selection">
-                <h2>Resources</h2>
-                <select id="preset-resources">
-                    <option value="">Select a preset resource</option>
-                    <option value="Waste Heat">Waste Heat</option>
-                    <option value="Scrap Metal">Scrap Metal</option>
-                    <option value="Chemical Byproduct">Chemical Byproduct</option>
-                    <option value="Industrial Water">Industrial Water</option>
-                </select>
-                <input type="text" id="new-resource" placeholder="Or add a new resource">
-                <button onclick="addResource()">Add Resource</button>
-                <div class="resource-list" id="resource-list"></div>
-            </div>
+        
+       <!-- Resource Block -->
+<div class="block">
+    <div class="resource-selection">
+        <h2>Resources</h2>
+        <h3 style="margin-top: 10px; margin-bottom: 10px;">Added Resources</h3> <!-- Moved to the top -->
+        <div class="resource-list" id="resource-list"></div> <!-- Resource list moved here -->
+        
+        <!-- Resource input and button moved underneath -->
+        <div style="margin-top: 20px;">
+            <select id="preset-resources" style="margin-bottom: 10px;">
+                <option value="">Select a preset resource</option>
+                <option value="Waste Heat">Waste Heat</option>
+                <option value="Scrap Metal">Scrap Metal</option>
+                <option value="Chemical Byproduct">Chemical Byproduct</option>
+                <option value="Industrial Water">Industrial Water</option>
+            </select>
+            <input type="text" id="new-resource" placeholder="Or add a new resource" style="margin-bottom: 10px;">
+            <button onclick="addResource()" style="width: auto; padding: 10px 20px;">Add Resource</button> <!-- Adjusted button width -->
         </div>
-
+    </div>
+</div>
+        
         <!-- Criteria Block -->
         <div class="block">
             <div class="criteria" id="criteria-list">
@@ -377,7 +392,7 @@ input:checked + .toggle-slider:before {
                 <input type="checkbox" id="simulation-toggle" onclick="toggleSimulation()">
                 <span class="toggle-slider"></span>
             </label>
-            <span class="toggle-label">Simulation</span>
+            <span class="toggle-label">Simulate Hub Effects</span>
         </div>
         <canvas id="matchmakingChart"></canvas>
     </div>
@@ -386,7 +401,7 @@ input:checked + .toggle-slider:before {
    <!-- Popup Modal -->
     <div id="modal" class="modal">
         <div class="modal-content">
-            <h2>How it works?</h2>
+            <h2>How does it work?</h2>
             <p><strong>Add Resources:</strong> Use the dropdown or text input to add resources.</p>
             <p><strong>Add/Remove Criteria:</strong> Add new criteria or remove existing ones.</p>
             <p><strong>Customize Scale:</strong> Adjust the "Min" and "Max" values to set the scale boundaries for scoring.</p>

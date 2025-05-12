@@ -1,0 +1,722 @@
+---
+layout:
+title:
+date: 2025-05-01 00:00:00 -1000
+---
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ReCircle - Second-Hand Materials Marketplace</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        :root {
+            --primary: #4CAF50;
+            --secondary: #8BC34A;
+            --dark: #2E7D32;
+            --light: #DCEDC8;
+            --supply: #2196F3;
+            --demand: #FF9800;
+        }
+        
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background-color: #f5f5f5;
+            color: #333;
+        }
+        
+        header {
+            background-color: var(--primary);
+            color: white;
+            padding: 1rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        
+        .logo {
+            font-size: 1.5rem;
+            font-weight: bold;
+        }
+        
+        nav ul {
+            display: flex;
+            list-style: none;
+        }
+        
+        nav ul li {
+            margin-left: 1.5rem;
+        }
+        
+        nav ul li a {
+            color: white;
+            text-decoration: none;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 1rem;
+        }
+        
+        .main-content {
+            display: grid;
+            grid-template-columns: 250px 1fr;
+            gap: 1.5rem;
+            margin-top: 1rem;
+        }
+        
+        .sidebar {
+            background-color: white;
+            border-radius: 8px;
+            padding: 1rem;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            height: fit-content;
+        }
+        
+        .sidebar h3 {
+            margin-bottom: 1rem;
+            color: var(--dark);
+            border-bottom: 1px solid #eee;
+            padding-bottom: 0.5rem;
+        }
+        
+        .filter-section {
+            margin-bottom: 1.5rem;
+        }
+        
+        .filter-section h4 {
+            margin-bottom: 0.5rem;
+            color: #555;
+        }
+        
+        .hashtag-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+        }
+        
+        .hashtag {
+            background-color: var(--light);
+            color: var(--dark);
+            padding: 0.3rem 0.6rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        
+        .hashtag:hover, .hashtag.active {
+            background-color: var(--primary);
+            color: white;
+        }
+        
+        .feed {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+        
+        .post-form {
+            background-color: white;
+            border-radius: 8px;
+            padding: 1rem;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        
+        .post-form h3 {
+            margin-bottom: 1rem;
+            color: var(--dark);
+        }
+        
+        .post-type-toggle {
+            display: flex;
+            margin-bottom: 1rem;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            overflow: hidden;
+        }
+        
+        .post-type-btn {
+            flex: 1;
+            padding: 0.5rem;
+            text-align: center;
+            cursor: pointer;
+            border: none;
+            background-color: white;
+            transition: all 0.2s;
+        }
+        
+        .post-type-btn.supply {
+            border-right: 1px solid #ddd;
+        }
+        
+        .post-type-btn.active {
+            color: white;
+        }
+        
+        .post-type-btn.supply.active {
+            background-color: var(--supply);
+        }
+        
+        .post-type-btn.demand.active {
+            background-color: var(--demand);
+        }
+        
+        .form-group {
+            margin-bottom: 1rem;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: #555;
+        }
+        
+        .form-group input, .form-group textarea, .form-group select {
+            width: 100%;
+            padding: 0.5rem;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+        
+        .form-group textarea {
+            min-height: 100px;
+            resize: vertical;
+        }
+        
+        .hashtag-input-container {
+            display: flex;
+            gap: 0.5rem;
+        }
+        
+        .hashtag-input-container input {
+            flex: 1;
+        }
+        
+        .hashtag-input-container button {
+            background-color: var(--primary);
+            color: white;
+            border: none;
+            border-radius: 5px;
+            padding: 0 1rem;
+            cursor: pointer;
+        }
+        
+        .hashtag-preview {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            margin-top: 0.5rem;
+        }
+        
+        .submit-btn {
+            background-color: var(--primary);
+            color: white;
+            border: none;
+            border-radius: 5px;
+            padding: 0.7rem 1.5rem;
+            cursor: pointer;
+            font-weight: bold;
+            transition: background-color 0.2s;
+        }
+        
+        .submit-btn:hover {
+            background-color: var(--dark);
+        }
+        
+        .post {
+            background-color: white;
+            border-radius: 8px;
+            padding: 1rem;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        
+        .post-header {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 0.5rem;
+        }
+        
+        .post-user {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .post-user img {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            object-fit: cover;
+        }
+        
+        .post-user-info h4 {
+            font-size: 1rem;
+        }
+        
+        .post-user-info p {
+            font-size: 0.8rem;
+            color: #777;
+        }
+        
+        .post-type {
+            padding: 0.3rem 0.6rem;
+            border-radius: 5px;
+            font-size: 0.8rem;
+            font-weight: bold;
+            color: white;
+        }
+        
+        .post-type.supply {
+            background-color: var(--supply);
+        }
+        
+        .post-type.demand {
+            background-color: var(--demand);
+        }
+        
+        .post-content {
+            margin: 1rem 0;
+        }
+        
+        .post-content h3 {
+            margin-bottom: 0.5rem;
+            color: var(--dark);
+        }
+        
+        .post-hashtags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            margin: 0.5rem 0;
+        }
+        
+        .post-actions {
+            display: flex;
+            justify-content: space-between;
+            border-top: 1px solid #eee;
+            padding-top: 1rem;
+            margin-top: 1rem;
+        }
+        
+        .action-btn {
+            display: flex;
+            align-items: center;
+            gap: 0.3rem;
+            background: none;
+            border: none;
+            color: #555;
+            cursor: pointer;
+            padding: 0.3rem 0.5rem;
+            border-radius: 5px;
+            transition: all 0.2s;
+        }
+        
+        .action-btn:hover {
+            background-color: #f0f0f0;
+        }
+        
+        .action-btn.liked {
+            color: #E91E63;
+        }
+        
+        .action-btn.bookmarked {
+            color: #FFC107;
+        }
+        
+        .search-bar {
+            display: flex;
+            margin-bottom: 1.5rem;
+        }
+        
+        .search-bar input {
+            flex: 1;
+            padding: 0.7rem;
+            border: 1px solid #ddd;
+            border-radius: 5px 0 0 5px;
+            border-right: none;
+        }
+        
+        .search-bar button {
+            background-color: var(--primary);
+            color: white;
+            border: none;
+            border-radius: 0 5px 5px 0;
+            padding: 0 1.5rem;
+            cursor: pointer;
+        }
+        
+        @media (max-width: 768px) {
+            .main-content {
+                grid-template-columns: 1fr;
+            }
+            
+            nav ul {
+                display: none;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="logo">ReCircle</div>
+        <nav>
+            <ul>
+                <li><a href="#">Home</a></li>
+                <li><a href="#">Explore</a></li>
+                <li><a href="#">Messages</a></li>
+                <li><a href="#">Profile</a></li>
+            </ul>
+        </nav>
+    </header>
+    
+    <div class="container">
+        <div class="search-bar">
+            <input type="text" placeholder="Search for materials, users, or locations...">
+            <button><i class="fas fa-search"></i></button>
+        </div>
+        
+        <div class="main-content">
+            <div class="sidebar">
+                <div class="filter-section">
+                    <h3>Filters</h3>
+                    <div class="form-group">
+                        <label for="post-type-filter">Post Type</label>
+                        <select id="post-type-filter">
+                            <option value="all">All Posts</option>
+                            <option value="supply">Supply Only</option>
+                            <option value="demand">Demand Only</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="category-filter">Category</label>
+                        <select id="category-filter">
+                            <option value="all">All Categories</option>
+                            <option value="building">Building Materials</option>
+                            <option value="furniture">Furniture</option>
+                            <option value="electronics">Electronics</option>
+                            <option value="textiles">Textiles</option>
+                            <option value="machinery">Machinery</option>
+                            <option value="other">Other</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="location-filter">Location</label>
+                        <select id="location-filter">
+                            <option value="all">Anywhere</option>
+                            <option value="local">Near Me</option>
+                            <option value="north">North Region</option>
+                            <option value="south">South Region</option>
+                            <option value="east">East Region</option>
+                            <option value="west">West Region</option>
+                        </select>
+                    </div>
+                </div>
+                
+                <div class="filter-section">
+                    <h4>Popular Hashtags</h4>
+                    <div class="hashtag-list">
+                        <span class="hashtag active">#wood</span>
+                        <span class="hashtag">#metal</span>
+                        <span class="hashtag">#construction</span>
+                        <span class="hashtag">#upcycle</span>
+                        <span class="hashtag">#furniture</span>
+                        <span class="hashtag">#tools</span>
+                        <span class="hashtag">#free</span>
+                        <span class="hashtag">#sustainable</span>
+                        <span class="hashtag">#reclaimed</span>
+                    </div>
+                </div>
+                
+                <div class="filter-section">
+                    <h4>Recent Hashtags</h4>
+                    <div class="hashtag-list">
+                        <span class="hashtag">#bricks</span>
+                        <span class="hashtag">#windows</span>
+                        <span class="hashtag">#plumbing</span>
+                        <span class="hashtag">#fabric</span>
+                        <span class="hashtag">#yarn</span>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="feed">
+                <div class="post-form">
+                    <h3>Create a Post</h3>
+                    <div class="post-type-toggle">
+                        <button class="post-type-btn supply active">I want to offer (Supply)</button>
+                        <button class="post-type-btn demand">I want to receive (Demand)</button>
+                    </div>
+                    
+                    <form>
+                        <div class="form-group">
+                            <label for="post-title">Title</label>
+                            <input type="text" id="post-title" placeholder="What are you offering/looking for?">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="post-description">Description</label>
+                            <textarea id="post-description" placeholder="Provide details about the material, condition, quantity, etc."></textarea>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="post-category">Category</label>
+                            <select id="post-category">
+                                <option value="">Select a category</option>
+                                <option value="building">Building Materials</option>
+                                <option value="furniture">Furniture</option>
+                                <option value="electronics">Electronics</option>
+                                <option value="textiles">Textiles</option>
+                                <option value="machinery">Machinery</option>
+                                <option value="other">Other</option>
+                            </select>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="post-location">Location</label>
+                            <input type="text" id="post-location" placeholder="Where is this available/needed?">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="post-hashtags">Hashtags</label>
+                            <div class="hashtag-input-container">
+                                <input type="text" id="post-hashtags" placeholder="Add relevant hashtags (e.g., #wood, #metal)">
+                                <button type="button">Add</button>
+                            </div>
+                            <div class="hashtag-preview">
+                                <span class="hashtag">#reclaimed</span>
+                            </div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="post-images">Add Images</label>
+                            <input type="file" id="post-images" multiple>
+                        </div>
+                        
+                        <button type="submit" class="submit-btn">Post</button>
+                    </form>
+                </div>
+                
+                <div class="post">
+                    <div class="post-header">
+                        <div class="post-user">
+                            <img src="https://randomuser.me/api/portraits/women/44.jpg" alt="User profile">
+                            <div class="post-user-info">
+                                <h4>Sarah Johnson</h4>
+                                <p>Posted 3 hours ago · 5 miles away</p>
+                            </div>
+                        </div>
+                        <span class="post-type supply">Supply</span>
+                    </div>
+                    
+                    <div class="post-content">
+                        <h3>Reclaimed Wood Planks - Various Sizes</h3>
+                        <p>I have about 200 sq ft of reclaimed wood planks from an old barn demolition. Various lengths from 2-8 feet. Some have nice patina, some need light sanding. Perfect for DIY projects, accent walls, or furniture.</p>
+                        <p><strong>Condition:</strong> Good used condition</p>
+                        <p><strong>Price:</strong> Free - just come pick up</p>
+                        
+                        <div class="post-hashtags">
+                            <span class="hashtag">#wood</span>
+                            <span class="hashtag">#reclaimed</span>
+                            <span class="hashtag">#building</span>
+                            <span class="hashtag">#free</span>
+                            <span class="hashtag">#diy</span>
+                        </div>
+                    </div>
+                    
+                    <div class="post-actions">
+                        <div class="action-buttons-left">
+                            <button class="action-btn like-btn">
+                                <i class="far fa-heart"></i>
+                                <span>24</span>
+                            </button>
+                            <button class="action-btn comment-btn">
+                                <i class="far fa-comment"></i>
+                                <span>5</span>
+                            </button>
+                            <button class="action-btn share-btn">
+                                <i class="fas fa-share"></i>
+                                <span>Share</span>
+                            </button>
+                        </div>
+                        <button class="action-btn bookmark-btn">
+                            <i class="far fa-bookmark"></i>
+                        </button>
+                    </div>
+                </div>
+                
+                <div class="post">
+                    <div class="post-header">
+                        <div class="post-user">
+                            <img src="https://randomuser.me/api/portraits/men/32.jpg" alt="User profile">
+                            <div class="post-user-info">
+                                <h4>Mike Rodriguez</h4>
+                                <p>Posted 1 day ago · 12 miles away</p>
+                            </div>
+                        </div>
+                        <span class="post-type demand">Demand</span>
+                    </div>
+                    
+                    <div class="post-content">
+                        <h3>Looking for Used Windows for Greenhouse Project</h3>
+                        <p>Building a greenhouse and need about 10-15 old windows of similar size (approx 24"x36"). Glass should be intact but frames can be in any condition as I'll be refurbishing them. Willing to pay reasonable prices or trade for carpentry work.</p>
+                        <p><strong>Condition:</strong> Any, as long as glass is intact</p>
+                        <p><strong>Budget:</strong> $5-$15 per window</p>
+                        
+                        <div class="post-hashtags">
+                            <span class="hashtag">#windows</span>
+                            <span class="hashtag">#glass</span>
+                            <span class="hashtag">#building</span>
+                            <span class="hashtag">#greenhouse</span>
+                            <span class="hashtag">#diy</span>
+                        </div>
+                    </div>
+                    
+                    <div class="post-actions">
+                        <div class="action-buttons-left">
+                            <button class="action-btn like-btn liked">
+                                <i class="fas fa-heart"></i>
+                                <span>18</span>
+                            </button>
+                            <button class="action-btn comment-btn">
+                                <i class="far fa-comment"></i>
+                                <span>7</span>
+                            </button>
+                            <button class="action-btn share-btn">
+                                <i class="fas fa-share"></i>
+                                <span>Share</span>
+                            </button>
+                        </div>
+                        <button class="action-btn bookmark-btn bookmarked">
+                            <i class="fas fa-bookmark"></i>
+                        </button>
+                    </div>
+                </div>
+                
+                <div class="post">
+                    <div class="post-header">
+                        <div class="post-user">
+                            <img src="https://randomuser.me/api/portraits/women/68.jpg" alt="User profile">
+                            <div class="post-user-info">
+                                <h4>Lisa Chen</h4>
+                                <p>Posted 2 days ago · 3 miles away</p>
+                            </div>
+                        </div>
+                        <span class="post-type supply">Supply</span>
+                    </div>
+                    
+                    <div class="post-content">
+                        <h3>Assorted Yarn and Fabric Scraps</h3>
+                        <p>Cleaning out my craft room and have several boxes of yarn (mostly acrylic, some wool blends) and fabric scraps (cotton, linen, some upholstery samples). Great for small projects, quilting, or stuffing. Must take all.</p>
+                        <p><strong>Condition:</strong> Mixed - some new, some used</p>
+                        <p><strong>Price:</strong> Free</p>
+                        
+                        <div class="post-hashtags">
+                            <span class="hashtag">#yarn</span>
+                            <span class="hashtag">#fabric</span>
+                            <span class="hashtag">#textiles</span>
+                            <span class="hashtag">#crafting</span>
+                            <span class="hashtag">#free</span>
+                        </div>
+                    </div>
+                    
+                    <div class="post-actions">
+                        <div class="action-buttons-left">
+                            <button class="action-btn like-btn">
+                                <i class="far fa-heart"></i>
+                                <span>12</span>
+                            </button>
+                            <button class="action-btn comment-btn">
+                                <i class="far fa-comment"></i>
+                                <span>3</span>
+                            </button>
+                            <button class="action-btn share-btn">
+                                <i class="fas fa-share"></i>
+                                <span>Share</span>
+                            </button>
+                        </div>
+                        <button class="action-btn bookmark-btn">
+                            <i class="far fa-bookmark"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        // Simple interactivity for the prototype
+        document.addEventListener('DOMContentLoaded', function() {
+            // Toggle between supply and demand post types
+            const postTypeBtns = document.querySelectorAll('.post-type-btn');
+            postTypeBtns.forEach(btn => {
+                btn.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    postTypeBtns.forEach(b => b.classList.remove('active'));
+                    this.classList.add('active');
+                });
+            });
+            
+            // Like button functionality
+            const likeBtns = document.querySelectorAll('.like-btn');
+            likeBtns.forEach(btn => {
+                btn.addEventListener('click', function() {
+                    const icon = this.querySelector('i');
+                    const count = this.querySelector('span');
+                    
+                    if (this.classList.contains('liked')) {
+                        icon.classList.replace('fas', 'far');
+                        count.textContent = parseInt(count.textContent) - 1;
+                    } else {
+                        icon.classList.replace('far', 'fas');
+                        count.textContent = parseInt(count.textContent) + 1;
+                    }
+                    
+                    this.classList.toggle('liked');
+                });
+            });
+            
+            // Bookmark button functionality
+            const bookmarkBtns = document.querySelectorAll('.bookmark-btn');
+            bookmarkBtns.forEach(btn => {
+                btn.addEventListener('click', function() {
+                    const icon = this.querySelector('i');
+                    
+                    if (this.classList.contains('bookmarked')) {
+                        icon.classList.replace('fas', 'far');
+                    } else {
+                        icon.classList.replace('far', 'fas');
+                    }
+                    
+                    this.classList.toggle('bookmarked');
+                });
+            });
+            
+            // Hashtag filtering
+            const hashtags = document.querySelectorAll('.hashtag');
+            hashtags.forEach(tag => {
+                tag.addEventListener('click', function() {
+                    if (this.classList.contains('active')) {
+                        this.classList.remove('active');
+                    } else {
+                        hashtags.forEach(t => t.classList.remove('active'));
+                        this.classList.add('active');
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>

@@ -842,7 +842,7 @@ date: 2025-05-01 00:00:00 -1000
             setupEventListeners();
         });
         
-        // Render all posts
+        // Render all posts - UPDATED VERSION
         function renderPosts(filteredHashtags = []) {
             postsContainer.innerHTML = '';
             
@@ -851,8 +851,15 @@ date: 2025-05-01 00:00:00 -1000
             // Filter by hashtags if any are selected
             if (filteredHashtags.length > 0) {
                 postsToRender = posts.filter(post => {
-                    return filteredHashtags.some(tag => 
-                        post.hashtags.includes(tag.textContent.replace('×', '').trim())
+                    // Convert both arrays to lowercase for case-insensitive comparison
+                    const postTags = post.hashtags.map(t => t.toLowerCase());
+                    const filterTags = filteredHashtags.map(t => 
+                        t.textContent.replace('×', '').trim().toLowerCase()
+                    );
+                    
+                    // Check if all selected filter tags exist in the post's tags
+                    return filterTags.every(filterTag => 
+                        postTags.some(postTag => postTag === filterTag)
                     );
                 });
             }
@@ -1069,7 +1076,7 @@ date: 2025-05-01 00:00:00 -1000
             renderPosts(filteredTags);
         }
         
-        // Create a new post
+        // Create a new post - UPDATED VERSION
         function createNewPost() {
             const title = document.getElementById('post-title').value;
             const description = document.getElementById('post-description').value;
@@ -1082,11 +1089,17 @@ date: 2025-05-01 00:00:00 -1000
             const availability = document.getElementById('post-availability').value;
             const type = document.querySelector('.post-type-btn.active').classList.contains('supply') ? 'supply' : 'demand';
             
-            // Get hashtags from preview
+            // Get hashtags from preview - FIXED VERSION
             const hashtagElements = hashtagPreview.querySelectorAll('.hashtag');
-            const hashtags = Array.from(hashtagElements).map(el => 
-                el.textContent.replace('×', '').trim()
-            );
+            const hashtags = Array.from(hashtagElements).map(el => {
+                // Get the text content and remove the × button text
+                let tagText = el.textContent;
+                if (tagText.includes('×')) {
+                    tagText = tagText.substring(0, tagText.indexOf('×')).trim();
+                }
+                // Ensure it starts with #
+                return tagText.startsWith('#') ? tagText : `#${tagText}`;
+            });
             
             const newPost = {
                 id: 'post' + (posts.length + 1),

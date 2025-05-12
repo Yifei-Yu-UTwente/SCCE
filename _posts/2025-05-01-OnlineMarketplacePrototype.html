@@ -531,6 +531,22 @@ date: 2025-05-01 00:00:00 -1000
                 grid-template-columns: 1fr;
             }
         }
+        /* Add this to your existing styles */
+        .apply-filters-btn {
+            width: 100%;
+            background-color: var(--primary);
+            color: white;
+            border: none;
+            border-radius: 5px;
+            padding: 0.7rem;
+            margin-top: 0.5rem;
+            cursor: pointer;
+            font-weight: bold;
+        }
+        
+        .apply-filters-btn:hover {
+            background-color: var(--dark);
+        }
     </style>
 </head>
 <body>
@@ -613,22 +629,24 @@ date: 2025-05-01 00:00:00 -1000
                         </select>
                     </div>
                     
-                    <div class="filter-section">
-                        <h4>Filter by Hashtags</h4>
-                        <div class="hashtag-list" id="filter-hashtags">
-                            <span class="hashtag">#steel<i class="fas fa-times hashtag-remove"></i></span>
-                            <span class="hashtag">#polymer<i class="fas fa-times hashtag-remove"></i></span>
-                            <span class="hashtag">#chemical<i class="fas fa-times hashtag-remove"></i></span>
-                            <span class="hashtag">#byproduct<i class="fas fa-times hashtag-remove"></i></span>
-                            <span class="hashtag">#wastewater<i class="fas fa-times hashtag-remove"></i></span>
-                            <span class="hashtag">#scrap<i class="fas fa-times hashtag-remove"></i></span>
-                        </div>
-                        <div class="add-hashtag-container">
-                            <input type="text" id="new-filter-hashtag" placeholder="Add new hashtag">
-                            <button id="add-filter-hashtag-btn">+</button>
-                        </div>
-                    </div>
-                </div>
+                     <div class="filter-section">
+            <h4>Filter by Hashtags</h4>
+            <div class="hashtag-list" id="filter-hashtags">
+                <span class="hashtag">#steel<i class="fas fa-times hashtag-remove"></i></span>
+                <span class="hashtag">#polymer<i class="fas fa-times hashtag-remove"></i></span>
+                <span class="hashtag">#chemical<i class="fas fa-times hashtag-remove"></i></span>
+                <span class="hashtag">#byproduct<i class="fas fa-times hashtag-remove"></i></span>
+                <span class="hashtag">#wastewater<i class="fas fa-times hashtag-remove"></i></span>
+                <span class="hashtag">#scrap<i class="fas fa-times hashtag-remove"></i></span>
+            </div>
+            <div class="add-hashtag-container">
+                <input type="text" id="new-filter-hashtag" placeholder="Add new hashtag">
+                <button id="add-filter-hashtag-btn">+</button>
+            </div>
+            <!-- Add this button -->
+            <button id="apply-filters-btn" class="apply-filters-btn">Apply Filters</button>
+        </div>
+    </div>
                 
                 <a href="https://yifei-yu-utwente.github.io/SCCE/2025/02/01/MatchmakingToolTest.html" class="sidebar-section quickmatch-btn">
                     QuickMatch Tool
@@ -842,7 +860,7 @@ date: 2025-05-01 00:00:00 -1000
             setupEventListeners();
         });
         
-        // Render all posts - UPDATED VERSION
+        // Updated renderPosts function
         function renderPosts(filteredHashtags = []) {
             postsContainer.innerHTML = '';
             
@@ -851,21 +869,20 @@ date: 2025-05-01 00:00:00 -1000
             // Filter by hashtags if any are selected
             if (filteredHashtags.length > 0) {
                 postsToRender = posts.filter(post => {
-                    // Convert both arrays to lowercase for case-insensitive comparison
                     const postTags = post.hashtags.map(t => t.toLowerCase());
-                    const filterTags = filteredHashtags.map(t => 
-                        t.textContent.replace('×', '').trim().toLowerCase()
-                    );
-                    
-                    // Check if all selected filter tags exist in the post's tags
-                    return filterTags.every(filterTag => 
-                        postTags.some(postTag => postTag === filterTag)
+                    return filteredHashtags.every(filterTag => 
+                        postTags.includes(filterTag)
                     );
                 });
             }
             
             if (postsToRender.length === 0) {
-                postsContainer.innerHTML = '<div class="post"><p>No posts match your filters.</p></div>';
+                postsContainer.innerHTML = `
+                    <div class="post">
+                        <p>No posts match your selected filters.</p>
+                        <p>Try selecting different hashtags or clearing filters.</p>
+                    </div>
+                `;
                 return;
             }
             
@@ -1002,21 +1019,32 @@ date: 2025-05-01 00:00:00 -1000
                 }
             });
             
-            // Filter by hashtag
+            // Remove the automatic filtering from hashtag clicks
             document.addEventListener('click', function(e) {
                 if (e.target.classList.contains('hashtag-remove')) {
                     e.stopPropagation();
                     const hashtag = e.target.closest('.hashtag');
                     hashtag.remove();
-                    updateHashtagFilters();
                 }
                 
                 if (e.target.closest('.hashtag') && !e.target.classList.contains('hashtag-remove')) {
                     const hashtag = e.target.closest('.hashtag');
                     hashtag.classList.toggle('active');
-                    updateHashtagFilters();
                 }
             });
+
+            // Add event listener for the Apply Filters button
+            document.getElementById('apply-filters-btn').addEventListener('click', applyHashtagFilters);
+        }
+
+        // New function to apply filters when button is clicked
+        function applyHashtagFilters() {
+            const activeTags = document.querySelectorAll('#filter-hashtags .hashtag.active');
+            const filteredTags = Array.from(activeTags).map(t => 
+                t.textContent.replace('×', '').trim().toLowerCase()
+            );
+            renderPosts(filteredTags);
+        }
             
             // Submit new post
             newPostForm.addEventListener('submit', function(e) {

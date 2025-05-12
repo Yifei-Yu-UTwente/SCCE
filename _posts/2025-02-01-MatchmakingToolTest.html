@@ -57,7 +57,17 @@ input:checked + .toggle-slider {
 input:checked + .toggle-slider:before {
     transform: translateX(26px);
 }
-
+        
+/* Return Icon */
+.return-icon {
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    font-size: 24px;
+    color: #000;
+    text-decoration: none;
+}
+        
 /* Label for the toggle switch */
 .toggle-label {
     margin-left: 10px;
@@ -343,6 +353,7 @@ input:checked + .toggle-slider:before {
 </head>
 <body>
     <div class="container">
+        <a href="https://yifei-yu-utwente.github.io/SCCE/2025/05/01/OnlineMarketplacePrototype.html" class="return-icon">←</a>
         <h1 class="title">QuickMatch</h1>
         <p class="subtitle">Version 1, March 2025, Yifei Yu</p>
         <button class="how-it-works-btn" onclick="openModal()">?</button>

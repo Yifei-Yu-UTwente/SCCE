@@ -212,6 +212,22 @@ date: 2025-05-01 00:00:00 -1000
             font-size: 0.8rem;
         }
         
+        .apply-filters-btn {
+            width: 100%;
+            background-color: var(--primary);
+            color: white;
+            border: none;
+            border-radius: 5px;
+            padding: 0.7rem;
+            margin-top: 0.5rem;
+            cursor: pointer;
+            font-weight: bold;
+        }
+        
+        .apply-filters-btn:hover {
+            background-color: var(--dark);
+        }
+        
         .quickmatch-btn {
             width: 100%;
             background-color: var(--supply);
@@ -531,22 +547,6 @@ date: 2025-05-01 00:00:00 -1000
                 grid-template-columns: 1fr;
             }
         }
-        /* Add this to your existing styles */
-        .apply-filters-btn {
-            width: 100%;
-            background-color: var(--primary);
-            color: white;
-            border: none;
-            border-radius: 5px;
-            padding: 0.7rem;
-            margin-top: 0.5rem;
-            cursor: pointer;
-            font-weight: bold;
-        }
-        
-        .apply-filters-btn:hover {
-            background-color: var(--dark);
-        }
     </style>
 </head>
 <body>
@@ -629,24 +629,23 @@ date: 2025-05-01 00:00:00 -1000
                         </select>
                     </div>
                     
-                     <div class="filter-section">
-            <h4>Filter by Hashtags</h4>
-            <div class="hashtag-list" id="filter-hashtags">
-                <span class="hashtag">#steel<i class="fas fa-times hashtag-remove"></i></span>
-                <span class="hashtag">#polymer<i class="fas fa-times hashtag-remove"></i></span>
-                <span class="hashtag">#chemical<i class="fas fa-times hashtag-remove"></i></span>
-                <span class="hashtag">#byproduct<i class="fas fa-times hashtag-remove"></i></span>
-                <span class="hashtag">#wastewater<i class="fas fa-times hashtag-remove"></i></span>
-                <span class="hashtag">#scrap<i class="fas fa-times hashtag-remove"></i></span>
-            </div>
-            <div class="add-hashtag-container">
-                <input type="text" id="new-filter-hashtag" placeholder="Add new hashtag">
-                <button id="add-filter-hashtag-btn">+</button>
-            </div>
-            <!-- Add this button -->
-            <button id="apply-filters-btn" class="apply-filters-btn">Apply Filters</button>
-        </div>
-    </div>
+                    <div class="filter-section">
+                        <h4>Filter by Hashtags</h4>
+                        <div class="hashtag-list" id="filter-hashtags">
+                            <span class="hashtag">#steel<i class="fas fa-times hashtag-remove"></i></span>
+                            <span class="hashtag">#polymer<i class="fas fa-times hashtag-remove"></i></span>
+                            <span class="hashtag">#chemical<i class="fas fa-times hashtag-remove"></i></span>
+                            <span class="hashtag">#byproduct<i class="fas fa-times hashtag-remove"></i></span>
+                            <span class="hashtag">#wastewater<i class="fas fa-times hashtag-remove"></i></span>
+                            <span class="hashtag">#scrap<i class="fas fa-times hashtag-remove"></i></span>
+                        </div>
+                        <div class="add-hashtag-container">
+                            <input type="text" id="new-filter-hashtag" placeholder="Add new hashtag">
+                            <button id="add-filter-hashtag-btn">+</button>
+                        </div>
+                        <button id="apply-filters-btn" class="apply-filters-btn">Apply Filters</button>
+                    </div>
+                </div>
                 
                 <a href="https://yifei-yu-utwente.github.io/SCCE/2025/02/01/MatchmakingToolTest.html" class="sidebar-section quickmatch-btn">
                     QuickMatch Tool
@@ -853,6 +852,7 @@ date: 2025-05-01 00:00:00 -1000
         const filterHashtagsContainer = document.getElementById('filter-hashtags');
         const addFilterHashtagBtn = document.getElementById('add-filter-hashtag-btn');
         const newFilterHashtagInput = document.getElementById('new-filter-hashtag');
+        const applyFiltersBtn = document.getElementById('apply-filters-btn');
         
         // Initialize the app
         document.addEventListener('DOMContentLoaded', function() {
@@ -860,7 +860,7 @@ date: 2025-05-01 00:00:00 -1000
             setupEventListeners();
         });
         
-        // Updated renderPosts function
+        // Render all posts
         function renderPosts(filteredHashtags = []) {
             postsContainer.innerHTML = '';
             
@@ -871,7 +871,7 @@ date: 2025-05-01 00:00:00 -1000
                 postsToRender = posts.filter(post => {
                     const postTags = post.hashtags.map(t => t.toLowerCase());
                     return filteredHashtags.every(filterTag => 
-                        postTags.includes(filterTag)
+                        postTags.includes(filterTag.toLowerCase())
                     );
                 });
             }
@@ -1019,7 +1019,7 @@ date: 2025-05-01 00:00:00 -1000
                 }
             });
             
-            // Remove the automatic filtering from hashtag clicks
+            // Hashtag filter interactions
             document.addEventListener('click', function(e) {
                 if (e.target.classList.contains('hashtag-remove')) {
                     e.stopPropagation();
@@ -1032,19 +1032,9 @@ date: 2025-05-01 00:00:00 -1000
                     hashtag.classList.toggle('active');
                 }
             });
-
-            // Add event listener for the Apply Filters button
-            document.getElementById('apply-filters-btn').addEventListener('click', applyHashtagFilters);
-        }
-
-        // New function to apply filters when button is clicked
-        function applyHashtagFilters() {
-            const activeTags = document.querySelectorAll('#filter-hashtags .hashtag.active');
-            const filteredTags = Array.from(activeTags).map(t => 
-                t.textContent.replace('×', '').trim().toLowerCase()
-            );
-            renderPosts(filteredTags);
-        }
+            
+            // Apply filters button
+            applyFiltersBtn.addEventListener('click', applyHashtagFilters);
             
             // Submit new post
             newPostForm.addEventListener('submit', function(e) {
@@ -1089,14 +1079,11 @@ date: 2025-05-01 00:00:00 -1000
                 tag.appendChild(removeIcon);
                 filterHashtagsContainer.appendChild(tag);
                 newFilterHashtagInput.value = '';
-                
-                // Update filters
-                updateHashtagFilters();
             }
         }
         
-        // Update hashtag filters
-        function updateHashtagFilters() {
+        // Apply hashtag filters
+        function applyHashtagFilters() {
             const activeTags = document.querySelectorAll('#filter-hashtags .hashtag.active');
             const filteredTags = Array.from(activeTags).map(t => 
                 t.textContent.replace('×', '').trim()
@@ -1104,7 +1091,7 @@ date: 2025-05-01 00:00:00 -1000
             renderPosts(filteredTags);
         }
         
-        // Create a new post - UPDATED VERSION
+        // Create a new post
         function createNewPost() {
             const title = document.getElementById('post-title').value;
             const description = document.getElementById('post-description').value;
@@ -1117,7 +1104,7 @@ date: 2025-05-01 00:00:00 -1000
             const availability = document.getElementById('post-availability').value;
             const type = document.querySelector('.post-type-btn.active').classList.contains('supply') ? 'supply' : 'demand';
             
-            // Get hashtags from preview - FIXED VERSION
+            // Get hashtags from preview
             const hashtagElements = hashtagPreview.querySelectorAll('.hashtag');
             const hashtags = Array.from(hashtagElements).map(el => {
                 // Get the text content and remove the × button text

@@ -907,11 +907,14 @@ date: 2025-06-01 00:00:00 -1000
         });
 
         // Navigation link clicks
-        navLinks.forEach(link => {
+            navLinks.forEach(link => {
             link.addEventListener('click', function(e) {
-                e.preventDefault();
-                showPage(this.dataset.page);
-            });
+        // Skip handling for marketplace link (let it open normally)
+        if (this.id !== 'marketplaceLink') {
+            e.preventDefault();
+            showPage(this.dataset.page);
+            }
+        });
         });
 
         // Show registration page from login

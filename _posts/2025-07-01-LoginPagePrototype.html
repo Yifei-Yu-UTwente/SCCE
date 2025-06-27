@@ -1,0 +1,1042 @@
+---
+layout:
+title:
+date: 2025-06-01 00:00:00 -1000
+---
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>IS2H4C</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        :root {
+            --primary: #2E7D32;
+            --secondary: #4CAF50;
+            --dark: #1B5E20;
+            --light: #C8E6C9;
+            --supply: #1976D2;
+            --demand: #FF6D00;
+        }
+        
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background-color: #f5f5f5;
+            color: #333;
+        }
+        
+        /* Login Page Styles */
+        .login-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            background-color: var(--light);
+            padding: 2rem;
+        }
+        
+        .login-box {
+            background-color: white;
+            border-radius: 10px;
+            padding: 2.5rem;
+            width: 100%;
+            max-width: 450px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            text-align: center;
+        }
+        
+        .login-logo {
+            font-size: 2.5rem;
+            font-weight: bold;
+            color: var(--primary);
+            margin-bottom: 1.5rem;
+        }
+        
+        .login-title {
+            font-size: 1.5rem;
+            margin-bottom: 2rem;
+            color: #444;
+        }
+        
+        .login-form .form-group {
+            margin-bottom: 1.5rem;
+            text-align: left;
+        }
+        
+        .login-form label {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: #555;
+            font-weight: 500;
+        }
+        
+        .login-form input {
+            width: 100%;
+            padding: 0.8rem 1rem;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 1rem;
+        }
+        
+        .login-btn {
+            width: 100%;
+            background-color: var(--primary);
+            color: white;
+            border: none;
+            border-radius: 5px;
+            padding: 1rem;
+            font-size: 1rem;
+            font-weight: bold;
+            cursor: pointer;
+            margin-top: 1rem;
+            transition: background-color 0.3s;
+        }
+        
+        .login-btn:hover {
+            background-color: var(--dark);
+        }
+        
+        .login-links {
+            margin-top: 1.5rem;
+            font-size: 0.9rem;
+        }
+        
+        .login-links a {
+            color: var(--primary);
+            text-decoration: none;
+        }
+        
+        .guest-btn {
+            width: 100%;
+            background-color: #757575;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            padding: 1rem;
+            font-size: 1rem;
+            font-weight: bold;
+            cursor: pointer;
+            margin-top: 1rem;
+            transition: background-color 0.3s;
+        }
+        
+        .guest-btn:hover {
+            background-color: #424242;
+        }
+        
+        /* Profile Setup Modal */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: rgba(0,0,0,0.7);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s;
+        }
+        
+        .modal-overlay.active {
+            opacity: 1;
+            pointer-events: all;
+        }
+        
+        .modal-content {
+            background-color: white;
+            border-radius: 10px;
+            padding: 2rem;
+            width: 90%;
+            max-width: 500px;
+            max-height: 90vh;
+            overflow-y: auto;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.2);
+            transform: translateY(20px);
+            transition: transform 0.3s;
+        }
+        
+        .modal-overlay.active .modal-content {
+            transform: translateY(0);
+        }
+        
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+        }
+        
+        .modal-title {
+            font-size: 1.5rem;
+            color: var(--primary);
+        }
+        
+        .modal-subtitle {
+            font-size: 1rem;
+            color: #666;
+            margin-bottom: 1.5rem;
+        }
+        
+        .close-modal {
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: #777;
+        }
+        
+        .profile-form .form-group {
+            margin-bottom: 1.5rem;
+        }
+        
+        .profile-form label {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: #555;
+            font-weight: 500;
+        }
+        
+        .profile-form .required:after {
+            content: " *";
+            color: #e32;
+        }
+        
+        .profile-form input, 
+        .profile-form select,
+        .profile-form textarea {
+            width: 100%;
+            padding: 0.8rem 1rem;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 1rem;
+        }
+        
+        .profile-form textarea {
+            min-height: 100px;
+            resize: vertical;
+        }
+        
+        .form-row {
+            display: flex;
+            gap: 1rem;
+        }
+        
+        .form-row .form-group {
+            flex: 1;
+        }
+        
+        .submit-profile-btn {
+            width: 100%;
+            background-color: var(--primary);
+            color: white;
+            border: none;
+            border-radius: 5px;
+            padding: 1rem;
+            font-size: 1rem;
+            font-weight: bold;
+            cursor: pointer;
+            margin-top: 1rem;
+            transition: background-color 0.3s;
+        }
+        
+        .submit-profile-btn:hover {
+            background-color: var(--dark);
+        }
+        
+        /* Main App Styles */
+        .app-container {
+            display: none;
+            min-height: 100vh;
+            flex-direction: column;
+        }
+        
+        header {
+            background-color: var(--primary);
+            color: white;
+            padding: 1rem;
+            display: none;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        
+        .logo {
+            font-size: 1.5rem;
+            font-weight: bold;
+        }
+        
+        nav ul {
+            display: flex;
+            list-style: none;
+        }
+        
+        nav ul li {
+            margin-left: 1.5rem;
+        }
+        
+        nav ul li a {
+            color: white;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.5rem 1rem;
+            border-radius: 5px;
+            transition: background-color 0.2s;
+        }
+        
+        nav ul li a:hover {
+            background-color: rgba(255,255,255,0.2);
+        }
+        
+        .main-content {
+            flex: 1;
+            padding: 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+            width: 100%;
+            display: none;
+        }
+        
+        /* Page-specific styles */
+        /* Dashboard Page */
+        .dashboard-content {
+            display: block;
+        }
+        
+        /* Registration Page */
+        .registration-content {
+            display: none;
+        }
+        
+        /* Marketplace Page */
+        .marketplace-content {
+            display: none;
+        }
+        
+        /* Profile Page */
+        .profile-content {
+            display: none;
+        }
+        
+        /* GIS Map Styles */
+        .map-container {
+            position: relative;
+            width: 100%;
+            height: 500px;
+            background-color: #e9f5e9;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            margin-top: 1.5rem;
+            background-image: url('https://maps.googleapis.com/maps/api/staticmap?center=52.1326,5.2913&zoom=7&size=1200x500&maptype=roadmap&style=feature:all|element:labels|visibility:off&key=AIzaSyDummyKey1234567890');
+            background-size: cover;
+            background-position: center;
+        }
+        
+        .map-marker {
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            background-color: var(--supply);
+            border-radius: 50%;
+            border: 2px solid white;
+            cursor: pointer;
+            transform: translate(-50%, -50%);
+            z-index: 10;
+        }
+        
+        .map-marker.demand {
+            background-color: var(--demand);
+        }
+        
+        .map-marker::after {
+            content: '';
+            position: absolute;
+            width: 30px;
+            height: 30px;
+            background-color: inherit;
+            border-radius: 50%;
+            opacity: 0.3;
+            top: -7px;
+            left: -7px;
+            z-index: -1;
+        }
+        
+        .company-popup {
+            position: absolute;
+            background-color: white;
+            border-radius: 8px;
+            padding: 1.5rem;
+            width: 300px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+            z-index: 100;
+            display: none;
+        }
+        
+        .company-popup h3 {
+            color: var(--primary);
+            margin-bottom: 0.5rem;
+        }
+        
+        .company-popup .industry {
+            color: #666;
+            font-size: 0.9rem;
+            margin-bottom: 1rem;
+        }
+        
+        .company-popup .details {
+            margin-bottom: 1rem;
+            line-height: 1.5;
+        }
+        
+        .company-popup .close-popup {
+            position: absolute;
+            top: 0.5rem;
+            right: 0.5rem;
+            background: none;
+            border: none;
+            font-size: 1.2rem;
+            cursor: pointer;
+            color: #777;
+        }
+        
+        /* Dashboard Styles */
+        .dashboard-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+        }
+        
+        .dashboard-title {
+            font-size: 1.8rem;
+            color: var(--dark);
+        }
+        
+        .welcome-message {
+            color: #555;
+            margin-bottom: 2rem;
+        }
+        
+        .stats-container {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+        
+        .stat-card {
+            background-color: white;
+            border-radius: 8px;
+            padding: 1.5rem;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        
+        .stat-card h3 {
+            color: #555;
+            font-size: 1rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        .stat-card .value {
+            font-size: 1.8rem;
+            font-weight: bold;
+            color: var(--primary);
+        }
+        
+        /* Registration Page Styles */
+        .registration-form {
+            background-color: white;
+            border-radius: 8px;
+            padding: 2rem;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        
+        /* Marketplace Page Styles */
+        .marketplace-posts {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 1.5rem;
+        }
+        
+        .post-card {
+            background-color: white;
+            border-radius: 8px;
+            padding: 1.5rem;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        
+        /* Profile Page Styles */
+        .profile-view {
+            background-color: white;
+            border-radius: 8px;
+            padding: 2rem;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        
+        @media (max-width: 768px) {
+            nav ul {
+                flex-direction: column;
+                gap: 0.5rem;
+            }
+            
+            nav ul li {
+                margin-left: 0;
+            }
+            
+            .stats-container {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Login Page -->
+    <div class="login-container" id="loginPage">
+        <div class="login-box">
+            <div class="login-logo">IS2H4C</div>
+            <h2 class="login-title">Login Page</h2>
+            <form class="login-form" id="loginForm">
+                <div class="form-group">
+                    <label for="email">Email</label>
+                    <input type="email" id="email" required>
+                </div>
+                <div class="form-group">
+                    <label for="password">Password</label>
+                    <input type="password" id="password" required>
+                </div>
+                <button type="submit" class="login-btn">Login</button>
+                <button type="button" class="guest-btn" id="guestLogin">Continue as Guest</button>
+                <div class="login-links">
+                    <a href="#" id="showRegistration">Create account</a> | <a href="#">Forgot password?</a>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Profile Setup Modal -->
+    <div class="modal-overlay" id="profileModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <div>
+                    <h3 class="modal-title">Step 1: Your Profile</h3>
+                    <p class="modal-subtitle">Complete your profile to access the platform</p>
+                </div>
+                <button class="close-modal" id="closeModal">&times;</button>
+            </div>
+            <form class="profile-form" id="profileForm">
+                <div class="form-group">
+                    <label for="companyName" class="required">Company/Organisation Name</label>
+                    <input type="text" id="companyName" required value="EcoSolutions Netherlands">
+                </div>
+                
+                <div class="form-group">
+                    <label for="industry" class="required">Industry/Sector</label>
+                    <select id="industry" required>
+                        <option value="">Select your industry/sector</option>
+                        <option value="chemical" selected>Chemical Industry</option>
+                        <option value="construction">Construction</option>
+                        <option value="energy">Energy Production</option>
+                        <option value="food">Food Processing</option>
+                        <option value="manufacturing">Manufacturing</option>
+                        <option value="metals">Metals & Mining</option>
+                        <option value="textile">Textile</option>
+                        <option value="waste">Waste Management</option>
+                        <option value="other">Other</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label for="productService" class="required">Product/Service</label>
+                    <input type="text" id="productService" required placeholder="Main products or services your company provides" value="Chemical byproduct recycling and repurposing">
+                </div>
+                
+                <div class="form-group">
+                    <label for="address">Address</label>
+                    <input type="text" id="address" placeholder="Street address" value="Eco Park 42, Rotterdam">
+                </div>
+                
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="country">Country</label>
+                        <select id="country">
+                            <option value="">Select country</option>
+                            <option value="netherlands" selected>Netherlands</option>
+                            <option value="germany">Germany</option>
+                            <option value="spain">Spain</option>
+                            <option value="turkey">Turkey</option>
+                            <option value="other">Other</option>
+                        </select>
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label for="hubStatus">Are you in a hub?</label>
+                    <select id="hubStatus">
+                        <option value="">Select option</option>
+                        <option value="dutch" selected>Dutch Hub</option>
+                        <option value="german">German Hub</option>
+                        <option value="basque">Basque Hub</option>
+                        <option value="turkish">Turkish Hub</option>
+                        <option value="none">Outside Hub</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label for="role">Your Role</label>
+                    <select id="role">
+                        <option value="">Select your role</option>
+                        <option value="hub-leader">Hub Leader</option>
+                        <option value="hub-company" selected>Hub Company</option>
+                        <option value="guest">Guest</option>
+                    </select>
+                </div>
+                
+                <button type="submit" class="submit-profile-btn">Continue</button>
+            </form>
+        </div>
+    </div>
+
+
+    <!-- Main App Container -->
+    <div class="app-container" id="appContainer">
+        <header id="mainHeader">
+            <div class="logo" id="homeLogo" style="cursor: pointer;">IS2H4C</div>
+            <nav>
+                <ul>
+                    <li><a href="#" class="nav-link" data-page="dashboard"><i class="fas fa-home"></i> Dashboard</a></li>
+                    <li><a href="https://yifei-yu-utwente.github.io/SCCE/2025/05/01/OnlineMarketplacePrototype.html" class="nav-link" data-page="marketplace" id="marketplaceLink"><i class="fas fa-store"></i> Marketplace</a></li>
+                    <li><a href="#" class="nav-link" data-page="profile"><i class="fas fa-user-edit"></i> Edit Profile</a></li>
+                </ul>
+            </nav>
+        </header>
+
+        <!-- Dashboard Page -->
+        <div class="main-content dashboard-content" id="dashboardPage">
+            <div class="dashboard-header">
+                <h1 class="dashboard-title">Landing Page</h1>
+            </div>
+            
+            <p class="welcome-message" id="welcomeMessage">Welcome back! Explore potential industrial symbiosis opportunities in your region.</p>
+            
+            <div class="stats-container">
+                <div class="stat-card">
+                    <h3>Potential Matches</h3>
+                    <div class="value">24</div>
+                </div>
+                <div class="stat-card">
+                    <h3>Companies Nearby</h3>
+                    <div class="value">37</div>
+                </div>
+                <div class="stat-card">
+                    <h3>Active Contacts</h3>
+                    <div class="value">8</div>
+                </div>
+            </div>
+            
+            <h2>Map</h2>
+            <div class="map-container" id="mapContainer">
+                <!-- Map markers will be added dynamically -->
+                <div class="company-popup" id="companyPopup">
+                    <button class="close-popup">&times;</button>
+                    <h3 id="popupCompanyName">Company Name</h3>
+                    <div class="industry" id="popupIndustry">Chemical Industry</div>
+                    <div class="details" id="popupDetails">
+                        <p><strong>Products/Services:</strong> <span id="popupProducts">Industrial solvents, chemical byproducts</span></p>
+                        <p><strong>Location:</strong> <span id="popupLocation">Rotterdam, Netherlands</span></p>
+                        <p><strong>Hub:</strong> <span id="popupHub">Dutch Hub</span></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Registration Page -->
+        <div class="main-content registration-content" id="registrationPage">
+            <h1 class="dashboard-title">New User Registration</h1>
+            <div class="registration-form">
+                <form id="registrationForm">
+                    <div class="form-group">
+                        <label for="regEmail" class="required">Email</label>
+                        <input type="email" id="regEmail" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="regPassword" class="required">Password</label>
+                        <input type="password" id="regPassword" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="regConfirmPassword" class="required">Confirm Password</label>
+                        <input type="password" id="regConfirmPassword" required>
+                    </div>
+                    <button type="submit" class="submit-profile-btn">Register</button>
+                </form>
+            </div>
+        </div>
+        
+        
+        <!-- Profile Page -->
+        <div class="main-content profile-content" id="profilePage">
+            <h1 class="dashboard-title">Your Profile</h1>
+            <div class="profile-view">
+                <div class="form-group">
+                    <label>Company/Organisation Name</label>
+                    <p id="profileCompanyName">GreenTech Solutions</p>
+                </div>
+                <div class="form-group">
+                    <label>Industry/Sector</label>
+                    <p id="profileIndustry">Waste Management</p>
+                </div>
+                <div class="form-group">
+                    <label>Product/Service</label>
+                    <p id="profileProduct">Waste processing and recycling services</p>
+                </div>
+                <div class="form-group">
+                    <label>Location</label>
+                    <p id="profileLocation">Amsterdam, Netherlands (Dutch Hub)</p>
+                </div>
+                <button class="submit-profile-btn">Edit Profile</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // DOM Elements
+        const loginContainer = document.querySelector('.login-container');
+        const loginForm = document.getElementById('loginForm');
+        const profileModal = document.getElementById('profileModal');
+        const closeModalBtn = document.getElementById('closeModal');
+        const profileForm = document.getElementById('profileForm');
+        const appContainer = document.getElementById('appContainer');
+        const mainHeader = document.getElementById('mainHeader');
+        const mapContainer = document.getElementById('mapContainer');
+        const companyPopup = document.getElementById('companyPopup');
+        const closePopupBtn = companyPopup.querySelector('.close-popup');
+        const showRegistrationLink = document.getElementById('showRegistration');
+        const guestLoginBtn = document.getElementById('guestLogin');
+        const welcomeMessage = document.getElementById('welcomeMessage');
+        
+        // Add this with your other event listeners
+        document.getElementById('homeLogo').addEventListener('click', function() {
+        // Hide app and show login page
+        appContainer.style.display = 'none';
+        loginContainer.style.display = 'flex';
+        
+        // Marketplace link click handler
+        document.getElementById('marketplaceLink').addEventListener('click', function(e) {
+        // Allow default link behavior (navigation to external site)
+        // No need for e.preventDefault() since we want the link to work normally
+        console.log('Redirecting to external marketplace...');
+        });
+    
+        // Reset any user data if needed
+        currentUser = null;
+        });
+        
+        // Page elements
+        const dashboardPage = document.getElementById('dashboardPage');
+        const registrationPage = document.getElementById('registrationPage');
+        const profilePage = document.getElementById('profilePage');
+        const navLinks = document.querySelectorAll('.nav-link');
+
+        // Sample companies data
+        const companies = [
+            {
+                id: 1,
+                name: "GreenChem Solutions",
+                industry: "Chemical Industry",
+                products: "Industrial solvents, chemical byproducts",
+                location: "Rotterdam, Netherlands",
+                hub: "Dutch Hub",
+                role: "Hub Company",
+                coords: { x: 30, y: 40 },
+                type: "supply"
+            },
+            {
+                id: 2,
+                name: "EcoSteel Manufacturing",
+                industry: "Metals & Mining",
+                products: "Steel beams, metal scraps",
+                location: "Duisburg, Germany",
+                hub: "German Hub",
+                role: "Hub Leader",
+                coords: { x: 60, y: 30 },
+                type: "supply"
+            },
+            {
+                id: 3,
+                name: "BioEnergy Partners",
+                industry: "Energy Production",
+                products: "Waste-to-energy solutions",
+                location: "Bilbao, Spain",
+                hub: "Basque Hub",
+                role: "Hub Company",
+                coords: { x: 20, y: 70 },
+                type: "demand"
+            },
+            {
+                id: 4,
+                name: "Textile Innovations",
+                industry: "Textile",
+                products: "Fabric scraps, textile waste",
+                location: "Istanbul, Turkey",
+                hub: "Turkish Hub",
+                role: "Hub Company",
+                coords: { x: 80, y: 80 },
+                type: "supply"
+            },
+            {
+                id: 5,
+                name: "WasteTransform",
+                industry: "Waste Management",
+                products: "Waste processing services",
+                location: "Amsterdam, Netherlands",
+                hub: "Dutch Hub",
+                role: "Hub Company",
+                coords: { x: 25, y: 35 },
+                type: "demand"
+            }
+        ];
+
+        // Current user data
+        let currentUser = null;
+
+        // Show main content after successful login
+        function showMainContent(isGuest = false) {
+            loginContainer.style.display = 'none';
+            appContainer.style.display = 'flex';
+            mainHeader.style.display = 'flex';
+            
+            // Show dashboard by default
+            showPage('dashboard');
+            
+            // Initialize the map with companies
+            initMap();
+            
+            // Update profile view with user data
+            if (currentUser) {
+                document.getElementById('profileCompanyName').textContent = currentUser.companyName || 'Guest User';
+                document.getElementById('profileIndustry').textContent = currentUser.industry ? document.getElementById('industry').options[document.getElementById('industry').selectedIndex].text : 'Not specified';
+                document.getElementById('profileProduct').textContent = currentUser.productService || 'Not specified';
+                document.getElementById('profileLocation').textContent = currentUser.address ? `${currentUser.address}${currentUser.country ? `, ${document.getElementById('country').options[document.getElementById('country').selectedIndex].text}` : ''} ${currentUser.hubStatus ? `(${document.getElementById('hubStatus').options[document.getElementById('hubStatus').selectedIndex].text})` : ''}` : 'Not specified';
+                
+                if (isGuest) {
+                    welcomeMessage.textContent = "Welcome guest! Explore potential industrial symbiosis opportunities in your region with limited access.";
+                } else {
+                    welcomeMessage.textContent = `Welcome back, ${currentUser.companyName || 'User'}! Explore potential industrial symbiosis opportunities in your region.`;
+                }
+            }
+        }
+
+        // Show specific page
+        function showPage(pageId) {
+            // Hide all pages
+            document.querySelectorAll('.main-content').forEach(page => {
+                page.style.display = 'none';
+            });
+            
+            // Show requested page
+            document.getElementById(`${pageId}Page`).style.display = 'block';
+            
+            // Update active nav link
+            navLinks.forEach(link => {
+                if (link.dataset.page === pageId) {
+                    link.style.fontWeight = 'bold';
+                } else {
+                    link.style.fontWeight = 'normal';
+                }
+            });
+        }
+
+        // Initialize the map with company markers
+        function initMap() {
+            // Clear existing markers
+            document.querySelectorAll('.map-marker').forEach(marker => marker.remove());
+            
+            companies.forEach(company => {
+                const marker = document.createElement('div');
+                marker.className = `map-marker ${company.type}`;
+                marker.style.left = `${company.coords.x}%`;
+                marker.style.top = `${company.coords.y}%`;
+                marker.dataset.companyId = company.id;
+                
+                marker.addEventListener('click', function() {
+                    showCompanyPopup(company);
+                });
+                
+                mapContainer.appendChild(marker);
+            });
+        }
+
+        // Show company popup with details
+        function showCompanyPopup(company) {
+            document.getElementById('popupCompanyName').textContent = company.name;
+            document.getElementById('popupIndustry').textContent = company.industry;
+            document.getElementById('popupProducts').textContent = company.products;
+            document.getElementById('popupLocation').textContent = company.location;
+            document.getElementById('popupHub').textContent = company.hub;
+            
+            // Position the popup near the marker
+            companyPopup.style.left = `${company.coords.x + 5}%`;
+            companyPopup.style.top = `${company.coords.y}%`;
+            companyPopup.style.display = 'block';
+        }
+
+        // Close company popup
+        closePopupBtn.addEventListener('click', function() {
+            companyPopup.style.display = 'none';
+        });
+
+        // Close popup when clicking outside
+        mapContainer.addEventListener('click', function(e) {
+            if (e.target === mapContainer) {
+                companyPopup.style.display = 'none';
+            }
+        });
+
+        // Navigation link clicks
+        navLinks.forEach(link => {
+            link.addEventListener('click', function(e) {
+                e.preventDefault();
+                showPage(this.dataset.page);
+            });
+        });
+
+        // Show registration page from login
+        showRegistrationLink.addEventListener('click', function(e) {
+    e.preventDefault();
+    // For new users, show the profile modal directly
+    profileModal.classList.add('active');
+    // Hide login and show app container
+    loginContainer.style.display = 'none';
+    appContainer.style.display = 'flex';
+    
+    // Set as new user
+    currentUser = {
+        email: '', // You could prefill if you have registration email
+        isNewUser: true
+    };
+});
+
+        // Guest login handler
+        guestLoginBtn.addEventListener('click', function() {
+            currentUser = {
+                isGuest: true,
+                companyName: "Guest User",
+                isNewUser: false
+            };
+            showMainContent(true);
+        });
+
+        // Registration form submission
+        document.getElementById('registrationForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const email = document.getElementById('regEmail').value;
+            const password = document.getElementById('regPassword').value;
+            const confirmPassword = document.getElementById('regConfirmPassword').value;
+            
+            if (password !== confirmPassword) {
+                alert('Passwords do not match');
+                return;
+            }
+            
+            // In a real app, you would register the user here
+            console.log('Registration attempt with:', email, password);
+            
+            // Show the profile modal for demo purposes
+            profileModal.classList.add('active');
+        });
+
+        // Login Form Submission
+        loginForm.addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            // Simple validation
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+            
+            if (email && password) {
+                // In a real app, you would authenticate with a server here
+                console.log('Login attempt with:', email, password);
+                
+                // For demo, create a simple user object
+                currentUser = {
+                    email: email,
+                    isNewUser: true // Flag to show profile modal for new users
+                };
+                
+                // Show the profile modal for new users
+                if (currentUser.isNewUser) {
+                    profileModal.classList.add('active');
+                } else {
+                    showMainContent();
+                }
+            }
+        });
+
+        // Close Modal
+        closeModalBtn.addEventListener('click', function() {
+            profileModal.classList.remove('active');
+        });
+
+        // Profile Form Submission
+        profileForm.addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            // Get required form values
+            const companyName = document.getElementById('companyName').value;
+            const industry = document.getElementById('industry').value;
+            const productService = document.getElementById('productService').value;
+            
+            // Simple validation for required fields
+            if (companyName && industry && productService) {
+                // Update current user with profile data
+                currentUser = {
+                    ...currentUser,
+                    companyName,
+                    industry,
+                    productService,
+                    address: document.getElementById('address').value,
+                    country: document.getElementById('country').value,
+                    hubStatus: document.getElementById('hubStatus').value,
+                    role: document.getElementById('role').value,
+                    isNewUser: false,
+                    isGuest: false
+                };
+                
+                console.log('Profile submitted:', currentUser);
+                
+                // Close modal and show main content
+                profileModal.classList.remove('active');
+                showMainContent();
+            } else {
+                alert('Please fill in all required fields (marked with *)');
+            }
+        });
+
+        // Close modal when clicking outside
+        profileModal.addEventListener('click', function(e) {
+            if (e.target === profileModal) {
+                profileModal.classList.remove('active');
+            }
+        });
+
+        // For demo purposes - pre-fill login form
+        document.getElementById('email').value = 'demo@IS2H4C.com';
+        document.getElementById('password').value = '123';
+    </script>
+</body>
+</html>

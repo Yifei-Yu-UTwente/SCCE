@@ -1,0 +1,555 @@
+---
+layout:
+title:
+date: 2025-06-01 00:00:00 -1000
+---
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Industrial Symbiosis Platform - Create New Match</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+        h1, h2, h3 {
+            color: #2c3e50;
+        }
+        h1 {
+            border-bottom: 2px solid #3498db;
+            padding-bottom: 10px;
+        }
+        .form-section {
+            background-color: white;
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        .form-group {
+            margin-bottom: 15px;
+        }
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: 600;
+        }
+        input[type="text"], 
+        input[type="number"], 
+        select, 
+        textarea {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+        textarea {
+            min-height: 80px;
+        }
+        .btn {
+            background-color: #3498db;
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 14px;
+            margin-right: 10px;
+        }
+        .btn:hover {
+            background-color: #2980b9;
+        }
+        .btn-secondary {
+            background-color: #95a5a6;
+        }
+        .btn-secondary:hover {
+            background-color: #7f8c8d;
+        }
+        .process, .flow {
+            border-left: 4px solid #3498db;
+            padding-left: 15px;
+            margin-bottom: 20px;
+            background-color: #f8f9fa;
+            padding: 15px;
+            border-radius: 4px;
+        }
+        .flow {
+            border-left-color: #2ecc71;
+        }
+        .toggle-section {
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .toggle-section:hover {
+            color: #3498db;
+        }
+        .hidden {
+            display: none;
+        }
+        .input-output-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+        .nav-buttons {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 30px;
+        }
+        .unit-input {
+            display: flex;
+        }
+        .unit-input input {
+            flex: 1;
+            border-top-right-radius: 0;
+            border-bottom-right-radius: 0;
+        }
+        .unit-input select {
+            width: auto;
+            border-top-left-radius: 0;
+            border-bottom-left-radius: 0;
+            border-left: none;
+        }
+        .prefilled-info {
+            color: #7f8c8d;
+            font-style: italic;
+            font-size: 0.9em;
+            margin-top: 3px;
+        }
+        .questionnaire-title {
+            color: #3498db;
+            margin-top: 20px;
+            margin-bottom: 10px;
+            font-weight: 600;
+        }
+        .nav-link {
+            text-decoration: none;
+            display: inline-block;
+        }
+        .nav-link:visited {
+            color: white;
+        }
+        .nav-link:hover {
+            color: white;
+        }
+    </style>
+</head>
+<body>
+    <h1>Step 3: Create a New Match</h1>
+
+    <form id="matchForm">
+        <!-- Section 1: Basic Information -->
+        <div class="form-section">
+            <h2>1. Basic Information</h2>
+            <div class="form-group">
+                <label for="matchName">Match Name</label>
+                <input type="text" id="matchName" name="matchName" value="ABC Manufacturing Co." required>
+                <div class="prefilled-info">Retrieved from registration</div>
+            </div>
+            <div class="form-group">
+                <label for="industrySector">Industry Sector</label>
+                <select id="industrySector" name="industrySector" required>
+                    <option value="chemical" selected>Chemical Manufacturing</option>
+                    <option value="food">Food Processing</option>
+                    <option value="textile">Textile Production</option>
+                    <option value="metal">Metal Processing</option>
+                    <option value="energy">Energy Production</option>
+                    <option value="other">Other</option>
+                </select>
+                <div class="prefilled-info">Retrieved from registration</div>
+            </div>
+            <div class="form-group">
+                <label for="location">Location</label>
+                <input type="text" id="location" name="location" value="Enschede, Netherlands" required>
+                <div class="prefilled-info">Retrieved from registration</div>
+                <small>Or select on map: <button type="button" class="btn btn-secondary" style="padding: 5px 10px; font-size: 12px;">Open Map</button></small>
+            </div>
+            <div class="form-group">
+                <label for="contactPerson">Contact Person</label>
+                <input type="text" id="contactPerson" name="contactPerson" value="John Smith (john.smith@abccorp.com)" required>
+                <div class="prefilled-info">Retrieved from registration</div>
+            </div>
+        </div>
+
+        <!-- Section 2: Match Preferences -->
+        <div class="form-section">
+            <h2>2. Match Preferences</h2>
+            
+            <div class="questionnaire-title">Answers from questionnaires</div>
+            <div class="form-group">
+                <label>Preferred Match Type</label>
+                <div>
+                    <input type="checkbox" id="wasteExchange" name="matchType[]" value="wasteExchange" checked>
+                    <label for="wasteExchange" style="display: inline; font-weight: normal;">Waste exchange</label>
+                </div>
+                <div>
+                    <input type="checkbox" id="energyRecovery" name="matchType[]" value="energyRecovery">
+                    <label for="energyRecovery" style="display: inline; font-weight: normal;">Energy recovery</label>
+                </div>
+                <div>
+                    <input type="checkbox" id="coProcessing" name="matchType[]" value="coProcessing">
+                    <label for="coProcessing" style="display: inline; font-weight: normal;">Co-processing</label>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="transportDistance">Distance Willing to Transport</label>
+                <input type="range" id="transportDistance" name="transportDistance" min="0" max="500" value="50" step="10">
+                <span id="distanceValue">50 km</span>
+            </div>
+            <div class="form-group">
+                <label>Confidentiality Level</label>
+                <div>
+                    <input type="radio" id="confPublic" name="confidentiality" value="public" checked>
+                    <label for="confPublic" style="display: inline; font-weight: normal;">Public</label>
+                </div>
+                <div>
+                    <input type="radio" id="confSemiPrivate" name="confidentiality" value="semiPrivate">
+                    <label for="confSemiPrivate" style="display: inline; font-weight: normal;">Semi-private</label>
+                </div>
+                <div>
+                    <input type="radio" id="confPrivate" name="confidentiality" value="private">
+                    <label for="confPrivate" style="display: inline; font-weight: normal;">Private</label>
+                </div>
+            </div>
+        </div>
+
+        <!-- Section 3: Production Processes -->
+        <div class="form-section">
+            <h2>3. Production Processes</h2>
+            <p>Add one or more processes involved in your operations</p>
+            
+            <!-- Process Template (will be cloned when adding new processes) -->
+            <div class="process" id="processTemplate" style="display: none;">
+                <div class="toggle-section" onclick="toggleSection(this)">
+                    <h3>Process <span class="process-number">1</span></h3>
+                    <span class="toggle-icon">▼</span>
+                </div>
+                <div class="process-content">
+                    <div class="form-group">
+                        <label for="processName">Process Name</label>
+                        <input type="text" class="processName" name="processName[]" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="processDesc">Description</label>
+                        <textarea class="processDesc" name="processDesc[]"></textarea>
+                    </div>
+                    
+                    <h4>Flows</h4>
+                    <div class="flows-container">
+                        <!-- Flows will be added here -->
+                    </div>
+                    
+                    <button type="button" class="btn btn-secondary add-flow" onclick="addFlow(this)">+ Add Flow</button>
+                    <button type="button" class="btn btn-secondary remove-process" onclick="removeProcess(this)">Remove Process</button>
+                </div>
+            </div>
+            
+            <!-- Flow Template (for cloning) -->
+            <div class="flow" id="flowTemplate" style="display: none;">
+                <div class="toggle-section" onclick="toggleSection(this)">
+                    <h4>Flow <span class="flow-number">1</span></h4>
+                    <span class="toggle-icon">▼</span>
+                </div>
+                <div class="flow-content">
+                    <div class="form-group">
+                        <label for="flowName">Flow Name</label>
+                        <input type="text" class="flowName" name="flowName[]" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="flowType">Flow Type</label>
+                        <select class="flowType" name="flowType[]" required>
+                            <option value="">Select flow type</option>
+                            <option value="material">Material</option>
+                            <option value="energy">Energy</option>
+                            <option value="byproduct">By-product</option>
+                        </select>
+                    </div>
+                    
+                    <div class="input-output-grid">
+                        <div>
+                            <h5>Input Details (if applicable)</h5>
+                            <div class="form-group">
+                                <label for="inputMaterial">Input Material</label>
+                                <input type="text" class="inputMaterial" name="inputMaterial[]">
+                            </div>
+                            <div class="form-group">
+                                <label for="inputQuantity">Quantity</label>
+                                <div class="unit-input">
+                                    <input type="number" class="inputQuantity" name="inputQuantity[]" step="0.01">
+                                    <select class="inputUnit" name="inputUnit[]">
+                                        <option value="kg">kg/day</option>
+                                        <option value="ton">ton/day</option>
+                                        <option value="m3">m³/day</option>
+                                        <option value="kwh">kWh</option>
+                                        <option value="liter">liters/day</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="inputQuality">Quality Parameters</label>
+                                <textarea class="inputQuality" name="inputQuality[]"></textarea>
+                            </div>
+                        </div>
+                        
+                        <div>
+                            <h5>Output Details</h5>
+                            <div class="form-group">
+                                <label for="outputMaterial">Output Material</label>
+                                <input type="text" class="outputMaterial" name="outputMaterial[]" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="outputQuantity">Quantity</label>
+                                <div class="unit-input">
+                                    <input type="number" class="outputQuantity" name="outputQuantity[]" step="0.01" required>
+                                    <select class="outputUnit" name="outputUnit[]">
+                                        <option value="kg">kg/day</option>
+                                        <option value="ton">ton/day</option>
+                                        <option value="m3">m³/day</option>
+                                        <option value="kwh">kWh</option>
+                                        <option value="liter">liters/day</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="outputQuality">Quality Parameters</label>
+                                <textarea class="outputQuality" name="outputQuality[]"></textarea>
+                            </div>
+                        </div>
+                    </div>
+                    <button type="button" class="btn btn-secondary remove-flow" onclick="removeFlow(this)">Remove Flow</button>
+                </div>
+            </div>
+            
+            <!-- Initial Process -->
+            <div class="process">
+                <div class="toggle-section" onclick="toggleSection(this)">
+                    <h3>Process 1</h3>
+                    <span class="toggle-icon">▼</span>
+                </div>
+                <div class="process-content">
+                    <div class="form-group">
+                        <label for="processName">Process Name</label>
+                        <input type="text" class="processName" name="processName[]" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="processDesc">Description</label>
+                        <textarea class="processDesc" name="processDesc[]"></textarea>
+                    </div>
+                    
+                    <h4>Flows</h4>
+                    <div class="flows-container">
+                        <!-- Initial Flow -->
+                        <div class="flow">
+                            <div class="toggle-section" onclick="toggleSection(this)">
+                                <h4>Flow 1</h4>
+                                <span class="toggle-icon">▼</span>
+                            </div>
+                            <div class="flow-content">
+                                <div class="form-group">
+                                    <label for="flowName">Flow Name</label>
+                                    <input type="text" class="flowName" name="flowName[]" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="flowType">Flow Type</label>
+                                    <select class="flowType" name="flowType[]" required>
+                                        <option value="">Select flow type</option>
+                                        <option value="material">Material</option>
+                                        <option value="energy">Energy</option>
+                                        <option value="byproduct">By-product</option>
+                                    </select>
+                                </div>
+                                
+                                <div class="input-output-grid">
+                                    <div>
+                                        <h5>Input Details (if applicable)</h5>
+                                        <div class="form-group">
+                                            <label for="inputMaterial">Input Material</label>
+                                            <input type="text" class="inputMaterial" name="inputMaterial[]">
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="inputQuantity">Quantity</label>
+                                            <div class="unit-input">
+                                                <input type="number" class="inputQuantity" name="inputQuantity[]" step="0.01">
+                                                <select class="inputUnit" name="inputUnit[]">
+                                                    <option value="kg">kg/day</option>
+                                                    <option value="ton">ton/day</option>
+                                                    <option value="m3">m³/day</option>
+                                                    <option value="kwh">kWh</option>
+                                                    <option value="liter">liters/day</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="inputQuality">Quality Parameters</label>
+                                            <textarea class="inputQuality" name="inputQuality[]"></textarea>
+                                        </div>
+                                    </div>
+                                    
+                                    <div>
+                                        <h5>Output Details</h5>
+                                        <div class="form-group">
+                                            <label for="outputMaterial">Output Material</label>
+                                            <input type="text" class="outputMaterial" name="outputMaterial[]" required>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="outputQuantity">Quantity</label>
+                                            <div class="unit-input">
+                                                <input type="number" class="outputQuantity" name="outputQuantity[]" step="0.01" required>
+                                                <select class="outputUnit" name="outputUnit[]">
+                                                    <option value="kg">kg/day</option>
+                                                    <option value="ton">ton/day</option>
+                                                    <option value="m3">m³/day</option>
+                                                    <option value="kwh">kWh</option>
+                                                    <option value="liter">liters/day</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="outputQuality">Quality Parameters</label>
+                                            <textarea class="outputQuality" name="outputQuality[]"></textarea>
+                                        </div>
+                                    </div>
+                                </div>
+                                <button type="button" class="btn btn-secondary remove-flow" onclick="removeFlow(this)">Remove Flow</button>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <button type="button" class="btn btn-secondary add-flow" onclick="addFlow(this)">+ Add Flow</button>
+                    <button type="button" class="btn btn-secondary remove-process" onclick="removeProcess(this)">Remove Process</button>
+                </div>
+            </div>
+            
+            <button type="button" class="btn btn-secondary" id="addProcess">+ Add Another Process</button>
+        </div>
+
+        <div class="nav-buttons">
+            <a href="https://yifei-yu-utwente.github.io/SCCE/2025/05/01/OnlineMarketplacePrototype.html" class="btn btn-secondary nav-link">Previous Step</a>
+            <div>
+                <button type="button" class="btn btn-secondary">Save Draft</button>
+                <a href="https://yifei-yu-utwente.github.io/SCCE/2025/02/01/MatchmakingToolTest.html" class="btn nav-link">Submit Match</a>
+            </div>
+        </div>
+    </form>
+
+    <script>
+        // Toggle section visibility
+        function toggleSection(element) {
+            const content = element.nextElementSibling;
+            const icon = element.querySelector('.toggle-icon');
+            
+            if (content.style.display === 'none') {
+                content.style.display = 'block';
+                icon.textContent = '▼';
+            } else {
+                content.style.display = 'none';
+                icon.textContent = '►';
+            }
+        }
+
+        // Update distance value display
+        document.getElementById('transportDistance').addEventListener('input', function() {
+            document.getElementById('distanceValue').textContent = this.value + ' km';
+        });
+
+        // Add new process
+        document.getElementById('addProcess').addEventListener('click', function() {
+            const template = document.getElementById('processTemplate');
+            const clone = template.cloneNode(true);
+            clone.style.display = 'block';
+            clone.id = '';
+            
+            // Update process number
+            const processCount = document.querySelectorAll('.process:not(#processTemplate)').length + 1;
+            clone.querySelector('.process-number').textContent = processCount;
+            
+            // Insert before the "Add Process" button
+            this.parentNode.insertBefore(clone, this);
+            
+            // Initialize the process content as visible
+            clone.querySelector('.process-content').style.display = 'block';
+            
+            // Add initial flow to new process
+            const flowsContainer = clone.querySelector('.flows-container');
+            const flowTemplate = document.getElementById('flowTemplate');
+            const newFlow = flowTemplate.cloneNode(true);
+            newFlow.style.display = 'block';
+            newFlow.querySelector('.flow-number').textContent = '1';
+            newFlow.querySelector('.flow-content').style.display = 'block';
+            flowsContainer.insertBefore(newFlow, clone.querySelector('.add-flow'));
+        });
+
+        // Add new flow to a process - WORKING VERSION
+        function addFlow(button) {
+            const process = button.closest('.process');
+            const flowsContainer = process.querySelector('.flows-container');
+            const flowTemplate = document.getElementById('flowTemplate');
+            
+            // Clone the template
+            const newFlow = flowTemplate.cloneNode(true);
+            newFlow.style.display = 'block';
+            
+            // Calculate the new flow number
+            const flowCount = flowsContainer.querySelectorAll('.flow').length + 1;
+            newFlow.querySelector('.flow-number').textContent = flowCount;
+            
+            // Insert before the "Add Flow" button
+            flowsContainer.insertBefore(newFlow, button);
+            
+            // Show the flow content
+            newFlow.querySelector('.flow-content').style.display = 'block';
+        }
+
+        // Remove a flow
+        function removeFlow(button) {
+            const flow = button.closest('.flow');
+            const flowsContainer = flow.parentNode;
+            
+            if (flowsContainer.querySelectorAll('.flow').length > 1) {
+                flow.remove();
+                // Re-number remaining flows
+                const flows = flowsContainer.querySelectorAll('.flow');
+                flows.forEach((f, index) => {
+                    f.querySelector('.flow-number').textContent = index + 1;
+                });
+            } else {
+                alert('Each process must have at least one flow.');
+            }
+        }
+
+        // Remove a process
+        function removeProcess(button) {
+            const process = button.closest('.process');
+            const processes = document.querySelectorAll('.process:not(#processTemplate)');
+            
+            if (processes.length > 1) {
+                process.remove();
+                // Re-number remaining processes
+                const updatedProcesses = document.querySelectorAll('.process:not(#processTemplate)');
+                updatedProcesses.forEach((p, index) => {
+                    p.querySelector('.process-number').textContent = index + 1;
+                });
+            } else {
+                alert('You must have at least one process.');
+            }
+        }
+
+        // Initialize the first process and flow as expanded
+        document.addEventListener('DOMContentLoaded', function() {
+            document.querySelector('.process-content').style.display = 'block';
+            document.querySelector('.flow-content').style.display = 'block';
+        });
+    </script>
+</body>
+</html>

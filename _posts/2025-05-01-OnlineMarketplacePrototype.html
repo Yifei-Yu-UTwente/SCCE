@@ -57,6 +57,15 @@ date: 2025-05-01 00:00:00 -1000
             margin-left: 1.5rem;
         }
         
+        .post-type-btn.transit {
+        border-right: 1px solid #ddd;
+        }
+
+        .post-type-btn.transit.active {
+        background-color: #9C27B0;
+        color: white;
+        }
+        
         nav ul li a {
             color: white;
             text-decoration: none;
@@ -275,40 +284,50 @@ date: 2025-05-01 00:00:00 -1000
             color: var(--dark);
         }
         
-        .post-type-toggle {
-            display: flex;
-            margin-bottom: 1rem;
-            border: 1px solid #ddd;
-            border-radius: 5px;
-            overflow: hidden;
+       .post-type-toggle {
+    display: flex;
+    margin-bottom: 1rem;
+    border-radius: 5px;
+    overflow: hidden;
+    border: 1px solid #ddd;
         }
-        
+
         .post-type-btn {
-            flex: 1;
-            padding: 0.5rem;
-            text-align: center;
-            cursor: pointer;
-            border: none;
-            background-color: white;
-            transition: all 0.2s;
+        flex: 1;
+        padding: 0.5rem;
+        text-align: center;
+        cursor: pointer;
+        border: none;
+        background-color: #f5f5f5;
+        transition: all 0.2s;
+        color: #333; /* Default text color */
+        font-weight: bold;
         }
-        
-        .post-type-btn.supply {
-            border-right: 1px solid #ddd;
-        }
-        
+
         .post-type-btn.active {
-            color: white;
+    color: white; /* White text for active buttons */
         }
-        
-        .post-type-btn.supply.active {
-            background-color: var(--supply);
+
+        .post-type-btn.supply {
+        background-color: #1976D2;
+        color: white;
         }
-        
-        .post-type-btn.demand.active {
-            background-color: var(--demand);
+
+        .post-type-btn.demand {
+        background-color: #FF6D00;
+        color: white;
         }
-        
+
+        .post-type-btn.transit {
+        background-color: #9C27B0;
+        color: white;
+        }
+
+        .post-type-btn:not(.active) {
+        opacity: 0.7;
+        background-color: #f5f5f5;
+        color: #333;
+        }
         .form-group {
             margin-bottom: 1rem;
         }
@@ -620,6 +639,36 @@ date: 2025-05-01 00:00:00 -1000
                 padding: 1.5rem;
             }
         }
+        
+        .post-type-btn.transit {
+        background-color: #9C27B0; /* Purple color for transit */
+        color: white; /* White text for contrast */
+        }
+        
+          .post-type-btn {
+        color: #fff; /* Force white text on all buttons */
+        border: none;
+        padding: 8px 16px;
+        cursor: pointer;
+        border-radius: 4px;
+        margin-right: 5px;
+        font-weight: bold;
+    }
+    
+    /* Active state */
+    .post-type-btn.active {
+        opacity: 1;
+    }
+    
+    /* Inactive state */
+    .post-type-btn:not(.active) {
+        opacity: 0.7;
+    }
+
+        .post-type.transit {
+        background-color: #9C27B0;
+        color: white;
+    }
     </style>
 </head>
 <body>
@@ -672,6 +721,7 @@ date: 2025-05-01 00:00:00 -1000
                             <option value="all">All Posts</option>
                             <option value="supply">Supply Only</option>
                             <option value="demand">Demand Only</option>
+                            <option value="transit">Transit Only</option>
                         </select>
                     </div>
                     
@@ -742,10 +792,6 @@ date: 2025-05-01 00:00:00 -1000
             <span class="close-modal">&times;</span>
             <div class="post-form">
                 <h3>Step 2: Create a New Post</h3>
-                <div class="post-type-toggle">
-                    <button class="post-type-btn supply active">Supply Offer</button>
-                    <button class="post-type-btn demand">Demand Request</button>
-                </div>
                 
                 <form id="new-post-form">
                     <div class="form-group">
@@ -754,23 +800,30 @@ date: 2025-05-01 00:00:00 -1000
                     </div>
                     
                     <div class="form-group">
-                        <label for="post-description">Detailed Description*</label>
-                        <textarea id="post-description" placeholder="Provide technical specifications, composition, handling requirements, etc." required></textarea>
+                        <label>Post Type*</label>
+                        <div class="post-type-toggle">
+                            <button type="button" class="post-type-btn supply active">Supply</button>
+                            <button type="button" class="post-type-btn demand">Demand</button>
+                            <button type="button" class="post-type-btn transit">Transit</button>
+                        </div>
                     </div>
                     
                     <div class="form-row">
                         <div class="form-group">
                             <label for="post-category">Category*</label>
-                            <select id="post-category" required>
-                                <option value="">Select a category</option>
-                                <option value="metals">Metals</option>
-                                <option value="plastics">Plastics</option>
-                                <option value="chemicals">Chemicals</option>
-                                <option value="construction">Construction Materials</option>
-                                <option value="textiles">Textiles</option>
-                                <option value="machinery">Machinery & Equipment</option>
-                                <option value="other">Other Industrial</option>
-                            </select>
+                            <div style="display: flex; gap: 0.5rem;">
+                                <select id="post-category" required style="flex: 1;">
+                                    <option value="">Select a category</option>
+                                    <option value="metals">Metals</option>
+                                    <option value="plastics">Plastics</option>
+                                    <option value="chemicals">Chemicals</option>
+                                    <option value="construction">Construction Materials</option>
+                                    <option value="textiles">Textiles</option>
+                                    <option value="machinery">Machinery & Equipment</option>
+                                    <option value="other">Other Industrial</option>
+                                </select>
+                                <input type="text" id="new-category" placeholder="Or add new" style="flex: 1;">
+                            </div>
                         </div>
                         
                         <div class="form-group">
@@ -826,6 +879,21 @@ date: 2025-05-01 00:00:00 -1000
                     </div>
                     
                     <div class="form-group">
+                        <label for="contact-method">Preferred Contact Method*</label>
+                        <div class="form-row">
+                            <select id="contact-method-type" required style="flex: 1;">
+                                <option value="">Select method</option>
+                                <option value="email">Email</option>
+                                <option value="phone">Phone</option>
+                                <option value="whatsapp">WhatsApp</option>
+                                <option value="linkedin">LinkedIn</option>
+                                <option value="other">Other</option>
+                            </select>
+                            <input type="text" id="contact-method-value" placeholder="Your contact info" required style="flex: 1;">
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
                         <label for="post-hashtags">Hashtags</label>
                         <div class="hashtag-input-container">
                             <input type="text" id="post-hashtags" placeholder="Add relevant hashtags (e.g., #steel, #polymer)">
@@ -834,6 +902,11 @@ date: 2025-05-01 00:00:00 -1000
                         <div class="hashtag-preview" id="hashtag-preview">
                             <!-- Hashtags will be added here -->
                         </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="post-description">Detailed Description*</label>
+                        <textarea id="post-description" placeholder="Provide technical specifications, composition, handling requirements, etc." required></textarea>
                     </div>
                     
                     <div class="form-group">
@@ -848,7 +921,7 @@ date: 2025-05-01 00:00:00 -1000
     </div>
     
     <script>
-        // Sample user data (in a real app, this would come from authentication)
+        // Sample user data
         const currentUser = {
             id: 'user1',
             name: 'Industrial Solutions Co.',
@@ -865,6 +938,7 @@ date: 2025-05-01 00:00:00 -1000
                 timeAgo: '1 day ago',
                 distance: '25 miles away',
                 type: 'demand',
+                contactMethod: 'email: contact@chemisolutions.com',
                 title: 'Seeking Industrial Solvent Byproducts for Reprocessing',
                 description: 'Looking for toluene or xylene containing waste streams from painting or coating operations. Minimum 1000 liters per batch. Will handle transportation and provide certificates of proper treatment.',
                 category: 'Chemicals',
@@ -887,6 +961,7 @@ date: 2025-05-01 00:00:00 -1000
                 timeAgo: '2 days ago',
                 distance: '8 miles away',
                 type: 'supply',
+                contactMethod: 'phone: +1234567890',
                 title: 'HDPE Plastic Pellets - Post-Industrial Recycled',
                 description: 'Consistent supply of high-quality HDPE pellets from post-industrial waste. Monthly availability of 15-20 tons. Certified composition available. Ideal for injection molding applications.',
                 category: 'Plastics',
@@ -908,16 +983,17 @@ date: 2025-05-01 00:00:00 -1000
                 userName: 'ConstructAll Ltd.',
                 timeAgo: '3 hours ago',
                 distance: '12 miles away',
-                type: 'supply',
-                title: 'Surplus Steel Beams from Construction Project',
-                description: 'Approximately 5 tons of steel I-beams (various sizes from 3m-6m length) available from completed construction project. ASTM A992 grade. Some surface rust but structurally sound.',
-                category: 'Metals',
+                type: 'transit',
+                contactMethod: 'whatsapp: +9876543210',
+                title: 'Transportation Services Available',
+                description: 'We have available trucks and drivers for transporting industrial materials throughout the region. Can handle hazardous materials with proper certification.',
+                category: 'Other Industrial',
                 location: 'Downtown Industrial Park',
-                quantity: '5 tons',
-                price: '$0.75/kg',
-                condition: 'Good',
+                quantity: '5 trucks available',
+                price: '$1.50 per mile',
+                condition: 'Excellent',
                 availability: 'Immediate',
-                hashtags: ['#steel', '#construction', '#beams', '#scrap', '#reuse'],
+                hashtags: ['#transport', '#logistics', '#shipping'],
                 likes: 8,
                 comments: 3,
                 isLiked: false,
@@ -985,6 +1061,17 @@ date: 2025-05-01 00:00:00 -1000
             postElement.className = 'post';
             postElement.dataset.id = post.id;
             
+            // Determine post type display
+            let typeBadgeClass = 'post-type ' + post.type;
+            let typeText = '';
+            if (post.type === 'supply') {
+                typeText = 'Supply';
+            } else if (post.type === 'demand') {
+                typeText = 'Demand';
+            } else {
+                typeText = 'Transit';
+            }
+            
             postElement.innerHTML = `
                 <div class="post-header">
                     <div class="post-user">
@@ -996,7 +1083,7 @@ date: 2025-05-01 00:00:00 -1000
                             <p>Posted ${post.timeAgo} · ${post.distance}</p>
                         </div>
                     </div>
-                    <span class="post-type ${post.type}">${post.type === 'supply' ? 'Supply' : 'Demand'}</span>
+                    <span class="${typeBadgeClass}">${typeText}</span>
                 </div>
                 
                 <div class="post-content">
@@ -1033,6 +1120,11 @@ date: 2025-05-01 00:00:00 -1000
                             <i class="fas fa-calendar-alt"></i>
                             <span class="post-detail-label">Availability:</span>
                             <span>${post.availability}</span>
+                        </div>
+                        <div class="post-detail">
+                            <i class="fas fa-envelope"></i>
+                            <span class="post-detail-label">Contact:</span>
+                            <span>${post.contactMethod}</span>
                         </div>
                     </div>
                     
@@ -1076,52 +1168,11 @@ date: 2025-05-01 00:00:00 -1000
         
         // Set up event listeners
         function setupEventListeners() {
-            // Toggle between supply and demand post types
-            const postTypeBtns = document.querySelectorAll('.post-type-btn');
-            postTypeBtns.forEach(btn => {
-                btn.addEventListener('click', function(e) {
-                    e.preventDefault();
-                    postTypeBtns.forEach(b => b.classList.remove('active'));
-                    this.classList.add('active');
-                });
-            });
-            
-            // Add hashtag to new post
-            addHashtagBtn.addEventListener('click', addHashtagToPost);
-            hashtagInput.addEventListener('keypress', function(e) {
-                if (e.key === 'Enter') {
-                    e.preventDefault();
-                    addHashtagToPost();
-                }
-            });
-            
-            // Add hashtag to filter
-            addFilterHashtagBtn.addEventListener('click', addHashtagToFilter);
-            newFilterHashtagInput.addEventListener('keypress', function(e) {
-                if (e.key === 'Enter') {
-                    e.preventDefault();
-                    addHashtagToFilter();
-                }
-            });
-            
-            // Hashtag filter interactions
-            document.addEventListener('click', function(e) {
-                if (e.target.classList.contains('hashtag-remove')) {
-                    e.stopPropagation();
-                    const hashtag = e.target.closest('.hashtag');
-                    hashtag.remove();
-                }
-                
-                if (e.target.closest('.hashtag') && !e.target.classList.contains('hashtag-remove')) {
-                    const hashtag = e.target.closest('.hashtag');
-                    hashtag.classList.toggle('active');
-                }
-            });
-            
-            // Apply filters button
-            applyFiltersBtn.addEventListener('click', applyHashtagFilters);
-            
             // Modal functionality
+            const modal = document.getElementById('post-modal');
+            const openModalBtn = document.getElementById('open-post-modal');
+            const closeModalBtn = document.querySelector('.close-modal');
+
             openModalBtn.addEventListener('click', () => {
                 modal.style.display = 'block';
             });
@@ -1135,8 +1186,68 @@ date: 2025-05-01 00:00:00 -1000
                     modal.style.display = 'none';
                 }
             });
+
+            // Post type toggle functionality
+const postTypeBtns = document.querySelectorAll('.post-type-btn');
+postTypeBtns.forEach(btn => {
+    btn.addEventListener('click', function(e) {
+        e.preventDefault();
+        postTypeBtns.forEach(b => {
+            b.classList.remove('active');
+            // Reset all buttons to inactive state
+            b.style.opacity = '0.7';
+            b.style.backgroundColor = '#f5f5f5';
+            b.style.color = '#333';
+        });
+        
+        this.classList.add('active');
+        // Set active button styles based on type
+        if (this.classList.contains('supply')) {
+            this.style.backgroundColor = '#1976D2';
+            this.style.color = 'white';
+        } else if (this.classList.contains('demand')) {
+            this.style.backgroundColor = '#FF6D00';
+            this.style.color = 'white';
+        } else if (this.classList.contains('transit')) {
+            this.style.backgroundColor = '#9C27B0';
+            this.style.color = 'white';
+        }
+    });
+});
             
-            // Submit new post
+            // Hashtag functionality
+            addHashtagBtn.addEventListener('click', addHashtagToPost);
+            hashtagInput.addEventListener('keypress', function(e) {
+                if (e.key === 'Enter') {
+                    e.preventDefault();
+                    addHashtagToPost();
+                }
+            });
+            
+            addFilterHashtagBtn.addEventListener('click', addHashtagToFilter);
+            newFilterHashtagInput.addEventListener('keypress', function(e) {
+                if (e.key === 'Enter') {
+                    e.preventDefault();
+                    addHashtagToFilter();
+                }
+            });
+            
+            document.addEventListener('click', function(e) {
+                if (e.target.classList.contains('hashtag-remove')) {
+                    e.stopPropagation();
+                    const hashtag = e.target.closest('.hashtag');
+                    hashtag.remove();
+                }
+                
+                if (e.target.closest('.hashtag') && !e.target.classList.contains('hashtag-remove')) {
+                    const hashtag = e.target.closest('.hashtag');
+                    hashtag.classList.toggle('active');
+                }
+            });
+            
+            applyFiltersBtn.addEventListener('click', applyHashtagFilters);
+            
+            // Form submission
             newPostForm.addEventListener('submit', function(e) {
                 e.preventDefault();
                 createNewPost();
@@ -1194,29 +1305,34 @@ date: 2025-05-01 00:00:00 -1000
         
         // Create a new post
         function createNewPost() {
-            const title = document.getElementById('post-title').value;
-            const description = document.getElementById('post-description').value;
-            const category = document.getElementById('post-category').value;
-            const location = document.getElementById('post-location').value;
-            const quantity = document.getElementById('post-quantity').value + ' ' + 
-                            document.getElementById('post-unit').value;
-            const price = document.getElementById('post-price').value || 'Free';
-            const condition = document.getElementById('post-condition').value;
-            const availability = document.getElementById('post-availability').value;
-            const type = document.querySelector('.post-type-btn.active').classList.contains('supply') ? 'supply' : 'demand';
-            
+            // Get post type
+            const activeTypeBtn = document.querySelector('.post-type-btn.active');
+            const type = activeTypeBtn.classList.contains('supply') ? 'supply' : 
+                        activeTypeBtn.classList.contains('demand') ? 'demand' : 'transit';
+
+            // Get category (use new if provided)
+            let category = document.getElementById('post-category').value;
+            const newCategory = document.getElementById('new-category').value.trim();
+            if (newCategory && (!category || category === 'other')) {
+                category = newCategory;
+            }
+
+            // Get contact method
+            const contactMethodType = document.getElementById('contact-method-type').value;
+            const contactMethodValue = document.getElementById('contact-method-value').value;
+            const contactMethod = `${contactMethodType}: ${contactMethodValue}`;
+
             // Get hashtags from preview
             const hashtagElements = hashtagPreview.querySelectorAll('.hashtag');
             const hashtags = Array.from(hashtagElements).map(el => {
-                // Get the text content and remove the × button text
                 let tagText = el.textContent;
                 if (tagText.includes('×')) {
                     tagText = tagText.substring(0, tagText.indexOf('×')).trim();
                 }
-                // Ensure it starts with #
                 return tagText.startsWith('#') ? tagText : `#${tagText}`;
             });
-            
+
+            // Create new post object
             const newPost = {
                 id: 'post' + (posts.length + 1),
                 userId: currentUser.id,
@@ -1225,27 +1341,28 @@ date: 2025-05-01 00:00:00 -1000
                 timeAgo: 'Just now',
                 distance: '0 miles away',
                 type,
-                title,
-                description,
+                title: document.getElementById('post-title').value,
+                description: document.getElementById('post-description').value,
                 category,
-                location,
-                quantity,
-                price,
-                condition,
-                availability,
+                location: document.getElementById('post-location').value,
+                quantity: document.getElementById('post-quantity').value + ' ' + 
+                         document.getElementById('post-unit').value,
+                price: document.getElementById('post-price').value || 'Free',
+                condition: document.getElementById('post-condition').value,
+                availability: document.getElementById('post-availability').value,
+                contactMethod,
                 hashtags: hashtags.length > 0 ? hashtags : ['#industrial'],
                 likes: 0,
                 comments: 0,
                 isLiked: false,
                 isBookmarked: false
             };
-            
+
             posts.unshift(newPost);
             renderPosts();
             newPostForm.reset();
             hashtagPreview.innerHTML = '';
             
-            // Scroll to the top to see the new post
             window.scrollTo(0, 0);
         }
         
@@ -1257,7 +1374,7 @@ date: 2025-05-01 00:00:00 -1000
             }
         }
         
-        // Like button functionality (delegated event)
+        // Like button functionality
         document.addEventListener('click', function(e) {
             if (e.target.closest('.like-btn')) {
                 const likeBtn = e.target.closest('.like-btn');

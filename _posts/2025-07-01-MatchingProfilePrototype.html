@@ -492,25 +492,38 @@ date: 2025-06-01 00:00:00 -1000
 
         // Add new flow to a process - WORKING VERSION
         function addFlow(button) {
-            const process = button.closest('.process');
-            const flowsContainer = process.querySelector('.flows-container');
-            const flowTemplate = document.getElementById('flowTemplate');
-            
-            // Clone the template
-            const newFlow = flowTemplate.cloneNode(true);
-            newFlow.style.display = 'block';
-            
-            // Calculate the new flow number
-            const flowCount = flowsContainer.querySelectorAll('.flow').length + 1;
-            newFlow.querySelector('.flow-number').textContent = flowCount;
-            
-            // Insert before the "Add Flow" button
-            flowsContainer.insertBefore(newFlow, button);
-            
-            // Show the flow content
-            newFlow.querySelector('.flow-content').style.display = 'block';
+        console.log('Add Flow button clicked'); // Check if function is called
+    
+        const process = button.closest('.process');
+        console.log('Process element:', process); // Check if process is found
+    
+        const flowsContainer = process.querySelector('.flows-container');
+        console.log('Flows container:', flowsContainer); // Check if container is found
+    
+        const flowTemplate = document.getElementById('flowTemplate');
+        console.log('Flow template:', flowTemplate); // Check if template exists
+    
+        if (!flowTemplate) {
+            console.error('Flow template not found!');
+            return;
         }
-
+    
+        // Clone the template
+        const newFlow = flowTemplate.cloneNode(true);
+        newFlow.style.display = 'block';
+    
+        // Calculate the new flow number
+        const flowCount = flowsContainer.querySelectorAll('.flow').length + 1;
+        newFlow.querySelector('.flow-number').textContent = flowCount;
+    
+        // Insert before the "Add Flow" button
+        flowsContainer.appendChild(newFlow); // Changed from insertBefore to appendChild
+    
+        // Show the flow content
+        newFlow.querySelector('.flow-content').style.display = 'block';
+    
+        console.log('New flow added successfully');
+    }
         // Remove a flow
         function removeFlow(button) {
             const flow = button.closest('.flow');

@@ -57,15 +57,6 @@ date: 2025-05-01 00:00:00 -1000
             margin-left: 1.5rem;
         }
         
-        .post-type-btn.transit {
-        border-right: 1px solid #ddd;
-        }
-
-        .post-type-btn.transit.active {
-        background-color: #9C27B0;
-        color: white;
-        }
-        
         nav ul li a {
             color: white;
             text-decoration: none;
@@ -283,54 +274,45 @@ date: 2025-05-01 00:00:00 -1000
             margin-bottom: 1rem;
             color: var(--dark);
         }
-        
-       .post-type-toggle {
+    
+
+       .post-type-btn {
+    flex: 1;
+    padding: 0.5rem;
+    text-align: center;
+    cursor: pointer;
+    border: 1px solid #ddd;
+    background-color: #f5f5f5;
+    transition: all 0.2s;
+    color: #333;
+    font-weight: bold;
+}
+
+       .post-type-btn.active.supply {
+    background-color: #1976D2;
+    color: white;
+    border-color: #1976D2;
+}
+
+.post-type-btn.active.demand {
+    background-color: #FF6D00;
+    color: white;
+    border-color: #FF6D00;
+}
+
+.post-type-btn.active.transit {
+    background-color: #9C27B0;
+    color: white;
+    border-color: #9C27B0;
+}
+
+.post-type-toggle {
     display: flex;
     margin-bottom: 1rem;
     border-radius: 5px;
     overflow: hidden;
     border: 1px solid #ddd;
-        }
-
-        .post-type-btn {
-        flex: 1;
-        padding: 0.5rem;
-        text-align: center;
-        cursor: pointer;
-        border: none;
-        background-color: #f5f5f5;
-        transition: all 0.2s;
-        color: #333; /* Default text color */
-        font-weight: bold;
-        }
-
-        .post-type-btn.active {
-    color: white; /* White text for active buttons */
-        }
-
-        .post-type-btn.supply {
-        background-color: #1976D2;
-        color: white;
-        }
-
-        .post-type-btn.demand {
-        background-color: #FF6D00;
-        color: white;
-        }
-
-        .post-type-btn.transit {
-        background-color: #9C27B0;
-        color: white;
-        }
-
-        .post-type-btn:not(.active) {
-        opacity: 0.7;
-        background-color: #f5f5f5;
-        color: #333;
-        }
-        .form-group {
-            margin-bottom: 1rem;
-        }
+}
         
         .form-group label {
             display: block;
@@ -639,37 +621,48 @@ date: 2025-05-01 00:00:00 -1000
                 padding: 1.5rem;
             }
         }
-        
-        .post-type-btn.transit {
-        background-color: #9C27B0; /* Purple color for transit */
-        color: white; /* White text for contrast */
-        }
-        
-          .post-type-btn {
-        color: #fff; /* Force white text on all buttons */
-        border: none;
-        padding: 8px 16px;
-        cursor: pointer;
-        border-radius: 4px;
-        margin-right: 5px;
-        font-weight: bold;
-    }
-    
-    /* Active state */
-    .post-type-btn.active {
-        opacity: 1;
-    }
-    
-    /* Inactive state */
-    .post-type-btn:not(.active) {
-        opacity: 0.7;
-    }
 
-        .post-type.transit {
+        .post-type-btn:hover {
+        background-color: #e0e0e0;
+        }
+
+        .post-type-btn.supply:hover {
+        background-color: #1976D2;
+        color: white;
+        }
+
+        .post-type-btn.demand:hover {
+        background-color: #FF6D00;
+        color: white;
+        }
+
+        .post-type-btn.transit:hover {
         background-color: #9C27B0;
         color: white;
-    }
+        }
+    
+        #preview-post-container {
+    max-height: 60vh;
+    overflow-y: auto;
+    margin-top: 1rem;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 1.5rem;
+        }
+
+        #preview-modal .modal-content {
+    max-height: 90vh;
+    display: flex;
+    flex-direction: column;
+        }
+
+    #preview-modal h3 {
+    margin-bottom: 0;
+    padding-bottom: 1rem;
+    border-bottom: 1px solid #eee;
+        }
     </style>
+
 </head>
 <body>
     <header>
@@ -791,134 +784,191 @@ date: 2025-05-01 00:00:00 -1000
         <div class="modal-content">
             <span class="close-modal">&times;</span>
             <div class="post-form">
-                <h3>Step 2: Create a New Post</h3>
-                
-                <form id="new-post-form">
-                    <div class="form-group">
-                        <label for="post-title">Title*</label>
-                        <input type="text" id="post-title" placeholder="Brief description of the material/resource" required>
-                    </div>
-                    
-                    <div class="form-group">
-                        <label>Post Type*</label>
-                        <div class="post-type-toggle">
-                            <button type="button" class="post-type-btn supply active">Supply</button>
-                            <button type="button" class="post-type-btn demand">Demand</button>
-                            <button type="button" class="post-type-btn transit">Transit</button>
-                        </div>
-                    </div>
-                    
-                    <div class="form-row">
-                        <div class="form-group">
-                            <label for="post-category">Category*</label>
-                            <div style="display: flex; gap: 0.5rem;">
-                                <select id="post-category" required style="flex: 1;">
-                                    <option value="">Select a category</option>
-                                    <option value="metals">Metals</option>
-                                    <option value="plastics">Plastics</option>
-                                    <option value="chemicals">Chemicals</option>
-                                    <option value="construction">Construction Materials</option>
-                                    <option value="textiles">Textiles</option>
-                                    <option value="machinery">Machinery & Equipment</option>
-                                    <option value="other">Other Industrial</option>
-                                </select>
-                                <input type="text" id="new-category" placeholder="Or add new" style="flex: 1;">
-                            </div>
-                        </div>
-                        
-                        <div class="form-group">
-                            <label for="post-location">Location*</label>
-                            <input type="text" id="post-location" placeholder="City, State/Region" required>
-                        </div>
-                    </div>
-                    
-                    <div class="form-row">
-                        <div class="form-group">
-                            <label for="post-quantity">Quantity*</label>
-                            <div style="display: flex; gap: 0.5rem;">
-                                <input type="number" id="post-quantity" placeholder="Amount" required style="flex: 1;">
-                                <select id="post-unit" required style="width: 100px;">
-                                    <option value="kg">kg</option>
-                                    <option value="tons">tons</option>
-                                    <option value="liters">liters</option>
-                                    <option value="cubic_m">m³</option>
-                                    <option value="units">units</option>
-                                    <option value="pallets">pallets</option>
-                                </select>
-                            </div>
-                        </div>
-                        
-                        <div class="form-group">
-                            <label for="post-price">Price (if applicable)</label>
-                            <input type="text" id="post-price" placeholder="Free / $ per unit">
-                        </div>
-                    </div>
-                    
-                    <div class="form-row">
-                        <div class="form-group">
-                            <label for="post-condition">Condition*</label>
-                            <select id="post-condition" required>
-                                <option value="new">New</option>
-                                <option value="excellent">Excellent</option>
-                                <option value="good">Good</option>
-                                <option value="fair">Fair</option>
-                                <option value="needs_repair">Needs Repair</option>
-                            </select>
-                        </div>
-                        
-                        <div class="form-group">
-                            <label for="post-availability">Availability*</label>
-                            <select id="post-availability" required>
-                                <option value="immediate">Immediate</option>
-                                <option value="1_week">Within 1 week</option>
-                                <option value="2_weeks">Within 2 weeks</option>
-                                <option value="1_month">Within 1 month</option>
-                                <option value="ongoing">Ongoing supply</option>
-                            </select>
-                        </div>
-                    </div>
-                    
-                    <div class="form-group">
-                        <label for="contact-method">Preferred Contact Method*</label>
-                        <div class="form-row">
-                            <select id="contact-method-type" required style="flex: 1;">
-                                <option value="">Select method</option>
-                                <option value="email">Email</option>
-                                <option value="phone">Phone</option>
-                                <option value="whatsapp">WhatsApp</option>
-                                <option value="linkedin">LinkedIn</option>
-                                <option value="other">Other</option>
-                            </select>
-                            <input type="text" id="contact-method-value" placeholder="Your contact info" required style="flex: 1;">
-                        </div>
-                    </div>
-                    
-                    <div class="form-group">
-                        <label for="post-hashtags">Hashtags</label>
-                        <div class="hashtag-input-container">
-                            <input type="text" id="post-hashtags" placeholder="Add relevant hashtags (e.g., #steel, #polymer)">
-                            <button type="button" id="add-hashtag-btn">Add</button>
-                        </div>
-                        <div class="hashtag-preview" id="hashtag-preview">
-                            <!-- Hashtags will be added here -->
-                        </div>
-                    </div>
-                    
-                    <div class="form-group">
-                        <label for="post-description">Detailed Description*</label>
-                        <textarea id="post-description" placeholder="Provide technical specifications, composition, handling requirements, etc." required></textarea>
-                    </div>
-                    
-                    <div class="form-group">
-                        <label for="post-images">Add Documentation (Spec sheets, photos, etc.)</label>
-                        <input type="file" id="post-images" multiple>
-                    </div>
-                    
-                    <button type="submit" class="submit-btn">Publish Post</button>
-                </form>
+    <h3>Step 2: Create a New Post</h3>
+    
+    <form id="new-post-form">
+        <div class="form-group">
+            <label for="post-title">Title*</label>
+            <input type="text" id="post-title" placeholder="Brief description of the material/resource" required maxlength="100">
+            <small class="character-count" style="display: block; text-align: right; color: #777; font-size: 0.8rem;">100 characters remaining</small>
+        </div>
+        
+        <div class="form-group">
+            <label>Post Type*</label>
+            <div class="post-type-toggle">
+                <button type="button" class="post-type-btn supply">Supply</button>
+                <button type="button" class="post-type-btn demand">Demand</button>
+                <button type="button" class="post-type-btn transit">Transit</button>
             </div>
         </div>
+        
+        <div class="form-row">
+            <div class="form-group">
+                <label for="post-category">Category*</label>
+                <div style="display: flex; gap: 0.5rem;">
+                    <select id="post-category" required style="flex: 1;">
+                        <option value="">Select a category</option>
+                        <option value="metals">Metals</option>
+                        <option value="plastics">Plastics</option>
+                        <option value="chemicals">Chemicals</option>
+                        <option value="construction">Construction Materials</option>
+                        <option value="textiles">Textiles</option>
+                        <option value="machinery">Machinery & Equipment</option>
+                        <option value="other">Other Industrial</option>
+                    </select>
+                    <input type="text" id="new-category" placeholder="Or add new" style="flex: 1;">
+                </div>
+            </div>
+            
+            <div class="form-group">
+                <label for="post-country">Country*</label>
+                <select id="post-country" required>
+                    <option value="">Select country</option>
+                    <option value="US">United States</option>
+                    <option value="CA">Canada</option>
+                    <option value="UK">United Kingdom</option>
+                    <option value="DE">Germany</option>
+                    <option value="FR">France</option>
+                    <option value="NL">Netherlands</option>
+                    <option value="BE">Belgium</option>
+                    <option value="other">Other</option>
+                </select>
+            </div>
+        </div>
+        
+        <div class="form-row">
+            <div class="form-group">
+                <label for="post-location">City/Region*</label>
+                <input type="text" id="post-location" placeholder="City, State/Region" required>
+            </div>
+        </div>
+        
+        <div class="form-row">
+            <div class="form-group">
+                <label for="post-quantity">Quantity*</label>
+                <div style="display: flex; gap: 0.5rem;">
+                    <input type="number" id="post-quantity" placeholder="Amount" required style="flex: 1;" min="1" step="1">
+                    <select id="post-unit" required style="width: 100px;">
+                        <option value="kg">kg</option>
+                        <option value="tons">tons</option>
+                        <option value="liters">liters</option>
+                        <option value="cubic_m">m³</option>
+                        <option value="units">units</option>
+                        <option value="pallets">pallets</option>
+                    </select>
+                    <select id="post-frequency" required style="width: 120px;">
+                        <option value="one_time">One time</option>
+                        <option value="per_day">Per day</option>
+                        <option value="per_week">Per week</option>
+                        <option value="per_month">Per month</option>
+                    </select>
+                </div>
+            </div>
+            
+            <div class="form-group">
+                <label for="post-price">Price (if applicable)</label>
+                <div style="display: flex; gap: 0.5rem;">
+                    <select id="post-currency" style="width: 80px;">
+                        <option value="USD">$</option>
+                        <option value="EUR">€</option>
+                        <option value="GBP">£</option>
+                        <option value="CAD">C$</option>
+                        <option value="other">Other</option>
+                    </select>
+                    <input type="number" id="post-price" placeholder="Amount per unit" min="0" step="0.01" style="flex: 1;">
+                    <span id="price-unit-label" style="align-self: center; white-space: nowrap;">per unit</span>
+                </div>
+            </div>
+        </div>
+        
+        <div class="form-row">
+            <div class="form-group">
+                <label for="post-condition">Condition*</label>
+                <select id="post-condition" required>
+                    <option value="new">New</option>
+                    <option value="excellent">Excellent</option>
+                    <option value="good">Good</option>
+                    <option value="fair">Fair</option>
+                    <option value="needs_repair">Needs Repair</option>
+                </select>
+            </div>
+            
+            <div class="form-group">
+                <label for="post-availability">Availability*</label>
+                <select id="post-availability" required>
+                    <option value="immediate">Immediate</option>
+                    <option value="1_week">Within 1 week</option>
+                    <option value="2_weeks">Within 2 weeks</option>
+                    <option value="1_month">Within 1 month</option>
+                    <option value="ongoing">Ongoing supply</option>
+                </select>
+            </div>
+        </div>
+        
+         <div class="form-group">
+            <label for="contact-method">Preferred Contact Method* <small style="color: #f44336;">(Privacy sensitive, wait for user feedback)</small></label>
+            <div class="form-row">
+                <select id="contact-method-type" required style="flex: 1;">
+                    <option value="">Select method</option>
+                    <option value="email">Email</option>
+                    <option value="phone">Phone</option>
+                    <option value="whatsapp">WhatsApp</option>
+                    <option value="linkedin">LinkedIn</option>
+                    <option value="other">Other</option>
+                </select>
+                <input type="text" id="contact-method-value" placeholder="Your contact info" required style="flex: 1;">
+            </div>
+        </div>
+        
+        <div class="form-group">
+            <label for="post-hashtags">Hashtags</label>
+            <div class="hashtag-input-container">
+                <input type="text" id="post-hashtags" placeholder="Add relevant hashtags (e.g., #steel, #polymer)">
+                <button type="button" id="add-hashtag-btn">Add</button>
+            </div>
+            <div class="hashtag-preview" id="hashtag-preview">
+                <!-- Hashtags will be added here -->
+            </div>
+        </div>
+        
+        <div class="form-group">
+            <label for="post-description">Detailed Description* (max 250 words)</label>
+            <textarea id="post-description" placeholder="Provide technical specifications, composition, handling requirements, etc." required></textarea>
+            <small class="word-count" style="display: block; text-align: right; color: #777; font-size: 0.8rem;">250 words remaining</small>
+        </div>
+        
+        <div class="form-group">
+            <label for="post-images">Add Documentation (Spec sheets, photos, etc.)</label>
+            <input type="file" id="post-images" multiple accept=".pdf,.jpg,.jpeg,.png,.doc,.docx,.xls,.xlsx">
+            <small style="display: block; color: #777; font-size: 0.8rem;">Allowed formats: PDF, JPG, PNG, DOC, XLS (Max 5MB each)</small>
+        </div>
+        
+        <button type="button" id="preview-post-btn" class="submit-btn">
+            <i class="fas fa-eye"></i> Preview Post
+        </button>
+    </form>
+</div>
+    
+    
+    <!-- Preview Modal -->
+<div id="preview-modal" class="modal">
+    <div class="modal-content" style="max-width: 800px;">
+        <span class="close-modal">&times;</span>
+        <h3>Preview Your Post</h3>
+        <div id="preview-post-container" class="post">
+            <!-- Preview content will be inserted here -->
+        </div>
+        <div style="display: flex; justify-content: space-between; margin-top: 20px;">
+            <button id="edit-post-btn" class="submit-btn" style="background-color: #757575;">
+                <i class="fas fa-edit"></i> Edit Post
+            </button>
+            <button id="confirm-publish-btn" class="submit-btn">
+                <i class="fas fa-paper-plane"></i> Publish Post
+            </button>
+        </div>
     </div>
+</div>
+    
     
     <script>
         // Sample user data
@@ -1014,6 +1064,35 @@ date: 2025-05-01 00:00:00 -1000
         const modal = document.getElementById('post-modal');
         const openModalBtn = document.getElementById('open-post-modal');
         const closeModalBtn = document.querySelector('.close-modal');
+        
+        
+        document.getElementById('post-title').addEventListener('input', function() {
+    const remaining = 100 - this.value.length;
+    document.querySelector('.character-count').textContent = `${remaining} characters remaining`;
+        });
+
+        // Update price unit label when frequency changes
+        document.getElementById('post-frequency').addEventListener('change', function() {
+            const unitLabels = {
+                'one_time': 'total',
+                'per_day': 'per day',
+                'per_week': 'per week',
+                'per_month': 'per month'
+            };
+            document.getElementById('price-unit-label').textContent = unitLabels[this.value];
+        });
+
+        // Initialize the price unit label
+        document.getElementById('price-unit-label').textContent = 'per unit';
+
+        // Prevent negative numbers in quantity and price
+        document.getElementById('post-quantity').addEventListener('change', function() {
+            if (this.value < 1) this.value = 1;
+        });
+
+        document.getElementById('post-price').addEventListener('change', function() {
+            if (this.value < 0) this.value = 0;
+        });
         
         // Initialize the app
         document.addEventListener('DOMContentLoaded', function() {
@@ -1188,20 +1267,20 @@ date: 2025-05-01 00:00:00 -1000
             });
 
             // Post type toggle functionality
-const postTypeBtns = document.querySelectorAll('.post-type-btn');
-postTypeBtns.forEach(btn => {
-    btn.addEventListener('click', function(e) {
-        e.preventDefault();
-        postTypeBtns.forEach(b => {
-            b.classList.remove('active');
-            // Reset all buttons to inactive state
-            b.style.opacity = '0.7';
-            b.style.backgroundColor = '#f5f5f5';
-            b.style.color = '#333';
+        const postTypeBtns = document.querySelectorAll('.post-type-btn');
+        postTypeBtns.forEach(btn => {
+            btn.addEventListener('click', function(e) {
+                e.preventDefault();
+                postTypeBtns.forEach(b => {
+                    b.classList.remove('active');
+                    // Reset all buttons to inactive state
+                 b.style.opacity = '0.7';
+                b.style.backgroundColor = '#f5f5f5';
+                b.style.color = '#333';
         });
         
         this.classList.add('active');
-        // Set active button styles based on type
+            // Set active button styles based on type
         if (this.classList.contains('supply')) {
             this.style.backgroundColor = '#1976D2';
             this.style.color = 'white';
@@ -1212,8 +1291,54 @@ postTypeBtns.forEach(btn => {
             this.style.backgroundColor = '#9C27B0';
             this.style.color = 'white';
         }
-    });
+        });
+        });
+        
+            // Word counter for description
+        document.getElementById('post-description').addEventListener('input', function() {
+            const words = this.value.trim() ? this.value.trim().split(/\s+/) : [];
+            const remaining = 250 - words.length;
+            const counter = document.querySelector('.word-count');
+            counter.textContent = `${remaining} words remaining`;
+    
+            if (remaining < 0) {
+                counter.style.color = '#f44336';
+            } else {
+                counter.style.color = '#777';
+            }
+        });
+
+        // File type validation
+        document.getElementById('post-images').addEventListener('change', function() {
+            const allowedTypes = ['application/pdf', 'image/jpeg', 'image/png', 
+                         'application/msword', 'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
+                         'application/vnd.ms-excel', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'];
+    const maxSize = 5 * 1024 * 1024; // 5MB
+    
+    for (let i = 0; i < this.files.length; i++) {
+        const file = this.files[i];
+        
+        if (!allowedTypes.includes(file.type)) {
+            alert(`File "${file.name}" has an invalid type. Please upload only PDF, JPG, PNG, DOC or XLS files.`);
+            this.value = '';
+            return;
+        }
+        
+        if (file.size > maxSize) {
+            alert(`File "${file.name}" is too large. Maximum file size is 5MB.`);
+            this.value = '';
+            return;
+        }
+        
+        // Additional check for .exe files that might slip through
+        if (file.name.toLowerCase().endsWith('.exe')) {
+            alert('Executable files (.exe) are not allowed for security reasons.');
+            this.value = '';
+            return;
+        }
+    }
 });
+            
             
             // Hashtag functionality
             addHashtagBtn.addEventListener('click', addHashtagToPost);
@@ -1248,6 +1373,7 @@ postTypeBtns.forEach(btn => {
             applyFiltersBtn.addEventListener('click', applyHashtagFilters);
             
             // Form submission
+            
             newPostForm.addEventListener('submit', function(e) {
                 e.preventDefault();
                 createNewPost();
@@ -1420,6 +1546,172 @@ postTypeBtns.forEach(btn => {
                 }
             }
         });
+        
+        // Preview Post Button Click Handler
+document.getElementById('preview-post-btn').addEventListener('click', function() {
+    if (validateForm()) {
+        showPreview();
+    }
+});
+
+// Edit Post Button Click Handler
+document.getElementById('edit-post-btn').addEventListener('click', function() {
+    document.getElementById('preview-modal').style.display = 'none';
+});
+
+// Confirm Publish Button Click Handler
+document.getElementById('confirm-publish-btn').addEventListener('click', function() {
+    document.getElementById('preview-modal').style.display = 'none';
+    createNewPost(); // Your existing post creation function
+});
+
+// Form Validation Function
+function validateForm() {
+    const title = document.getElementById('post-title').value.trim();
+    const description = document.getElementById('post-description').value.trim();
+    const contactValue = document.getElementById('contact-method-value').value.trim();
+    
+    if (!title || !description || !contactValue) {
+        alert('Please fill in all required fields before previewing');
+        return false;
+    }
+    
+    const selectedType = document.querySelector('.post-type-btn.active');
+    if (!selectedType) {
+        alert('Please select a post type (Supply, Demand, or Transit)');
+        return false;
+    }
+    
+    return true;
+}
+
+// Show Preview Function
+function showPreview() {
+    const previewContainer = document.getElementById('preview-post-container');
+    const postType = document.querySelector('.post-type-btn.active').classList.contains('supply') ? 'supply' : 
+                     document.querySelector('.post-type-btn.active').classList.contains('demand') ? 'demand' : 'transit';
+    
+    // Get all form values
+    const title = document.getElementById('post-title').value;
+    const description = document.getElementById('post-description').value;
+    const category = document.getElementById('post-category').value || document.getElementById('new-category').value;
+    const country = document.getElementById('post-country').value;
+    const location = document.getElementById('post-location').value;
+    const quantity = document.getElementById('post-quantity').value;
+    const unit = document.getElementById('post-unit').value;
+    const frequency = document.getElementById('post-frequency').value;
+    const price = document.getElementById('post-price').value;
+    const currency = document.getElementById('post-currency').value;
+    const condition = document.getElementById('post-condition').value;
+    const availability = document.getElementById('post-availability').value;
+    const contactMethod = `${document.getElementById('contact-method-type').value}: ${document.getElementById('contact-method-value').value}`;
+    
+    // Create hashtags preview
+    const hashtagElements = hashtagPreview.querySelectorAll('.hashtag');
+    const hashtags = Array.from(hashtagElements).map(el => {
+        let tagText = el.textContent;
+        if (tagText.includes('×')) {
+            tagText = tagText.substring(0, tagText.indexOf('×')).trim();
+        }
+        return tagText.startsWith('#') ? tagText : `#${tagText}`;
+    });
+    
+    // Generate preview HTML
+    previewContainer.innerHTML = `
+        <div class="post-header">
+            <div class="post-user">
+                <div class="post-user-icon">
+                    <i class="fas fa-${currentUser.icon}"></i>
+                </div>
+                <div class="post-user-info">
+                    <h4>${currentUser.name}</h4>
+                    <p>Preview • Your location</p>
+                </div>
+            </div>
+            <span class="post-type ${postType}">${postType.charAt(0).toUpperCase() + postType.slice(1)}</span>
+        </div>
+        
+        <div class="post-content">
+            <h3>${title}</h3>
+            <p>${description}</p>
+            
+            <div class="post-details">
+                <div class="post-detail">
+                    <i class="fas fa-tag"></i>
+                    <span class="post-detail-label">Category:</span>
+                    <span>${category}</span>
+                </div>
+                <div class="post-detail">
+                    <i class="fas fa-globe"></i>
+                    <span class="post-detail-label">Country:</span>
+                    <span>${country}</span>
+                </div>
+                <div class="post-detail">
+                    <i class="fas fa-map-marker-alt"></i>
+                    <span class="post-detail-label">Location:</span>
+                    <span>${location}</span>
+                </div>
+                <div class="post-detail">
+                    <i class="fas fa-balance-scale"></i>
+                    <span class="post-detail-label">Quantity:</span>
+                    <span>${quantity} ${unit} (${frequency.replace('_', ' ')})</span>
+                </div>
+                ${price ? `
+                <div class="post-detail">
+                    <i class="fas fa-dollar-sign"></i>
+                    <span class="post-detail-label">Price:</span>
+                    <span>${currency}${price} per ${frequency === 'one_time' ? 'total' : frequency.replace('_', ' ')}</span>
+                </div>
+                ` : ''}
+                <div class="post-detail">
+                    <i class="fas fa-clipboard-check"></i>
+                    <span class="post-detail-label">Condition:</span>
+                    <span>${condition.replace('_', ' ')}</span>
+                </div>
+                <div class="post-detail">
+                    <i class="fas fa-calendar-alt"></i>
+                    <span class="post-detail-label">Availability:</span>
+                    <span>${availability.replace('_', ' ')}</span>
+                </div>
+                <div class="post-detail">
+                    <i class="fas fa-envelope"></i>
+                    <span class="post-detail-label">Contact:</span>
+                    <span>${contactMethod}</span>
+                </div>
+            </div>
+            
+            ${hashtags.length > 0 ? `
+            <div class="post-hashtags">
+                ${hashtags.map(tag => `<span class="hashtag">${tag}</span>`).join('')}
+            </div>
+            ` : ''}
+        </div>
+        
+        <div class="post-actions">
+            <div class="action-buttons-left">
+                <button class="action-btn">
+                    <i class="far fa-heart"></i>
+                    <span>0</span>
+                </button>
+                <button class="action-btn">
+                    <i class="far fa-comment"></i>
+                    <span>0</span>
+                </button>
+            </div>
+            <button class="action-btn">
+                <i class="far fa-bookmark"></i>
+            </button>
+        </div>
+        
+        <div style="margin-top: 20px; padding: 15px; background-color: #f5f5f5; border-radius: 5px;">
+            <p style="color: #2E7D32;"><i class="fas fa-info-circle"></i> This is a preview of how your post will appear to others.</p>
+            <p style="color: #f44336;"><i class="fas fa-exclamation-triangle"></i> Please review carefully before publishing as this information will be publicly visible.</p>
+        </div>
+    `;
+    
+    // Show the preview modal
+    document.getElementById('preview-modal').style.display = 'block';
+    }
     </script>
 </body>
 </html>

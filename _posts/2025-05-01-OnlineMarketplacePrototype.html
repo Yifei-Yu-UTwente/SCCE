@@ -641,7 +641,7 @@ date: 2025-05-01 00:00:00 -1000
         color: white;
         }
     
-        #preview-post-container {
+    #preview-post-container {
     max-height: 60vh;
     overflow-y: auto;
     margin-top: 1rem;
@@ -650,7 +650,7 @@ date: 2025-05-01 00:00:00 -1000
     padding: 1.5rem;
         }
 
-        #preview-modal .modal-content {
+    #preview-modal .modal-content {
     max-height: 90vh;
     display: flex;
     flex-direction: column;
@@ -661,6 +661,21 @@ date: 2025-05-01 00:00:00 -1000
     padding-bottom: 1rem;
     border-bottom: 1px solid #eee;
         }
+        
+    #preview-post-btn {
+    margin-top: 1.5rem;
+    margin-bottom: 1rem;
+    align-self: flex-end; /* Align to right side of form */
+    }
+
+    .submit-btn {
+    transition: all 0.2s ease;
+    }
+
+    .submit-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    }
     </style>
 
 </head>
@@ -943,9 +958,11 @@ date: 2025-05-01 00:00:00 -1000
             <small style="display: block; color: #777; font-size: 0.8rem;">Allowed formats: PDF, JPG, PNG, DOC, XLS (Max 5MB each)</small>
         </div>
         
-        <button type="button" id="preview-post-btn" class="submit-btn">
-            <i class="fas fa-eye"></i> Preview Post
-        </button>
+        <div class="form-group" style="margin-top: 2rem; display: flex; justify-content: flex-end;">
+            <button type="button" id="preview-post-btn" class="submit-btn" style="padding: 0.8rem 2rem;">
+                <i class="fas fa-eye"></i> Preview Post
+            </button>
+        </div>
     </form>
 </div>
     

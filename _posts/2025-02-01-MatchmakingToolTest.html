@@ -3,6 +3,7 @@ layout:
 title:
 date: 2025-02-01 00:00:00 -1000
 ---
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -12,79 +13,81 @@ date: 2025-02-01 00:00:00 -1000
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <style>
         /* Toggle Switch */
-.toggle-switch {
-    position: relative;
-    display: inline-block;
-    width: 60px;
-    height: 34px;
-    margin-top: 10px;
-}
-
-.toggle-switch input {
-    opacity: 0;
-    width: 0;
-    height: 0;
-}
-
-.toggle-slider {
-    position: absolute;
-    cursor: pointer;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background-color: #ccc;
-    transition: 0.4s;
-    border-radius: 34px;
-}
-
-.toggle-slider:before {
-    position: absolute;
-    content: "";
-    height: 26px;
-    width: 26px;
-    left: 4px;
-    bottom: 4px;
-    background-color: white;
-    transition: 0.4s;
-    border-radius: 50%;
-}
-
-input:checked + .toggle-slider {
-    background-color: #28a745; /* Green when active */
-}
-
-input:checked + .toggle-slider:before {
-    transform: translateX(26px);
-}
+        .toggle-switch {
+            position: relative;
+            display: inline-block;
+            width: 60px;
+            height: 34px;
+            margin-top: 10px;
+        }
         
-/* Return Link */
-.return-link {
-    position: absolute;
-    top: 20px;
-    left: 20px;
-    padding: 5px 10px;
-    background: #f0f0f0;
-    color: #000;
-    text-decoration: none;
-    border-radius: 4px;
-    font-size: 14px;
-    font-weight: bold;
-    border: 1px solid #ccc;
-}
+        .toggle-switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+
+        .toggle-slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: #ccc;
+            transition: 0.4s;
+            border-radius: 34px;
+        }
+
+        .toggle-slider:before {
+            position: absolute;
+            content: "";
+            height: 26px;
+            width: 26px;
+            left: 4px;
+            bottom: 4px;
+            background-color: white;
+            transition: 0.4s;
+            border-radius: 50%;
+        }
+
+        input:checked + .toggle-slider {
+            background-color: #28a745;
+        }
+
+        input:checked + .toggle-slider:before {
+            transform: translateX(26px);
+        }
         
-/* Label for the toggle switch */
-.toggle-label {
-    margin-left: 10px;
-    font-size: 14px;
-    color: #333;
-}
+        /* Return Link */
+        .return-link {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            padding: 5px 10px;
+            background: #f0f0f0;
+            color: #000;
+            text-decoration: none;
+            border-radius: 4px;
+            font-size: 14px;
+            font-weight: bold;
+            border: 1px solid #ccc;
+        }
+        
+        /* Label for the toggle switch */
+        .toggle-label {
+            margin-left: 10px;
+            font-size: 14px;
+            color: #333;
+        }
+        
         body {
             font-family: Arial, sans-serif;
             margin: 0;
             padding: 20px;
             background-color: #f4f4f4;
         }
+        
         .container {
             max-width: 1200px;
             margin: auto;
@@ -92,187 +95,291 @@ input:checked + .toggle-slider:before {
             padding: 20px;
             border-radius: 8px;
             box-shadow: 0 0 10px rgba(0,0,0,0.1);
-            position: relative; /* For positioning the "How it works?" button */
+            position: relative;
         }
-        h1, h2 {
+        
+        .page-title {
             text-align: center;
+            margin-bottom: 10px;
+            color: #333;
+            font-size: 2.5rem;
+        }
+        
+        .subtitle {
+            text-align: center;
+            color: #666;
+            margin-bottom: 30px;
+            font-style: italic;
+        }
+        
+        h2, h3 {
             color: #333;
         }
+        
         .block {
-            background-color: #e0e0e0; /* Light grey background */
+            background-color: #e0e0e0;
             padding: 20px;
             border-radius: 8px;
             margin-bottom: 20px;
         }
-        .resource-selection, .criteria, .matchmaking-map {
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
-        }
+        
         button {
             margin-top: 10px;
             padding: 10px;
-            background: #000; /* Black */
+            background: #000;
             color: white;
             border: none;
             border-radius: 5px;
             cursor: pointer;
+            transition: all 0.3s ease;
         }
-        .delete-btn {
-            margin-left: 10px;
-            padding: 5px;
-            background: #777; /* Medium grey */
-            color: white;
-            border: none;
-            border-radius: 3px;
-            cursor: pointer;
+        
+        button:hover {
+            background: #333;
+            transform: translateY(-2px);
         }
+        
         canvas {
             margin-top: 20px;
             width: 100%;
             max-height: 400px;
-            background-color: #f0f0f0; /* Light grey */
+            background-color: #f0f0f0;
             border-radius: 5px;
         }
-        .resource-item {
+        
+        /* Filtered Posts Cards */
+        .posts-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
+        }
+        
+        .post-card {
+            background: white;
+            border-radius: 8px;
+            padding: 15px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .post-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        
+        .post-card h3 {
+            margin-top: 0;
+            color: #2c3e50;
+            border-bottom: 1px solid #eee;
+            padding-bottom: 10px;
+            align-items: center;
+        }
+        
+        .post-header {
             display: flex;
-            flex-direction: column;
-            gap: 10px;
+            justify-content: space-between;
+            align-items: center;
             margin-bottom: 10px;
-            padding: 10px;
-            background-color: #d0d0d0; /* Medium grey */
-            border-radius: 5px;
         }
-        .resource-item span {
-            font-weight: bold; /* Bold font for resource name */
+
+        .post-header h3 {
+            margin: 0;
+            color: #2c3e50;
+            font-size: 1.2rem;
         }
-        .criteria-score {
+        
+        .post-meta {
             display: flex;
-            align-items: center;
-            gap: 10px;
+            justify-content: space-between;
+            margin-bottom: 10px;
+            font-size: 0.9rem;
+            color: #666;
         }
-        .resource-list {
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
-            max-height: 300px;
-            overflow-y: auto;
-            padding: 10px;
-            background-color: #d0d0d0; /* Medium grey */
-            border-radius: 5px;
+        
+        .post-type {
+            display: inline-block;
+            padding: 3px 8px;
+            border-radius: 4px;
+            font-size: 0.8rem;
+            font-weight: bold;
+            color: white;
         }
-        .slider-container {
-            display: flex;
-            align-items: center;
-            gap: 10px;
+        
+        .post-type.supply {
+            background-color: #3498db;
         }
-        .slider {
-            flex: 1;
-            -webkit-appearance: none;
-            appearance: none;
-            height: 8px;
-            background: #ddd;
-            outline: none;
-            border-radius: 5px;
-            position: relative;
+        
+        .post-type.demand {
+            background-color: #e74c3c;
         }
-        .slider:hover {
-            background: #ccc; /* Darker color on hover (resource block) */
+        
+        .post-type.transit {
+            background-color: #9b59b6;
         }
-        .slider::-webkit-slider-thumb {
-            -webkit-appearance: none;
-            appearance: none;
-            width: 20px;
-            height: 20px;
-            background: #007bff; /* Blue */
-            cursor: pointer;
-            border-radius: 50%;
-            position: relative;
-            top: -6px; /* Align thumb with the slider track */
-        }
-        .slider::-moz-range-thumb {
-            width: 20px;
-            height: 20px;
-            background: #007bff; /* Blue */
-            cursor: pointer;
-            border-radius: 50%;
-            position: relative;
-            top: -6px; /* Align thumb with the slider track */
-        }
-        .slider::-webkit-slider-runnable-track {
-            background: linear-gradient(to right, #007bff, #007bff);
-            background-size: var(--background-size, 0%) 100%;
-            background-repeat: no-repeat;
-            border-radius: 5px;
-            height: 8px; /* Ensure consistent height */
-        }
-        .slider::-moz-range-track {
-            background: linear-gradient(to right, #007bff, #007bff);
-            background-size: var(--background-size, 0%) 100%;
-            background-repeat: no-repeat;
-            border-radius: 5px;
-            height: 8px; /* Ensure consistent height */
-        }
-        .scale-boundary {
-            display: flex;
-            gap: 10px;
+        
+        .post-details {
             margin-top: 10px;
+            font-size: 0.9rem;
         }
-        .scale-boundary input {
-            width: 60px;
-            padding: 5px;
-            border: 1px solid #ccc;
-            border-radius: 3px;
-            background-color: #f0f0f0; /* Light grey */
-        }
-        .score-value {
-            width: 30px;
-            text-align: center;
-            color: #333; /* Dark grey */
-        }
-        .criteria-slider-container {
+        
+        .post-detail {
             display: flex;
-            align-items: center;
-            gap: 10px;
-            width: 100%;
+            margin-bottom: 5px;
         }
-        .criteria-slider-container input[type="range"] {
-            flex: 1;
-            max-width: 100%; /* Full width */
-            cursor: pointer; /* Pointer cursor on hover */
-        }
-        .criteria-slider-container .delete-btn {
-            margin-left: auto; /* Align delete button to the right */
-        }
-        .title {
-            text-align: center;
-            margin-bottom: 10px;
-        }
-        .subtitle {
-            text-align: center;
-            font-style: italic;
+        
+        .post-detail-label {
+            font-weight: bold;
+            min-width: 80px;
             color: #555;
-            margin-bottom: 20px;
         }
-        /* Add Resource Button */
-        #add-resource-btn {
-    width: auto; /* Shorter width */
-    padding: 10px 20px; /* Consistent padding with Add Criterion button */
-    margin-top: 10px;
-    background: #000; /* Black */
-    color: white;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-}
-        /* "How it works?" Button */
+        
+        /* Summary Table */
+        .summary-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 15px;
+        }
+        
+        .summary-table th, 
+        .summary-table td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+        }
+        
+        .summary-table th {
+            background-color: #f2f2f2;
+        }
+        
+        .summary-table tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+        
+        /* Modal styles */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.5);
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+        }
+        
+        .modal-content {
+            background-color: white;
+            padding: 25px;
+            border-radius: 8px;
+            max-width: 700px;
+            width: 90%;
+            max-height: 80vh;
+            overflow-y: auto;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.2);
+        }
+        
+        .close-modal {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            font-size: 1.5rem;
+            color: #aaa;
+            cursor: pointer;
+        }
+        
+        .close-modal:hover {
+            color: #333;
+        }
+        
+        /* Full Post Modal */
+        .full-post {
+            padding: 20px;
+        }
+        
+        .full-post h2 {
+            margin-top: 0;
+            color: #2c3e50;
+        }
+        
+        .full-post-meta {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 15px;
+            color: #666;
+        }
+        
+        .full-post-content {
+            margin-top: 20px;
+        }
+        
+        .full-post-details {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+            margin-top: 20px;
+        }
+        
+        .full-post-detail {
+            background: #f9f9f9;
+            padding: 10px;
+            border-radius: 5px;
+        }
+        
+        .full-post-detail-label {
+            font-weight: bold;
+            color: #555;
+            margin-bottom: 5px;
+        }
+        
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .container {
+                padding: 15px;
+            }
+            
+            .block {
+                padding: 15px;
+            }
+            
+            .posts-container {
+                grid-template-columns: 1fr;
+            }
+            
+            .full-post-details {
+                grid-template-columns: 1fr;
+            }
+            
+            .page-title {
+                font-size: 2rem;
+            }
+        }
+        
+        .modal-header {
+            position: relative;
+            height: 30px;
+        }
+
+        .close-modal {
+            position: absolute;
+            top: 5px;
+            right: 5px;
+            font-size: 1.5rem;
+            color: #333;
+            cursor: pointer;
+            z-index: 10;
+        }
+        
         .how-it-works-btn {
             position: absolute;
-            top: 20px;
+            top: 5px;
             right: 20px;
             width: 40px;
             height: 40px;
-            background-color: #000; /* Black */
+            background-color: #000;
             color: white;
             border-radius: 50%;
             display: flex;
@@ -281,451 +388,698 @@ input:checked + .toggle-slider:before {
             font-size: 20px;
             cursor: pointer;
             border: none;
+            z-index: 1;
         }
-        .how-it-works-btn:hover::after {
-            content: "How it works?";
-            position: absolute;
-            top: 50px;
-            right: 0;
-            background-color: #333;
-            color: white;
-            padding: 5px 10px;
-            border-radius: 5px;
-            font-size: 14px;
-            white-space: nowrap;
+        
+        .table-controls {
+        display: flex;
+        gap: 10px;
+        margin-bottom: 15px;
         }
 
-        /* Popup Modal */
-        .modal {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(0, 0, 0, 0.5);
-            justify-content: center;
-            align-items: center;
-        }
-        .modal-content {
-            background-color: white;
-            padding: 20px;
-            border-radius: 8px;
-            max-width: 500px;
-            width: 100%;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-        }
-        .modal-content h2 {
-            margin-top: 0;
-        }
-        .modal-content button {
-            margin-top: 20px;
-            padding: 10px;
-            background: #555;
-            color: white;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
+        .table-controls input {
+        flex: 1;
+        padding: 8px;
+        border: 1px solid #ddd;
+        border-radius: 4px;
         }
 
-        /* Responsive Design for Phone View */
-        @media (max-width: 600px) {
-            .container {
-                padding: 10px;
-            }
-            .block {
-                padding: 15px;
-            }
-            .slider-container {
-                flex-direction: column;
-                align-items: flex-start;
-            }
-            .slider {
-                width: 100%;
-            }
-            .criteria-slider-container {
-                flex-direction: column;
-                align-items: flex-start;
-            }
-            .criteria-slider-container input[type="range"] {
-                max-width: 100%;
-            }
-            .criteria-slider-container .delete-btn {
-                margin-left: 0; /* Reset margin for smaller screens */
-            }
+        .delete-param {
+        background: none;
+        border: none;
+        color: #e74c3c;
+        cursor: pointer;
+        margin-left: 5px;
+        font-size: 1rem;
+        padding: 0 5px;
+        }      
+        
+    /* Bar Chart Race Styles */
+        .chart-container {
+        position: relative;
+        height: 400px;
         }
-    </style>
+
+        .parameter-controls {
+        display: flex;
+        gap: 10px;
+        margin-bottom: 15px;
+        flex-wrap: wrap;
+        }
+
+        .parameter-btn {
+        padding: 5px 10px;
+        background: #e0e0e0;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+        }
+
+        .parameter-btn.active {
+        background: #28a745;
+        color: white;
+        }
+
+        .animation-controls {
+        margin-top: 10px;
+        display: flex;
+        gap: 10px;
+        }
+
+
+  /* Chart Legend Styles */
+.chartjs-legend li {
+    display: none;
+    padding: 5px;
+    background: rgba(255, 255, 255, 0.9);
+    border-radius: 3px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+.chartjs-legend li.active {
+    display: block;
+}
+
+.chartjs-legend .option-name {
+    font-weight: bold;
+    margin-bottom: 3px;
+}
+
+.chartjs-legend .parameter-values {
+    font-size: 0.9em;
+    line-height: 1.4;
+}
+
+.dynamic-legend {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-top: 0; 
+    padding: 10px 15px;
+    border-radius: 0 0 5px 5px; 
+    justify-content: center; 
+    border-top: 1px solid #ddd;
+}
+
+.legend-item {
+    display: flex;
+    align-items: center;
+    padding: 5px 10px;
+    background: white;
+    border-radius: 4px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+    cursor: pointer;
+}
+
+.legend-color {
+    width: 15px;
+    height: 15px;
+    border-radius: 3px;
+    margin-right: 8px;
+}
+
+.legend-name {
+    font-size: 0.9rem;
+}
+
+.legend-item.active {
+    border: 2px solid #333;
+}
+
+.legend-item:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 2px 5px rgba(0,0,0,0.15);
+}
+</style>
+    
 </head>
 <body>
     <div class="container">
         <a href="https://yifei-yu-utwente.github.io/SCCE/2025/06/01/MatchingProfilePrototype.html" class="return-link">Back</a>
-        <h1 class="title">QuickMatch</h1>
-        <p class="subtitle">Version 2 (Linked With Platform), July 2025, Yifei Yu</p>
+        <h1 class="page-title">QuickMatch</h1>
+        <p class="subtitle">Version 3, August 2025, Yifei Yu</p>
         <button class="how-it-works-btn" onclick="openModal()">?</button>
         
-       <!-- Resource Block -->
-<div class="block">
-    <div class="resource-selection">
-        <h2>Resources</h2>
-        <h3 style="margin-top: 10px; margin-bottom: 10px;">Added Resources</h3> <!-- Moved to the top -->
-        <div class="resource-list" id="resource-list"></div> <!-- Resource list moved here -->
-        
-        <!-- Resource input and button moved underneath -->
-        <div style="margin-top: 20px;">
-            <select id="preset-resources" style="margin-bottom: 10px;">
-                <option value="">Select a preset resource</option>
-                <option value="Waste Heat">Waste Heat</option>
-                <option value="Scrap Metal">Scrap Metal</option>
-                <option value="Chemical Byproduct">Chemical Byproduct</option>
-                <option value="Industrial Water">Industrial Water</option>
-            </select>
-            <input type="text" id="new-resource" placeholder="Or add a new resource" style="margin-bottom: 10px;">
-            <button onclick="addResource()" style="width: auto; padding: 10px 20px;">Add Resource</button> <!-- Adjusted button width -->
-        </div>
-    </div>
-</div>
-        
-        <!-- Criteria Block -->
+        <!-- Filtered Posts Block -->
         <div class="block">
-            <div class="criteria" id="criteria-list">
-                <h2>Criteria</h2>
-                <div class="scale-boundary">
-                    <label>Min: <input type="number" id="min-scale" value="0"></label>
-                    <label>Max: <input type="number" id="max-scale" value="10"></label>
+            <h2>1. Filtered Posts</h2>
+            <div class="posts-container" id="posts-container">
+                <!-- Post cards will be dynamically added here -->
+            </div>
+        </div>
+        
+        <!-- Summarised Overview Block -->
+        <div class="block">
+            <h2>2. Summarised Overview</h2>
+            <div class="table-controls">
+                <input type="text" id="new-parameter" placeholder="Add new parameter">
+                <button onclick="addParameter()">Add Parameter</button>
+            </div>
+            <table class="summary-table" id="summary-table">
+                <thead>
+                    <tr>
+                        <th>Parameter</th>
+                        <!-- Columns will be dynamically added for each parameter -->
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- Data will be dynamically added here -->
+                </tbody>
+            </table>
+        </div>
+        
+        <!-- Matchmaking Map Block -->
+        <div class="block">
+            <div class="matchmaking-map">
+                <h2>3. Matchmaking Map</h2>
+                <!-- Chart Container -->
+                <div class="chart-container">
+                    <canvas id="matchmakingChart"></canvas>
+                </div>
+                
+         <div class="dynamic-legend" id="dynamic-legend"></div>
+        
+          <div style="display: flex; align-items: center;">
+                        <label class="toggle-switch">
+                            <input type="checkbox" id="simulation-toggle" onclick="toggleSimulation()">
+                            <span class="toggle-slider"></span>
+                        </label>
+                        <span class="toggle-label">Simulate Hub Effects</span>
+                    </div>
+
+            </div>
+        </div>
+        
+        <!-- Help Modal -->
+        <div id="modal" class="modal">
+            <div class="modal-content">
+                <span class="close-modal" onclick="closeModal()">&times;</span>
+                <h2>How does it work?</h2>
+                <p><strong>Filtered Posts:</strong> Shows key information about available posts in clickable cards.</p>
+                <p><strong>Summarised Overview:</strong> Displays quantitative parameters extracted from posts for comparison.</p>
+                <p><strong>Matchmaking Map:</strong> Visualizes compatibility between posts using a radar chart.</p>
+                <p><strong>Simulation:</strong> Toggle to see potential effects of using a circularity hub.</p>
+                <button onclick="closeModal()">Close</button>
+            </div>
+        </div>
+        
+        <!-- Full Post Modal -->
+        <div id="full-post-modal" class="modal">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <span class="close-modal" onclick="closeFullPostModal()">&times;</span>
+                </div>
+                <div class="full-post" id="full-post-content">
+                    <!-- Full post content will be inserted here -->
                 </div>
             </div>
-            <input type="text" id="new-criterion" placeholder="Add new criterion">
-            <button onclick="addCriterion()">Add Criterion</button>
         </div>
 
-    <!-- Matchmaking Map Block -->
-<div class="block">
-    <div class="matchmaking-map">
-        <h2>Matchmaking Map</h2>
-        <button onclick="updateMap()">Update Map</button>
-        <div style="display: flex; align-items: center;">
-            <label class="toggle-switch">
-                <input type="checkbox" id="simulation-toggle" onclick="toggleSimulation()">
-                <span class="toggle-slider"></span>
-            </label>
-            <span class="toggle-label">Simulate Hub Effects</span>
-        </div>
-        <canvas id="matchmakingChart"></canvas>
-    </div>
-</div>
-
-   <!-- Popup Modal -->
-    <div id="modal" class="modal">
-        <div class="modal-content">
-            <h2>How does it work?</h2>
-            <p><strong>Add Resources:</strong> Use the dropdown or text input to add resources.</p>
-            <p><strong>Add/Remove Criteria:</strong> Add new criteria or remove existing ones.</p>
-            <p><strong>Customize Scale:</strong> Adjust the "Min" and "Max" values to set the scale boundaries for scoring.</p>
-            <p><strong>Score Resources:</strong> Use sliders to assign scores to each resource based on the criteria. The numeric score is displayed next to the slider, and the slider bar fills with blue as the score increases.</p>
-            <p><strong>Update Map:</strong> Click the "Update Map" button to refresh the matchmaking map with the latest scores.</p>
-            <p><strong>Simulation:</strong> Toggle the simulation to see the potential effects of using a circularity hub (e.g., increased prices, reduced distances).</p>
-            <button onclick="closeModal()">Close</button>
-        </div>
-    </div>
-
-    <script>
-        let criteria = ["Distance", "Availability", "Market Demand", "Price", "Technical Cleanness"];
-        let resources = [];
-        let minScale = 0;
-        let maxScale = 10;
-        let isSimulationActive = false; // Track simulation state
-
-        // Preload resources with random scores
-        function preloadResources() {
-            const presetResources = ["Waste Heat", "Scrap Metal"];
-            presetResources.forEach(resource => {
-                const scores = criteria.map(() => Math.floor(Math.random() * (maxScale - minScale + 1)) + minScale);
-                resources.push({ name: resource, scores });
-                addResourceToDOM(resource, scores);
-            });
-            updateMap(); // Update the map with preloaded resources
+<script>
+    // Sample posts data
+    const posts = [
+        {
+            id: 'post1',
+            userId: 'user2',
+            userIcon: 'flask',
+            userName: 'ChemiSolutions Ltd.',
+            timeAgo: '1 day ago',
+            distance: '25 km',
+            type: 'demand',
+            contactMethod: 'email: contact@chemisolutions.com',
+            title: 'Seeking Industrial Solvent Byproducts for Reprocessing',
+            description: 'Looking for toluene or xylene containing waste streams from painting or coating operations. Minimum 1000 liters per batch. Will handle transportation and provide certificates of proper treatment.',
+            category: 'Chemicals',
+            location: 'North Region preferred',
+            quantity: '10 liters',
+            price: 'Negotiable',
+            condition: 'Any',
+            availability: 'Ongoing need',
+            hashtags: ['#chemical', '#solvent', '#byproduct', '#waste', '#reprocessing'],
+            likes: 12,
+            comments: 5,
+            isLiked: true,
+            isBookmarked: true
+        },
+        {
+            id: 'post2',
+            userId: 'user3',
+            userIcon: 'boxes',
+            userName: 'Plastico Recycling',
+            timeAgo: '2 days ago',
+            distance: '8 km',
+            type: 'supply',
+            contactMethod: 'phone: +1234567890',
+            title: 'HDPE Plastic Pellets - Post-Industrial Recycled',
+            description: 'Consistent supply of high-quality HDPE pellets from post-industrial waste. Monthly availability of 15-20 tons. Certified composition available. Ideal for injection molding applications.',
+            category: 'Plastics',
+            location: 'Westside Industrial Zone',
+            quantity: '15-20 tons/month',
+            price: '$1.20/kg',
+            condition: 'Excellent',
+            availability: 'Ongoing supply',
+            hashtags: ['#polymer', '#HDPE', '#recycled', '#plastic', '#circular'],
+            likes: 6,
+            comments: 2,
+            isLiked: false,
+            isBookmarked: false
+        },
+        {
+            id: 'post3',
+            userId: 'user4',
+            userIcon: 'hard-hat',
+            userName: 'ConstructAll Ltd.',
+            timeAgo: '3 hours ago',
+            distance: '12 km',
+            type: 'transit',
+            contactMethod: 'whatsapp: +9876543210',
+            title: 'Transportation Services Available',
+            description: 'We have available trucks and drivers for transporting industrial materials throughout the region. Can handle hazardous materials with proper certification.',
+            category: 'Other Industrial',
+            location: 'Downtown Industrial Park',
+            quantity: '5 trucks available',
+            price: '$1.50 per mile',
+            condition: 'Excellent',
+            availability: 'Immediate',
+            hashtags: ['#transport', '#logistics', '#shipping'],
+            likes: 8,
+            comments: 3,
+            isLiked: false,
+            isBookmarked: true
         }
-
-        // Add a resource to the DOM
-        function addResourceToDOM(resourceName, scores) {
-            const list = document.getElementById("resource-list");
-            const item = document.createElement("div");
-            item.className = "resource-item";
-
-            // Add resource name
-            const nameSpan = document.createElement("span");
-            nameSpan.textContent = resourceName;
-            item.appendChild(nameSpan);
-
-            // Add sliders for each criterion
-            scores.forEach((score, index) => {
-                const sliderContainer = document.createElement("div");
-                sliderContainer.className = "slider-container";
-                sliderContainer.innerHTML = `
-                    <label>${criteria[index]}:</label>
-                    <input type="range" class="slider" min="${minScale}" max="${maxScale}" value="${score}">
-                    <span class="score-value">${score}</span>
-                `;
-                // Update score value when slider changes
-                const slider = sliderContainer.querySelector(".slider");
-                const scoreValue = sliderContainer.querySelector(".score-value");
-                slider.oninput = function () {
-                    scoreValue.textContent = this.value;
-                    updateSliderFill(this);
-                };
-                updateSliderFill(slider); // Initialize slider fill
-                item.appendChild(sliderContainer);
-            });
-
-            // Add delete button
-            const deleteBtn = document.createElement("button");
-            deleteBtn.textContent = "Delete";
-            deleteBtn.className = "delete-btn";
-            deleteBtn.onclick = function () {
-                list.removeChild(item);
-                resources = resources.filter(r => r.name !== resourceName);
-            };
-            item.appendChild(deleteBtn);
-
-            list.appendChild(item);
-        }
-        
-        // Toggle simulation
-        function toggleSimulation() {
-    const simulationToggle = document.getElementById("simulation-toggle");
-    isSimulationActive = simulationToggle.checked;
-    updateMap(); // Refresh the map with updated scores
-}
-      
-        // Apply simulation effects to reduce mismatches among resources
-function applySimulation(resources) {
-    if (!isSimulationActive) return resources; // Return original resources if simulation is off
-
-    // Calculate average scores for each criterion
-    const averageScores = criteria.map((_, criterionIndex) => {
-        const total = resources.reduce((sum, resource) => sum + resource.scores[criterionIndex], 0);
-        return total / resources.length;
-    });
-
-    // Adjust scores towards the average to reduce mismatches
-    return resources.map(resource => {
-        return {
-            ...resource,
-            scores: resource.scores.map((score, criterionIndex) => {
-                const average = averageScores[criterionIndex];
-                let adjustedScore = score;
-
-                // Simulate stronger hub effects for specific criteria
-                if (criteria[criterionIndex] === "Distance") {
-                    // Reduce distance mismatches more aggressively
-                    adjustedScore = score * 0.7 + average * 0.3; // Move closer to average
-                } else if (criteria[criterionIndex] === "Price") {
-                    // Reduce price mismatches more aggressively
-                    adjustedScore = score * 0.6 + average * 0.4; // Move closer to average
-                } else {
-                    // General adjustment for other criteria
-                    adjustedScore = score * 0.8 + average * 0.2; // Move closer to average
-                }
-
-                // Ensure the score stays within the scale boundaries
-                return Math.min(Math.max(adjustedScore, minScale), maxScale);
-            })
-        };
-    });
-}
-        
-        // Render criteria list
-        function renderCriteria() {
-            const criteriaList = document.getElementById("criteria-list");
-            criteriaList.innerHTML = '<h2>Criteria</h2>';
-            criteriaList.innerHTML += `
-                <div class="scale-boundary">
-                    <label>Min: <input type="number" id="min-scale" value="${minScale}"></label>
-                    <label>Max: <input type="number" id="max-scale" value="${maxScale}"></label>
-                </div>
-            `;
-            criteria.forEach((criterion, index) => {
-                const div = document.createElement("div");
-                div.className = "criteria-slider-container";
-                div.innerHTML = `
-                    <label>${criterion}:</label>
-                    <input type="range" id="criterion-${index}" min="${minScale}" max="${maxScale}" value="${(minScale + maxScale) / 2}">
-                    <span class="score-value">${(minScale + maxScale) / 2}</span>
-                    <button class="delete-btn" onclick="removeCriterion(${index})">Delete</button>
-                `;
-                // Update score value when slider changes
-                const slider = div.querySelector("input[type='range']");
-                const scoreValue = div.querySelector(".score-value");
-                slider.oninput = function () {
-                    scoreValue.textContent = this.value;
-                    updateSliderFill(this);
-                };
-                updateSliderFill(slider); // Initialize slider fill
-                criteriaList.appendChild(div);
-            });
-
-            // Update scale boundaries dynamically
-            document.getElementById("min-scale").oninput = function () {
-                minScale = parseInt(this.value, 10);
-                updateSliders();
-            };
-            document.getElementById("max-scale").oninput = function () {
-                maxScale = parseInt(this.value, 10);
-                updateSliders();
-            };
-        }
-
-        // Update slider fill
-        function updateSliderFill(slider) {
-            const value = ((slider.value - slider.min) / (slider.max - slider.min)) * 100;
-            slider.style.setProperty("--background-size", `${value}%`);
-        }
-
-        // Update sliders when scale boundaries change
-        function updateSliders() {
-            criteria.forEach((criterion, index) => {
-                const slider = document.getElementById(`criterion-${index}`);
-                slider.min = minScale;
-                slider.max = maxScale;
-                updateSliderFill(slider);
-            });
-        }
-
-        // Add a new criterion
-        function addCriterion() {
-            const newCriterion = document.getElementById("new-criterion").value.trim();
-            if (newCriterion) {
-                criteria.push(newCriterion);
-                document.getElementById("new-criterion").value = "";
-                renderCriteria();
-                updateResourcesWithNewCriterion();
-            }
-        }
-
-        // Remove a criterion
-        function removeCriterion(index) {
-            criteria.splice(index, 1);
-            renderCriteria();
-            updateResourcesAfterCriterionRemoval(index);
-        }
-
-        // Add a new resource
-        function addResource() {
-            let resourceName = document.getElementById("preset-resources").value || document.getElementById("new-resource").value.trim();
-            if (!resourceName) return;
-
-            const scores = criteria.map(() => Math.floor(Math.random() * (maxScale - minScale + 1)) + minScale);
-            resources.push({ name: resourceName, scores });
-            addResourceToDOM(resourceName, scores);
-            document.getElementById("new-resource").value = "";
-        }
-
-        // Update resources when a new criterion is added
-        function updateResourcesWithNewCriterion() {
-            const newCriterionValue = document.getElementById(`criterion-${criteria.length - 1}`).value;
-            resources.forEach(resource => {
-                resource.scores.push(parseInt(newCriterionValue, 10));
-            });
-        }
-
-        // Update resources when a criterion is removed
-        function updateResourcesAfterCriterionRemoval(index) {
-            resources.forEach(resource => {
-                resource.scores.splice(index, 1);
-            });
-        }
-
-        function updateMap() {
-    const ctx = document.getElementById("matchmakingChart").getContext("2d");
-    if (window.chartInstance) {
-        window.chartInstance.destroy();
-    }
-
-    // Collect scores from sliders
-    const resourceItems = document.querySelectorAll("#resource-list .resource-item");
-    resources = [];
-    resourceItems.forEach((item, index) => {
-        const resourceName = item.querySelector("span").textContent;
-        const sliders = item.querySelectorAll(".slider");
-        const scores = Array.from(sliders).map(slider => parseInt(slider.value, 10));
-        resources.push({ name: resourceName, scores });
-    });
-
-    // Apply simulation effects if active
-    const simulatedResources = isSimulationActive ? applySimulation(resources) : [];
-
-    // Vibrant colour palette for the chart
-    const colours = [
-        "#FF6384", "#36A2EB", "#FFCE56", "#4BC0C0", "#9966FF",
-        "#FF9F40", "#C9CBCF", "#FFCD56", "#4D5360", "#F7464A"
     ];
 
-    // Create datasets for the chart
-    const datasets = resources.map((res, index) => ({
-        label: res.name, // Original scores
-        data: res.scores,
-        borderColor: colours[index % colours.length], /* Vibrant colours */
-        borderWidth: 2,
-        fill: false,
-        tension: 0.1
-    }));
+    // Chart variables
+    let chartInstance = null;
+    let isSimulationActive = false;
+    const parameters = ["Distance", "Price", "Quantity", "Availability"];
 
-    // Add simulated scores as dashed lines if simulation is active
-    if (isSimulationActive) {
-        simulatedResources.forEach((res, index) => {
-            datasets.push({
-                label: `${res.name} (Simulated)`, // Simulated scores
-                data: res.scores,
-                borderColor: colours[index % colours.length], /* Same colour as original */
-                borderWidth: 2,
-                borderDash: [5, 5], /* Dashed line for simulation */
-                fill: false,
-                tension: 0.1
-            });
-        });
+    // Initialize the app
+    document.addEventListener('DOMContentLoaded', function() {
+        renderFilteredPosts();
+        renderSummaryTable();
+        initParallelCoordinatesPlot();
+    });
+
+    // Render filtered posts as cards with new numbering
+    function renderFilteredPosts() {
+    const container = document.getElementById('posts-container');
+    container.innerHTML = '';
+    
+    posts.forEach((post, index) => {
+        const card = document.createElement('div');
+        card.className = 'post-card';
+        card.onclick = () => showFullPost(post);
+        
+        // Extract numeric distance
+        const distanceValue = post.distance ? post.distance.match(/\d+/)[0] : '0';
+        
+        card.innerHTML = `
+            <div class="post-header">
+                <h3>Option ${index + 1}</h3>
+                <span class="post-type ${post.type}">${post.type.charAt(0).toUpperCase() + post.type.slice(1)}</span>
+            </div>
+            <div class="post-subtitle">${post.title}</div>
+            <div class="post-meta">
+                <span>${post.userName}</span>
+            </div>
+            <div class="post-details">
+                <div class="post-detail">
+                    <span class="post-detail-label">Category:</span>
+                    <span>${post.category}</span>
+                </div>
+                <div class="post-detail">
+                    <span class="post-detail-label">Quantity:</span>
+                    <span>${post.quantity}</span>
+                </div>
+                <div class="post-detail">
+                    <span class="post-detail-label">Distance:</span>
+                    <span>${distanceValue} miles</span>
+                </div>
+            </div>
+        `;
+        container.appendChild(card);
+    });
+}
+
+    // Show full post in modal
+    function showFullPost(post) {
+        const modal = document.getElementById('full-post-modal');
+        const content = document.getElementById('full-post-content');
+        
+        // Extract numeric distance
+        const distanceValue = post.distance ? post.distance.match(/\d+/)[0] : '0';
+        
+        // Format price
+        let priceValue = post.price;
+        if (post.price === 'Negotiable') {
+            priceValue = 'Negotiable';
+        } else if (post.price) {
+            const match = post.price.match(/\d+\.?\d*/);
+            priceValue = match ? `$${match[0]}` : 'Not specified';
+        }
+        
+        content.innerHTML = `
+            <h2>${post.title}</h2>
+            <div class="full-post-meta">
+                <span>Posted by ${post.userName} • ${post.timeAgo}</span>
+                <span class="post-type ${post.type}">${post.type.charAt(0).toUpperCase() + post.type.slice(1)}</span>
+            </div>
+            
+            <div class="full-post-content">
+                <p>${post.description}</p>
+                
+                <div class="full-post-details">
+                    <div class="full-post-detail">
+                        <div class="full-post-detail-label">Category</div>
+                        <div>${post.category}</div>
+                    </div>
+                    <div class="full-post-detail">
+                        <div class="full-post-detail-label">Location</div>
+                        <div>${post.location}</div>
+                    </div>
+                    <div class="full-post-detail">
+                        <div class="full-post-detail-label">Quantity</div>
+                        <div>${post.quantity}</div>
+                    </div>
+                    <div class="full-post-detail">
+                        <div class="full-post-detail-label">Price</div>
+                        <div>${priceValue}</div>
+                    </div>
+                    <div class="full-post-detail">
+                        <div class="full-post-detail-label">Condition</div>
+                        <div>${post.condition}</div>
+                    </div>
+                    <div class="full-post-detail">
+                        <div class="full-post-detail-label">Availability</div>
+                        <div>${post.availability}</div>
+                    </div>
+                    <div class="full-post-detail">
+                        <div class="full-post-detail-label">Contact</div>
+                        <div>${post.contactMethod}</div>
+                    </div>
+                    <div class="full-post-detail">
+                        <div class="full-post-detail-label">Distance</div>
+                        <div>${distanceValue} km </div>
+                    </div>
+                </div>
+                
+                <div style="margin-top: 20px;">
+                    <strong>Tags:</strong> ${post.hashtags.map(tag => `<span style="background: #eee; padding: 3px 6px; border-radius: 3px; margin-right: 5px;">${tag}</span>`).join('')}
+                </div>
+            </div>
+        `;
+        
+        modal.style.display = 'flex';
     }
 
-    // Render the chart
-    window.chartInstance = new Chart(ctx, {
+    // Close full post modal
+    function closeFullPostModal() {
+        document.getElementById('full-post-modal').style.display = 'none';
+    }
+
+    // Click outside to close modal
+    document.getElementById('full-post-modal').addEventListener('click', function(e) {
+        if (e.target === this) {
+            closeFullPostModal();
+        }
+    });
+
+// Add this function to update the dynamic legend
+function updateDynamicLegend() {
+    const legendContainer = document.getElementById('dynamic-legend');
+    legendContainer.innerHTML = '';
+    
+    chartInstance.data.datasets.forEach((dataset, index) => {
+        const legendItem = document.createElement('div');
+        legendItem.className = 'legend-item';
+        legendItem.onclick = () => highlightDataset(index);
+        
+        legendItem.innerHTML = `
+            <span class="legend-color" style="background-color: ${dataset.borderColor}"></span>
+            <span class="legend-name">${dataset.label}</span>
+        `;
+        
+        legendContainer.appendChild(legendItem);
+    });
+}
+
+// Add this function to highlight a dataset
+function highlightDataset(index) {
+    // Toggle active state
+    const legendItems = document.querySelectorAll('.legend-item');
+    legendItems.forEach((item, i) => {
+        item.classList.toggle('active', i === index);
+    });
+    
+    // Update chart to highlight the selected dataset
+    chartInstance.data.datasets.forEach((dataset, i) => {
+        dataset.borderWidth = i === index ? 5 : 2;
+        dataset.pointRadius = i === index ? 6 : 4;
+    });
+    chartInstance.update();
+}
+
+    // Initialize the parallel coordinates plot
+    function initParallelCoordinatesPlot() {
+    const ctx = document.getElementById("matchmakingChart").getContext("2d");
+    
+    // Prepare data
+    const postData = posts.map((post, index) => ({
+        label: `Option ${index + 1}`,
+        data: parameters.map(param => getParamValue(post, param)),
+        borderColor: getColor(index),
+        backgroundColor: `${getColor(index)}40`,
+        borderWidth: 2,
+        pointRadius: 4,
+        pointBackgroundColor: getColor(index),
+        post: post // Store full post reference for tooltips
+    }));
+    
+    // Create chart
+    chartInstance = new Chart(ctx, {
         type: 'line',
         data: {
-            labels: criteria,
-            datasets: datasets
+            labels: parameters,
+            datasets: postData
         },
         options: {
             responsive: true,
-            indexAxis: 'y',
+            maintainAspectRatio: false,
+            interaction: {
+                mode: 'index',
+                intersect: false
+            },
             scales: {
-                x: {
+                y: {
                     beginAtZero: true,
-                    max: maxScale
+                    title: {
+                        display: true,
+                        text: 'Value'
+                    }
                 }
             },
             plugins: {
                 legend: {
-                    display: true,
                     position: 'bottom',
                     labels: {
-                        usePointStyle: true, // Use point style for better readability
+                        usePointStyle: true,
+                        generateLabels: function(chart) {
+                            return chart.data.datasets.map((dataset, i) => {
+                                // Create parameter values text
+                                const paramValues = parameters.map((param, j) => 
+                                    `${param}: ${dataset.data[j]}`
+                                ).join('\n');
+                                
+                                return {
+                                    text: `<span class="option-name">${dataset.label}</span>\n` +
+                                          `<span class="parameter-values">${paramValues}</span>`,
+                                    fillStyle: dataset.borderColor,
+                                    hidden: true, // Start with all hidden
+                                    datasetIndex: i
+                                };
+                            });
+                        },
+                        filter: () => false // Hide all by default
                     }
+                },
+                tooltip: {
+                    /* (keep existing tooltip configuration) */
+                }
+            },
+            elements: {
+                line: {
+                    tension: 0.1
+                }
+            },
+            onHover: (event, chartElement) => {
+                const legend = chartInstance.legend;
+                if (chartElement.length > 0) {
+                    const datasetIndex = chartElement[0].datasetIndex;
+                    // Update all legend items
+                    legend.legendItems.forEach((item, index) => {
+                        item.hidden = index !== datasetIndex;
+                    });
+                    chartInstance.update();
+                } else {
+                    // Hide all when not hovering
+                    legend.legendItems.forEach(item => {
+                        item.hidden = true;
+                    });
+                    chartInstance.update();
                 }
             }
         }
     });
+    updateDynamicLegend();
 }
+
+
+    // Helper function to get parameter values
+    function getParamValue(post, param) {
+        switch(param) {
+            case 'Distance':
+                return parseInt(post.distance) || 0;
+            case 'Price':
+                return parseFloat(post.price.replace(/[^\d.]/g, "")) || 0;
+            case 'Quantity':
+                const quantityMatch = post.quantity.match(/\d+/);
+                return quantityMatch ? parseInt(quantityMatch[0]) : 0;
+            case 'Availability':
+                // Convert availability to numerical score
+                if (post.availability.includes('Immediate')) return 10;
+                if (post.availability.includes('week')) return 7;
+                if (post.availability.includes('month')) return 5;
+                if (post.availability.includes('Ongoing')) return 8;
+                return 5;
+            default:
+                return 0;
+        }
+    }
+
+    // Toggle simulation
+    function toggleSimulation() {
+        isSimulationActive = document.getElementById("simulation-toggle").checked;
         
-        // Modal functions
-        function openModal() {
-            document.getElementById("modal").style.display = "flex";
-        }
+        // Update chart with simulated values
+        chartInstance.data.datasets.forEach(dataset => {
+            dataset.data = parameters.map(param => {
+                const value = getParamValue(dataset.post, param);
+                return isSimulationActive ? applySimulationEffect(value, param) : value;
+            });
+        });
+        chartInstance.update();
+    }
 
-        function closeModal() {
-            document.getElementById("modal").style.display = "none";
+    // Simulation effect
+    function applySimulationEffect(value, param) {
+        // Different effects per parameter
+        switch(param) {
+            case 'Distance':
+                return Math.max(0, value * 0.7); // Reduce distance by 30%
+            case 'Price':
+                return value * 1.2; // Increase price by 20%
+            case 'Quantity':
+                return value * 1.5; // Increase quantity by 50%
+            case 'Availability':
+                return Math.min(10, value + 2); // Improve availability
+            default:
+                return value;
         }
+    }
 
-        // Initial render
-        renderCriteria();
-        preloadResources(); // Preload resources with random scores
-    </script>
+    // Render summary table with quantitative parameters
+    function renderSummaryTable() {
+        const thead = document.querySelector('#summary-table thead');
+        const tbody = document.querySelector('#summary-table tbody');
+
+        // Clear and rebuild header
+        thead.innerHTML = '<tr><th>Parameter</th></tr>';
+        posts.forEach((post, index) => {
+            const th = document.createElement('th');
+            th.textContent = `Option ${index + 1}`;
+            thead.querySelector('tr').appendChild(th);
+        });
+
+        // Clear and rebuild body
+        tbody.innerHTML = '';
+        parameters.forEach(param => {
+            const row = document.createElement('tr');
+            const paramCell = document.createElement('td');
+            paramCell.textContent = param;
+            
+            // Add delete button for parameters
+            const deleteBtn = document.createElement('button');
+            deleteBtn.textContent = '×';
+            deleteBtn.className = 'delete-param';
+            deleteBtn.onclick = () => removeParameter(param);
+            paramCell.appendChild(deleteBtn);
+            row.appendChild(paramCell);
+
+            posts.forEach(post => {
+                const cell = document.createElement('td');
+                let value = '';
+                
+                if (param === 'Distance') {
+                    const match = post.distance.match(/\d+/);
+                    value = match ? match[0] + ' km' : post.distance;
+                } else if (param === 'Price') {
+                    value = post.price === 'Negotiable' ? 'Negotiable' : 
+                           post.price ? post.price : 'N/A';
+                } else {
+                    value = post[param.toLowerCase()] || 'N/A';
+                }
+                
+                cell.textContent = value;
+                row.appendChild(cell);
+            });
+            
+            tbody.appendChild(row);
+        });
+    }
+
+    // Add new parameter to summary table
+    function addParameter() {
+        const newParam = document.getElementById('new-parameter').value.trim();
+        if (newParam && !parameters.includes(newParam)) {
+            parameters.push(newParam);
+            document.getElementById('new-parameter').value = '';
+            renderSummaryTable();
+            updateChartParameters();
+        }
+    }
+
+    // Remove parameter from summary table
+    function removeParameter(param) {
+        parameters = parameters.filter(p => p !== param);
+        renderSummaryTable();
+        updateChartParameters();
+    }
+
+    // Update chart when parameters change
+    function updateChartParameters() {
+        chartInstance.data.labels = parameters;
+        chartInstance.data.datasets.forEach(dataset => {
+            dataset.data = parameters.map(param => getParamValue(dataset.post, param));
+        });
+        chartInstance.update();
+    }
+
+    // Color generator
+    function getColor(index) {
+        const colors = ['#3498db', '#e74c3c', '#2ecc71', '#f39c12', '#9b59b6'];
+        return colors[index % colors.length];
+    }
+
+    // Modal functions
+    function openModal() {
+        document.getElementById("modal").style.display = "flex";
+    }
+
+    function closeModal() {
+        document.getElementById("modal").style.display = "none";
+    }
+</script>
+        
 </body>
 </html>
